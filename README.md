@@ -6,8 +6,8 @@
 - Mat Blair - 541625 - blairm@unimelb.edu.au
 - Siddarth Bose - 707042 - sbose@student.unimelb.edu.au
 - Jordan Steele - - jsteele@student.unimelb.edu.au
-- Jun - - @student.unimelb.edu.au
-- Renlord - - @student.unimelb.edu.au
+- Jun Min - 542339 - jmcheong@student.unimelb.edu.au
+- Renlord - 541368 - rnyang@student.unimelb.edu.au
 
 #TODO:
 
