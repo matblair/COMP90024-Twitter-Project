@@ -18,3 +18,9 @@
 144.6.227.63
 144.6.227.64
 144.6.227.66
+
+#Used Commands (for Ansible playbook)
+sudo apt-get update
+sudo apt-get install couchdb
+sudo apt-get install curl
+sudo apt-get install python-swiftclient
