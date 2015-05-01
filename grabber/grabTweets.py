@@ -7,13 +7,12 @@ import tweepy
 import math, time, json, os, socket, pickle, sys
 import multiprocessing
 
-DEBUG = False
+DEBUG = True
 
 # API Keys
 api_key = ("d5G06lkn62j2ZbYFRKZRTHjdJ", 
     "gsNN8JRcM9t9fCAuJvHBcqMTetBN0elLF5dcEfIihRjExz9zYR")
 
-nTweets = 0
 
 def tweet2Dict(t):
     csv_tweet = {}
@@ -27,10 +26,6 @@ def tweet2Dict(t):
     csv_tweet["geo"] = t.geo
 
     return csv_tweet
-
-def log_tweets(ts):
-    for t in ts:
-        nTweets += 1
 
 def log_error(err):
     print(err)
@@ -52,12 +47,9 @@ def send_job(res):
     send_sock.close()
     return 
 
-def worker_job(addr, port):
-    api_key = ("d5G06lkn62j2ZbYFRKZRTHjdJ", 
-        "gsNN8JRcM9t9fCAuJvHBcqMTetBN0elLF5dcEfIihRjExz9zYR")
-    auth = tweepy.auth.AppAuthHandler(api_key[0], api_key[1]) 
+def worker_job(addr, port, auth):
     api = tweepy.API(auth)
-
+    
     lat = "29.424122"
     lng = "-98.493629"
     radius = "100km"
@@ -66,20 +58,31 @@ def worker_job(addr, port):
 
     return (addr, port, tweets)
 
+# Root Process calls this.
+#
+# Creates a pool of workers that will continuously ask Twitter to give them 
+# tweets.
 def head_job(dest):
     auth = tweepy.auth.AppAuthHandler(api_key[0], api_key[1]) 
     api = tweepy.API(auth)
 
-    rate_limit = api.rate_limit_status()['resources']['search']\
-                    ['/search/tweets']["remaining"]
-    if DEBUG:
-        print(rate_limit)
-    pool = multiprocessing.Pool() 
-    for i in range(0, int(rate_limit)):
-        pool.apply_async(worker_job, args=(dest[0], dest[1]), 
-            callback=send_job, error_callback=log_error)
-    pool.close()
-    pool.join()
+    print("============Tweet Grabber=============")
+    print("Will run continuously until terminated manually...")
+    while(True):
+        rate_limit = api.rate_limit_status()['resources']['search']\
+                        ['/search/tweets']["remaining"]
+        if DEBUG:
+            print("BEFORE_RATE_LIMIT: {:d}".format(rate_limit))
+        pool = multiprocessing.Pool(processes=4) 
+        for i in range(0, int(rate_limit)):
+            pool.apply_async(worker_job, args=(dest[0], dest[1], auth), 
+                callback=send_job, error_callback=log_error)
+        pool.close()
+        pool.join()
+        if DEBUG:
+            after_rate_limit = api.rate_limit_status()['resources']['search']\
+                ['/search/tweets']['remaining']
+            print("AFTER_RATE_LIMIT: {:d}".format(after_rate_limit))
 
 if __name__ == "__main__":
     addr = sys.argv[1]

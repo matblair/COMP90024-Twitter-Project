@@ -1,16 +1,34 @@
-import socket, pickle
+import socket, pickle, threading
 
-recv_sock = socket.socket()
-addr = ("localhost", 8001)
-recv_sock.bind(addr)
-recv_sock.listen(8001)
+class MockReceivingWorker(threading.Thread):
+    def __init__(self, ip, port, sock):
+        threading.Thread.__init__(self)
+        self.ip = ip
+        self.port = port
+        self.csocket = sock
+   
+    def run(self):
+        data = b''
+        while True:
+            recv_data = self.csocket.recv(4096)
+            if len(recv_data) == 0:
+                break
+            data += recv_data
+        tweets = pickle.loads(data)
+        
+        return data
 
-conn, addr = recv_sock.accept()
-stream = b''
-while True:
-    data = conn.recv(4096)
-    if len(data) == 0:
-        break
-    stream += data
-tweets = pickle.loads(stream)
-print(tweets)
+if __name__ == "__main__":
+    host = "localhost"
+    port = 8001
+
+    listener = socket.socket()
+    listener.bind((host,port))
+    
+    while True:
+        listener.listen(1000)
+        print("listening for incoming connections...")
+        (clientsock, (ip, port)) = listener.accept()
+
+        newthread = MockReceivingWorker(ip, port, clientsock)
+        newthread.start()
