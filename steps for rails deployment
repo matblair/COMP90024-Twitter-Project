@@ -1,0 +1,19 @@
+# Install sdk
+sudo apt-get update
+sudo apt-get install openjdk-7-jdk
+
+# Install ruby
+# Install rails
+gem install rails
+
+# Clone the repository
+git clone BLAHBLAH
+
+# cd into the app
+cd blah/GraphAPI
+
+# Invoke rake commands
+rake neo4j:install[community-2.1.6]
+rake neo4j:start
+rails s
+
