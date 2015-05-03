@@ -10,8 +10,7 @@ import multiprocessing
 DEBUG = True
 
 # API Keys
-api_key = ("d5G06lkn62j2ZbYFRKZRTHjdJ", 
-    "gsNN8JRcM9t9fCAuJvHBcqMTetBN0elLF5dcEfIihRjExz9zYR")
+api_key = (#Key, #Secret)
 
 
 def tweet2Dict(t):

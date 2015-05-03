@@ -3,8 +3,8 @@ DEBUG = False
 import math, tweepy, time, csv, json, os
 
 # Renlord's Twitter App Key
-api_key = "esfbRz6gUhGyckd2t7K7BLQeW"
-api_secret = "A7GyPaNmpJsKgXXgR2qIgNCRhPN1KCvb0qJ3YfImPqHNevhTwx"
+api_key = #Key
+api_secret = #Secret
 
 # EACH App API key should be deployed in 2 Instances. 
 
