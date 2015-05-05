@@ -51,7 +51,7 @@ def worker_job(addr, port, auth):
     
     lat = "29.424122"
     lng = "-98.493629"
-    radius = "100km"
+    radius = "50km"
     geocode_str = lat + "," + lng + "," + radius
     tweets = api.search("", geocode=geocode_str, count=100) 
 
