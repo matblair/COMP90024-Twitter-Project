@@ -1,0 +1,43 @@
+2015-05-02 14:47:30.653+0000 INFO  [API] Setting startup timeout to: 120000ms based on 120000
+2015-05-02 14:47:32.331+0000 INFO  [API] Successfully started database
+2015-05-02 14:47:32.424+0000 INFO  [API] Starting HTTP on port :7474 with 8 threads available
+2015-05-02 14:47:32.803+0000 INFO  [API] Enabling HTTPS on port :7473
+2015-05-02 14:47:32.803+0000 INFO  [API] No SSL certificate found, generating a self-signed certificate..
+00:47:33.118 [main] INFO  org.eclipse.jetty.util.log - Logging initialized @4054ms
+2015-05-02 14:47:33.206+0000 INFO  [API] Mounting static content at [/webadmin] from [webadmin-html]
+2015-05-02 14:47:33.267+0000 INFO  [API] Mounting static content at [/browser] from [browser]
+00:47:33.274 [main] INFO  org.eclipse.jetty.server.Server - jetty-9.2.1.v20140609
+00:47:33.298 [main] INFO  o.e.j.server.handler.ContextHandler - Started o.e.j.s.h.MovedContextHandler@407d2837{/,null,AVAILABLE}
+00:47:33.441 [main] INFO  o.e.j.w.StandardDescriptorProcessor - NO JSP Support for /webadmin, did not find org.apache.jasper.servlet.JspServlet
+00:47:33.469 [main] INFO  o.e.j.server.handler.ContextHandler - Started o.e.j.w.WebAppContext@78eaec66{/webadmin,jar:file:/Users/Mat/Dropbox/University/Masters/COMP90024/Assessment/Assignment%20Two/COMP90024-Twitter-Project/GraphAPI/db/neo4j/development/system/lib/neo4j-server-2.2.0-M02-static-web.jar!/webadmin-html,AVAILABLE}
+00:47:33.991 [main] INFO  o.e.j.server.handler.ContextHandler - Started o.e.j.s.ServletContextHandler@17b2be48{/db/manage,null,AVAILABLE}
+00:47:34.303 [main] INFO  o.e.j.server.handler.ContextHandler - Started o.e.j.s.ServletContextHandler@307ffe47{/db/data,null,AVAILABLE}
+00:47:34.319 [main] INFO  o.e.j.w.StandardDescriptorProcessor - NO JSP Support for /browser, did not find org.apache.jasper.servlet.JspServlet
+00:47:34.320 [main] INFO  o.e.j.server.handler.ContextHandler - Started o.e.j.w.WebAppContext@eb508f3{/browser,jar:file:/Users/Mat/Dropbox/University/Masters/COMP90024/Assessment/Assignment%20Two/COMP90024-Twitter-Project/GraphAPI/db/neo4j/development/system/lib/neo4j-browser-2.2.0-M02.jar!/browser,AVAILABLE}
+00:47:34.441 [main] INFO  o.e.j.server.handler.ContextHandler - Started o.e.j.s.ServletContextHandler@bd96bfe{/,null,AVAILABLE}
+00:47:34.457 [main] INFO  o.e.jetty.server.ServerConnector - Started ServerConnector@7c320b37{HTTP/1.1}{localhost:7474}
+00:47:34.816 [main] INFO  o.e.jetty.server.ServerConnector - Started ServerConnector@58b462f9{SSL-HTTP/1.1}{localhost:7473}
+00:47:34.817 [main] INFO  org.eclipse.jetty.server.Server - Started @5762ms
+2015-05-02 14:47:34.817+0000 INFO  [API] Server started on: http://localhost:7474/
+2015-05-02 14:47:34.817+0000 INFO  [API] Remote interface ready and available at [http://localhost:7474/]
+2015-05-05 13:22:39.005+0000 INFO  [API] Setting startup timeout to: 120000ms based on 120000
+2015-05-05 13:22:40.631+0000 INFO  [API] Successfully started database
+2015-05-05 13:22:40.694+0000 INFO  [API] Starting HTTP on port :7474 with 8 threads available
+2015-05-05 13:22:40.894+0000 INFO  [API] Enabling HTTPS on port :7473
+23:22:41.060 [main] INFO  org.eclipse.jetty.util.log - Logging initialized @2903ms
+2015-05-05 13:22:41.119+0000 INFO  [API] Mounting static content at [/webadmin] from [webadmin-html]
+2015-05-05 13:22:41.188+0000 INFO  [API] Mounting static content at [/browser] from [browser]
+23:22:41.193 [main] INFO  org.eclipse.jetty.server.Server - jetty-9.2.1.v20140609
+23:22:41.219 [main] INFO  o.e.j.server.handler.ContextHandler - Started o.e.j.s.h.MovedContextHandler@6e8d92f{/,null,AVAILABLE}
+23:22:41.341 [main] INFO  o.e.j.w.StandardDescriptorProcessor - NO JSP Support for /webadmin, did not find org.apache.jasper.servlet.JspServlet
+23:22:41.361 [main] INFO  o.e.j.server.handler.ContextHandler - Started o.e.j.w.WebAppContext@65273386{/webadmin,jar:file:/Users/Mat/Dropbox/University/Masters/COMP90024/Assessment/Assignment%20Two/COMP90024-Twitter-Project/GraphAPI/db/neo4j/development/system/lib/neo4j-server-2.2.0-M02-static-web.jar!/webadmin-html,AVAILABLE}
+23:22:41.812 [main] INFO  o.e.j.server.handler.ContextHandler - Started o.e.j.s.ServletContextHandler@271ddf95{/db/manage,null,AVAILABLE}
+23:22:42.077 [main] INFO  o.e.j.server.handler.ContextHandler - Started o.e.j.s.ServletContextHandler@6acf1ea1{/db/data,null,AVAILABLE}
+23:22:42.093 [main] INFO  o.e.j.w.StandardDescriptorProcessor - NO JSP Support for /browser, did not find org.apache.jasper.servlet.JspServlet
+23:22:42.094 [main] INFO  o.e.j.server.handler.ContextHandler - Started o.e.j.w.WebAppContext@65ea7e90{/browser,jar:file:/Users/Mat/Dropbox/University/Masters/COMP90024/Assessment/Assignment%20Two/COMP90024-Twitter-Project/GraphAPI/db/neo4j/development/system/lib/neo4j-browser-2.2.0-M02.jar!/browser,AVAILABLE}
+23:22:42.206 [main] INFO  o.e.j.server.handler.ContextHandler - Started o.e.j.s.ServletContextHandler@2f75dd3b{/,null,AVAILABLE}
+23:22:42.222 [main] INFO  o.e.jetty.server.ServerConnector - Started ServerConnector@1fc6a0b8{HTTP/1.1}{localhost:7474}
+23:22:42.580 [main] INFO  o.e.jetty.server.ServerConnector - Started ServerConnector@5c11015b{SSL-HTTP/1.1}{localhost:7473}
+23:22:42.581 [main] INFO  org.eclipse.jetty.server.Server - Started @4436ms
+2015-05-05 13:22:42.581+0000 INFO  [API] Server started on: http://localhost:7474/
+2015-05-05 13:22:42.581+0000 INFO  [API] Remote interface ready and available at [http://localhost:7474/]
