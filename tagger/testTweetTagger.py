@@ -7,7 +7,7 @@ raw_tweet = {
         'type': 'Point'
     },
     'id_str': '595850246434988032',
-    'text': '@mayhemmiller Why in the hell are You Soo Beautiful!!!???? Love you Always!!',
+    'text': '@mayhemmiller Fuck you man. I fucking hate you!',
     'metadata': {
         'iso_language_code': 'en',
         'result_type': 'recent'
@@ -24,7 +24,7 @@ raw_tweet = {
                 'indices': [0, 13],
                 'id': 16553826
             }],
-        'hashtags': []
+        'hashtags': [{'indices': [0, 7], 'text': 'Retail'}, {'indices': [8, 12], 'text': 'Job'}, {'indices': [16, 27], 'text': 'SanAntonio'}, {'indices': [115, 120], 'text': 'LEGO'}, {'indices': [121, 126], 'text': 'Jobs'}, {'indices': [127, 134], 'text': 'Hiring'}]
     },
     'lang': 'en'
 }

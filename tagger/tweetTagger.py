@@ -41,7 +41,10 @@ class tweetTagger:
         self.tagged_tweet['symbols'] = raw_tweet['entities']['symbols']
 
         # Hashtags
-        self.tagged_tweet['hashtags'] = raw_tweet['entities']['hashtags']
+        hashtags = []
+        for hashtag in raw_tweet['entities']['hashtags']:
+            hashtags.append({'text': hashtag['text']})
+        self.tagged_tweet['hashtags'] = hashtags
 
         # URLs
         self.tagged_tweet['urls'] = raw_tweet['entities']['urls']
