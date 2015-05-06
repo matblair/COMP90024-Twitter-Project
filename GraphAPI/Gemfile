@@ -23,6 +23,9 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 gem "neo4j", '~> 4.1.0'
 # Use sidekick to find background information
 # gem 'sidekiq'
+# Use twitter gem for user lookup etc and retweets
+gem 'twitter'
+
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
