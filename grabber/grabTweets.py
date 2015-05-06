@@ -10,8 +10,7 @@ import multiprocessing
 DEBUG = True
 
 # API Keys
-api_key = ("d5G06lkn62j2ZbYFRKZRTHjdJ", 
-    "gsNN8JRcM9t9fCAuJvHBcqMTetBN0elLF5dcEfIihRjExz9zYR")
+api_key = (#Key, #Secret)
 
 
 def tweet2Dict(t):
@@ -52,7 +51,7 @@ def worker_job(addr, port, auth):
     
     lat = "29.424122"
     lng = "-98.493629"
-    radius = "100km"
+    radius = "50km"
     geocode_str = lat + "," + lng + "," + radius
     tweets = api.search("", geocode=geocode_str, count=100) 
 
