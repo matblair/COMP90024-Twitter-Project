@@ -2,74 +2,86 @@
 
 from textblob import TextBlob
 #from textblob.sentiments import NaiveBayesAnalyzer  # Sentiment
-from textblob.taggers import NLTKTagger
-nltk_tagger = NLTKTagger()                          # POS Tagging
 
 class tweetAnalyzer:
     '''Tweet analysis functions.'''
 
-    def __init__(self, tweet_text):
+    def __init__(self, raw_tweet):
         '''Initialization. textblob analysis done here'''
         #blob = TextBlob(tweet_text,
-        #        analyzer=NaiveBayesAnalyzer(),
-        #        pos_tagger=nltk_tagger)
+        #        analyzer=NaiveBayesAnalyzer())
+        tweet_text = raw_tweet['text']
         blob = TextBlob(tweet_text) # PatternAnalyzer default
 
         self.sentiment = blob.sentiment
-        self.pos_tags = blob.pos_tags
         self.language = blob.detect_language()
 
-    def analyzeSentiment(self):
-        '''sentiment is the "mood" of the tweet'''
-        sentiment_dict = {}
+    def analyzeFeatureSentimentPolarity(self):
+        '''sentiment polarity is the "mood" of the tweet'''
+        return self.sentiment.polarity
 
-        sentiment_dict["polarity"] = self.sentiment.polarity
-        sentiment_dict["subjectivity"] = self.sentiment.subjectivity
+    def analyzeFeatureSentimentSubjectivity(self):
+        '''sentiment subjectivity'''
+        return self.sentiment.subjectivity
 
-        return sentiment_dict
-
-    def analyzePOS(self):
-        '''NLTK POS Tagging'''
-        return self.pos_tags
-
-    def analyzeLanguage(self):
+    def analyzeFeatureDetectedLanguage(self):
         '''Google Translate detected language'''
         return self.language
 
-    def analyzeEmoji(self):
-        '''Polarity is an indication of conflicting emoji and sentiment'''
-        # Regex shit
-        # emoji sentiment add/minus
+    def analyzeFeatureEnglishTranslation(self):
+        '''Translate to English if not English'''
+        translation = "This is in English"
+        return translation
 
+    def analyzeFeatureIrony(self):
+        '''Polarity is an indication of conflicting emoji and sentiment'''
         emoji_sentiment = "positive"
-
-        return emoji_sentiment
-
-    def analyzeIrony(self):
-        '''Polarity is an indication of conflicting emoji and sentiment'''
-        emoji_sentiment = self.analyzeEmoji()
         sentiment = self.sentiment
 
         # if conflicting sentiment and emoji sentiment
-        if (emoji_sentiment == "positive" and sentiment[0] == "negative")\
-                or (emoji_sentiment == "negative" and sentiment[0] == "positive"):
+        if (emoji_sentiment == "happy" and sentiment[0] == "sad")\
+                or (emoji_sentiment == "sad" and sentiment[0] == "happy"):
             is_ironic = True
         else:
             is_ironic = False
 
         return is_ironic
 
-    def analyzeUnemployment(self):
+    def analyzeEmojiText(self):
+        '''Emoji's used in tweet'''
+        text = ":):("
+        return text
+
+    def analyzeEmojiSentiment(self):
+        '''Emoji Sentiment: happy, neutral, sad'''
+        # Regex shit
+        # emoji sentiment add/minus
+        emoji_sentiment = "positive"
+        return emoji_sentiment
+
+    def analyzeTopicImmigration(self):
+        '''Check if immegration mentioned'''
+        has_immigration = True
+        return has_immigration
+
+    def analyzeTopicGunControl(self):
+        '''Check if gun control mentioned'''
+        has_gun_control = True
+        return has_gun_control 
+
+    def analyzeTopicUnemployment(self):
         '''Unemployment is calculated from topics/sentiments and keywords'''
         # employment, work and unhappy, jobs. fired, laid off
         # Regex shit
         is_unemployed = True
-
         return is_unemployed
 
-    def analyzePoliticalAlignment(self):
-        '''Political alignment is either democratic or republican'''
-        political_alignment = "democratic"
+    def analyzeTopicDemocrat(self):
+        '''Analyze if tweet mentions democratic party'''
+        has_democratic = True
+        return has_democratic
 
-        return political_alignment
-
+    def analyzeTopicRepublican(self):
+        '''Analyze if tweet mentions republican party'''
+        has_republican = True
+        return has_republican
