@@ -6,15 +6,14 @@ from textblob.taggers import NLTKTagger
 nltk_tagger = NLTKTagger()                          # POS Tagging
 
 class tweetAnalyzer:
-    'Tweet analysis functions.'
+    '''Tweet analysis functions.'''
 
     def __init__(self, tweet_text):
-
+        '''Initialization. textblob analysis done here'''
         #blob = TextBlob(tweet_text,
         #        analyzer=NaiveBayesAnalyzer(),
         #        pos_tagger=nltk_tagger)
         blob = TextBlob(tweet_text) # PatternAnalyzer default
-        # employment, work and unhappy, jobs. fired, laid off
 
         self.sentiment = blob.sentiment
         self.pos_tags = blob.pos_tags
@@ -48,7 +47,6 @@ class tweetAnalyzer:
 
     def analyzeIrony(self):
         '''Polarity is an indication of conflicting emoji and sentiment'''
-
         emoji_sentiment = self.analyzeEmoji()
         sentiment = self.sentiment
 
@@ -63,6 +61,7 @@ class tweetAnalyzer:
 
     def analyzeUnemployment(self):
         '''Unemployment is calculated from topics/sentiments and keywords'''
+        # employment, work and unhappy, jobs. fired, laid off
         # Regex shit
         is_unemployed = True
 
@@ -70,7 +69,6 @@ class tweetAnalyzer:
 
     def analyzePoliticalAlignment(self):
         '''Political alignment is either democratic or republican'''
-        
         political_alignment = "democratic"
 
         return political_alignment
