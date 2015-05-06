@@ -8,18 +8,52 @@ class tweetTagger:
     '''Tweet tagger. Adds tags on a tweet-by-tweet basis.
     Returned JSON Object conforms to Graph REST API.'''
 
-    tagged_tweet = {} # Empty Dict
+    tagged_tweet = {} # Tweet with analysis tags
     
-    # Constructor takes in a raw tweet and begins generating tags
     def __init__(self, raw_tweet):
         '''Initialization. Grabs attributes from tweet and performs analysis'''
-        self.grabAttributes(raw_tweet)
-        self.analyzeTweet(raw_tweet)
+        self.grabAttributes(raw_tweet)      # Parse Tweet Attribs
+        self.analyzeTweet(raw_tweet)        # Tag Analysis
 
     def grabAttributes(self, raw_tweet):
         '''Grabs attributes from raw tweet'''
-        self.tagged_tweet['id'] = raw_tweet['id']
+        # Id
+        self.tagged_tweet['id'] = raw_tweet['id_str']
+
+        # Add metadata
+        metadata = {}
+        metadata['result_type'] = raw_tweet['metadata']['result_type']
+        metadata['iso_language_code'] = \
+                raw_tweet['metadata']['iso_language_code']
+        self.tagged_tweet['metadata'] = metadata
+
+        # Add mentioned users
+        user_mentions = []
+        for mentioned_user in raw_tweet['entities']['user_mentions']:
+            user = {}
+            user['id'] = mentioned_user['id_str']
+            user['name'] = mentioned_user['name']
+            user['screen_name'] = mentioned_user['screen_name']
+            user_mentions.append(user)
+        self.tagged_tweet['user_mentions'] = user_mentions
+
+        # Symbols
+        self.tagged_tweet['symbols'] = raw_tweet['entities']['symbols']
+
+        # Hashtags
+        self.tagged_tweet['hashtags'] = raw_tweet['entities']['hashtags']
+
+        # URLs
+        self.tagged_tweet['urls'] = raw_tweet['entities']['urls']
+
+        # Text
         self.tagged_tweet['text'] = raw_tweet['text']
+
+        # Lang
+        self.tagged_tweet['lang'] = raw_tweet['lang']
+
+        # Geo
+        self.tagged_tweet['geo'] = raw_tweet['geo']
 
     def analyzeTweet(self, raw_tweet):
         '''Analyzes and adds tags to tagged_tweet'''
