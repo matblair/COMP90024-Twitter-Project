@@ -1,0 +1,77 @@
+---
+- hosts: rails_servers
+  remote_user: ubuntu
+  sudo: yes
+  tasks:
+    - name: test connection
+      ping:
+
+    - name: update packages
+      apt: update_cache=yes
+
+    - name: install essentials
+      apt: name={{ item }}
+      with_items:
+        - build-essential
+        - git-core
+        - curl
+        - zlib1g-dev
+        - libssl-dev
+        - libreadline-dev
+        - libyaml-dev
+        - libsqlite3-dev
+        - sqlite3
+        - libxml2-dev
+        - libxslt1-dev
+        - libcurl4-openssl-dev
+        - python-software-properties
+        - libffi-dev
+
+    - name: install java development kit
+      apt: name=openjdk-7-jdk
+
+    - name: install nodejs (for neo4j)
+      apt: name=nodejs
+
+    - name: install ruby
+      shell: "cd /tmp && {{item}}"
+      with_items:
+        - wget http://ftp.ruby-lang.org/pub/ruby/2.2/ruby-2.2.2.tar.gz
+        - tar -xzvf ruby-2.2.2.tar.gz
+        - cd ruby-2.2.2/
+        - "cd ruby-2.2.2/ && ./configure"
+        - "cd ruby-2.2.2/ && make"
+        - "cd ruby-2.2.2/ && make install"
+
+    - name: install bundler
+      gem: name=bundler
+
+    - name: install rails
+      gem: name=rails
+
+    - name: update code
+      git: repo=git://github.com/matblair/COMP90024-Twitter-Project.git
+           dest=/twitter_rails/checkout
+           force=yes
+           accept_hostkey=yes
+
+    - name: bundle install
+      shell: bundle install
+      sudo: no
+      args:
+        chdir: /twitter_rails/checkout/GraphAPI
+
+    - name: install neo4j
+      shell: rake neo4j:install[community-2.1.6]
+      args:
+        chdir: /twitter_rails/checkout/GraphAPI
+
+    - name: start neo4j
+      shell: rake neo4j:start
+      args:
+        chdir: /twitter_rails/checkout/GraphAPI
+
+    - name: start rails
+      shell: kill -9 `cat tmp/pids/server.pid`; rails s -d
+      args:
+        chdir: /twitter_rails/checkout/GraphAPI
