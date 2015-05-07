@@ -26,7 +26,7 @@ bounding_box = boundingBox(lon, lat, 100)
 # Round to 2 places
 for i in range(0,len(bounding_box)):
     bounding_box[i] = float("{0:.1f}".format(bounding_box[i]))
-print(bounding_box)
+print("Boundary:",bounding_box)
 
 class TweetAnalysisListener(StreamListener):
     """ Listener handler that passes tweets for analysis"""
@@ -50,11 +50,4 @@ if __name__ == '__main__':
     auth.set_access_token(access_token, access_token_secret)
 
     stream = Stream(auth, tal)
-    stream.filter(track=['basketball'])
-    #stream.filter(locations=bounding_box)
-    #stream.filter(locations=[-122.75,36.8,-121.75,37.8])
-    stream.filter(locations=[-98.75,29.8,-97.75,30.8])
-    '''
-Latitude 	29.424122
-Longitude 	-98.493629
-'''
+    stream.filter(locations=bounding_box)

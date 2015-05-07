@@ -12,8 +12,8 @@ def boundingBox(core_lon, core_lat, radius):
     R = 6371
 
     lon1 = lon - math.degrees(radius/R/math.cos(math.radians(lat)));
+    lat1 = lat - math.degrees(radius/R);
     lon2 = lon + math.degrees(radius/R/math.cos(math.radians(lat)));
-    lat1 = lat + math.degrees(radius/R);
-    lat2 = lat - math.degrees(radius/R);
+    lat2 = lat + math.degrees(radius/R);
 
     return [lon1, lat1, lon2, lat2]
