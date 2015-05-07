@@ -1,0 +1,11 @@
+# Directory
+OLD/                - Old grabber code. For reference
+./tweetTagger.py    - Processes and Tags tweets
+./tweetAnalyzer.py  - Analysis functions (used by tweetTagger.py)
+./testTweetTagger.py- Test Script
+./tweetStreamer.py  - Utilizes the tweepy streaming API to stream tweets
+./tweetCSVParser.py - Utility script to process tweets downloaded in CSV form
+
+# Installation
+pip install -U textblob
+$ python -m textblob.download_corpora
