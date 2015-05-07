@@ -5,6 +5,7 @@ OLD/                - Old grabber code. For reference
 ./testTweetTagger.py- Test Script
 ./tweetStreamer.py  - Utilizes the tweepy streaming API to stream tweets
 ./tweetCSVParser.py - Utility script to process tweets downloaded in CSV form
+./geoTool.py        - Bounding box utility
 
 # Installation
 pip install -U textblob
@@ -13,3 +14,9 @@ python -m textblob.download_corpora
 # TODO
 CSV Parser
 created_at?
+
+# REQUIREMENTS
+Python3
+textblob
+nltk (plus all corpora)
+numpy

@@ -53,7 +53,7 @@ if __name__ == '__main__':
     stream.filter(track=['basketball'])
     #stream.filter(locations=bounding_box)
     #stream.filter(locations=[-122.75,36.8,-121.75,37.8])
-    #stream.filter(locations=[-98.75,29.8,-97.75,30.8])
+    stream.filter(locations=[-98.75,29.8,-97.75,30.8])
     '''
 Latitude 	29.424122
 Longitude 	-98.493629

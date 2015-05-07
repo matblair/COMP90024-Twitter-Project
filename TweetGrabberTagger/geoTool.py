@@ -17,6 +17,3 @@ def boundingBox(core_lon, core_lat, radius):
     lat2 = lat - math.degrees(radius/R);
 
     return [lon1, lat1, lon2, lat2]
-
-# DEBUG
-print(boundingBox(-98.493629, 29.424122, 100))
