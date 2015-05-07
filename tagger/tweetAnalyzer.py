@@ -39,6 +39,9 @@ class tweetAnalyzer:
         words_list = []
         self.words = set(words_list)
 
+        # Store emoji
+        self.emojis = []
+
     def analyzeFeatureSentimentPolarity(self):
         '''sentiment polarity is the "mood" of the tweet'''
         return self.blob.sentiment.polarity
@@ -89,7 +92,25 @@ class tweetAnalyzer:
 
     def analyzeEmojiSentiment(self):
         '''Emoji Sentiment: happy, neutral, sad'''
-        return "happy"
+        positive_emoji_count = 0
+        negative_emoji_count = 0
+
+        # Tally pos/neg emojis
+        for emoji in self.emojis:
+            if emoji in positive_emoji:
+                positive_emoji_count += 1
+            if emoji in negative_emoji:
+                negative_emoji_count += 1
+
+        # Calculate pos/neg surplus/deficit
+        emoji_rating = positive_emoji_count - negative_emoji_count
+
+        if emoji_rating > 0:
+            return "happy"
+        elif emoji_rating < 0:
+            return "negative"
+        else:
+            return "neutral"
 
     def analyzeTopicImmigration(self):
         '''Check if immegration mentioned'''
