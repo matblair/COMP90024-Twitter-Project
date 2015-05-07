@@ -27,10 +27,10 @@ module.exports = function(grunt) {
     },
     wiredep: {
       dev: {
-        src: 'index.html'
+        src: ['index.html']
       },
       release: {
-        src: 'index.html'
+        src: 'src/index.html'
       } 
     },
     clean: {
@@ -43,7 +43,7 @@ module.exports = function(grunt) {
           paths: ['src/less'],
         },
         files: {
-          'build/app.css' : 'src/less/app.less'
+          'build/app.css' : 'less/app.less'
         }
       },
       release: {
@@ -123,7 +123,7 @@ module.exports = function(grunt) {
       server: {
         options: {
           port: 8000,
-          base: 'src',
+          base: '.',
           livereload: true
         }
       }
