@@ -1,19 +1,24 @@
-# Directory
+# Structure
+
+# Dirs
 OLD/                - Old grabber code. For reference
+
+# Tweet Tagging & Analysis
 ./tweetTagger.py    - Processes and Tags tweets
 ./tweetAnalyzer.py  - Analysis functions (used by tweetTagger.py)
 ./testTweetTagger.py- Test Script
+
+# Tweet Fetching
 ./tweetStreamer.py  - Utilizes the tweepy streaming API to stream tweets
+./tweetGrabber.py   - Utilizes tweepy to grab historical tweets
 ./tweetCSVParser.py - Utility script to process tweets downloaded in CSV form
+
+# Utils
 ./geoTool.py        - Bounding box utility
 
 # Installation
 pip install -U textblob
 python -m textblob.download_corpora
-
-# TODO
-CSV Parser
-created_at?
 
 # REQUIREMENTS
 Python3
