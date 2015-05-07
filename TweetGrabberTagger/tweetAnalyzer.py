@@ -6,7 +6,7 @@ from textblob import TextBlob
 positive_emoji = []
 negative_emoji = []
 
-immigration_words = []
+immigration_words = ['visa']
 immigration_topics = []
 
 gun_control_words = []
