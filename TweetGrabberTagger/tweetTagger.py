@@ -18,45 +18,57 @@ class tweetTagger:
     def grabAttributes(self, raw_tweet):
         '''Grabs attributes from raw tweet'''
         # Id
-        self.tagged_tweet['id'] = raw_tweet['id_str']
+        self.addField('id', raw_tweet)
 
         # Add metadata
-        metadata = {}
-        metadata['result_type'] = raw_tweet['metadata']['result_type']
-        metadata['iso_language_code'] = \
-                raw_tweet['metadata']['iso_language_code']
-        self.tagged_tweet['metadata'] = metadata
+        if 'metadata' in raw_tweet:
+            metadata = {}
+            metadata['result_type'] = raw_tweet['metadata']['result_type']
+            metadata['iso_language_code'] = \
+                    raw_tweet['metadata']['iso_language_code']
+            self.tagged_tweet['metadata'] = metadata
+        else:
+            self.tagged_tweet['metadata'] = None
 
         # Add mentioned users
-        user_mentions = []
-        for mentioned_user in raw_tweet['entities']['user_mentions']:
-            user = {}
-            user['id'] = mentioned_user['id_str']
-            user['name'] = mentioned_user['name']
-            user['screen_name'] = mentioned_user['screen_name']
-            user_mentions.append(user)
-        self.tagged_tweet['user_mentions'] = user_mentions
-
+        if 'user_mentions' in raw_tweet:
+            user_mentions = []
+            for mentioned_user in raw_tweet['entities']['user_mentions']:
+                user = {}
+                user['id'] = mentioned_user['id_str']
+                user['name'] = mentioned_user['name']
+                user['screen_name'] = mentioned_user['screen_name']
+                user_mentions.append(user)
+            self.tagged_tweet['user_mentions'] = user_mentions
+        else:
+            self.tagged_tweet['user_mentions'] = None
+            
         # Symbols
-        self.tagged_tweet['symbols'] = raw_tweet['entities']['symbols']
+        self.addField('symbols', raw_tweet)
 
         # Hashtags
-        hashtags = []
-        for hashtag in raw_tweet['entities']['hashtags']:
-            hashtags.append({'text': hashtag['text']})
-        self.tagged_tweet['hashtags'] = hashtags
+        if 'entities' in raw_tweet:
+            hashtags = []
+            for hashtag in raw_tweet['entities']['hashtags']:
+                hashtags.append({'text': hashtag['text']})
+            self.tagged_tweet['hashtags'] = hashtags
+        else:
+            self.tagged_tweet['hashtags'] = None
 
         # URLs
-        self.tagged_tweet['urls'] = raw_tweet['entities']['urls']
+        self.addField('urls', raw_tweet)
 
         # Text
-        self.tagged_tweet['text'] = raw_tweet['text']
+        self.addField('text', raw_tweet)
 
         # Lang
-        self.tagged_tweet['lang'] = raw_tweet['lang']
+        self.addField('lang', raw_tweet)
 
         # Geo
-        self.tagged_tweet['geo'] = raw_tweet['geo']
+        self.addField('geo', raw_tweet)
+
+        # Retweeted
+        self.addField('retweeted', raw_tweet)
 
     def analyzeTweet(self, raw_tweet):
         '''Analyzes and adds tags to tagged_tweet'''
@@ -104,3 +116,10 @@ class tweetTagger:
         '''Returns Graph API Compatible JSON Object'''
         return json.dumps(self.tagged_tweet)
 
+    # Private Methods
+    def addField(self, field, raw_tweet):
+        '''Adds field if exists in raw_tweet'''
+        if field in raw_tweet:
+            self.tagged_tweet[field] = raw_tweet[field]
+        else:
+            self.tagged_tweet[field] = None
