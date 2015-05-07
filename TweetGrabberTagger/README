@@ -8,4 +8,8 @@ OLD/                - Old grabber code. For reference
 
 # Installation
 pip install -U textblob
-$ python -m textblob.download_corpora
+python -m textblob.download_corpora
+
+# TODO
+CSV Parser
+created_at?
