@@ -24,7 +24,7 @@ raw_tweet = {
                 'indices': [0, 13],
                 'id': 16553826
             }],
-        'hashtags': [{'indices': [0, 7], 'text': 'Retail'}, {'indices': [8, 12], 'text': 'Job'}, {'indices': [16, 27], 'text': 'SanAntonio'}, {'indices': [115, 120], 'text': 'LEGO'}, {'indices': [121, 126], 'text': 'Jobs'}, {'indices': [127, 134], 'text': 'Hiring'}]
+        'hashtags': [{'indices': [0, 7], 'text': 'Fired'}, {'indices': [8, 12], 'text': 'Job'}, {'indices': [16, 27], 'text': 'SanAntonio'}, {'indices': [115, 120], 'text': 'LEGO'}, {'indices': [121, 126], 'text': 'Jobs'}, {'indices': [127, 134], 'text': 'Hiring'}]
     },
     'lang': 'en'
 }
