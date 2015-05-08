@@ -1,7 +1,7 @@
 app.controller('TestController',['$scope', function($scope) {
 	$scope.data = [
 		{name: "Donkey", value: 24},
-		{name: "Monkey", value: 16},
+		{name: "Monkey", value: 92},
 		{name: "Cow", value: 22},
 		{name: "Dog", value: 49}
 	]

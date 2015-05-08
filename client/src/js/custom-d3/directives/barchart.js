@@ -12,12 +12,12 @@ angular.module("d3.barchart", ["d3"])
 		return {
 			scope: {
 				data: '=',
-				label: '@',
+				numericalLabel: '@',
+				categoricalLabel: '@',
 				onClick: '&'
 			},
 			restrict: 'E',
 			link: function(scope, element, attrs) {
-				console.log("Hi")
 				d3Service.d3().then(function(d3) {
 					var margin = parseInt(attrs.margin) || 20,
 						barHeight = parseInt(attrs.barHeight) || 20,
@@ -45,9 +45,10 @@ angular.module("d3.barchart", ["d3"])
 						// set in the graphic attributes
 						var width = d3.select(element[0]).node().offsetWidth - margin,
 							height = scope.data.length * (barHeight + barPadding),
+							color = d3.scale.category20(),
 							xScale = d3.scale.linear()
 								.domain([0, d3.max(data, function(d) {
-									return d.value;
+									return d[scope.numericalLabel];
 								})])
 								.range([0, width]);
 
@@ -63,13 +64,16 @@ angular.module("d3.barchart", ["d3"])
 								.attr('y', function(d, i) {
 									return i * (barHeight + barPadding);
 								})
+								.attr('fill', function(d) {
+									return color(d[scope.numericalLabel]);
+								})
 								.on('click', function(d, i) {
 									return scope.onClick({item: d});
 								})
 								.transition()
 									.duration(1000)
 									.attr('width', function(d) {
-										return xScale(d.value);
+										return xScale(d[scope.numericalLabel]);
 									})
 						// Labels for Barchart 
 						svg.selectAll('text')
@@ -81,7 +85,7 @@ angular.module("d3.barchart", ["d3"])
 								})
 								.attr('x', 15)
 								.text(function(d) {
-									return d[scope.label];
+									return d[scope.categoricalLabel];
 								})
 					};
 				});
