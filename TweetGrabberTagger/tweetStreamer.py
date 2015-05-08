@@ -1,39 +1,42 @@
 # tweetStreamer.py
 # ~Jun Min (542339)
+
 from tweepy.streaming import StreamListener
 from tweepy import OAuthHandler
 from tweepy import Stream
 
 import json
-
-from geoTool import boundingBox
+from argParser import ArgParser
+from config import Config
+from geoTool import BoundingBox
 from tweetTagger import tweetTagger
 
-# Consumer Key/Secret
-consumer_key="esfbRz6gUhGyckd2t7K7BLQeW"
-consumer_secret="A7GyPaNmpJsKgXXgR2qIgNCRhPN1KCvb0qJ3YfImPqHNevhTwx"
-
-# Access Token/Secret
-access_token="2362162429-GYwJY4gknR5Gj6JHs9aSlP7hax8k3Z0fXK8PVwE"
-access_token_secret="4kWkv1Yqpst0o7V7QaYMiusFZppAyCtOXg06AJ693o1WZ"
-
-# Lat / Long
-lon = -98.493629
-lat = 29.424122
-
 # Bounding Box
-bounding_box = boundingBox(lon, lat, 100)
-# Round to 2 places
-for i in range(0,len(bounding_box)):
-    bounding_box[i] = float("{0:.1f}".format(bounding_box[i]))
-print("Boundary:",bounding_box)
+bounding_box = BoundingBox(Config.longitude,
+        Config.latitude, Config.search_radius)
 
 class TweetAnalysisListener(StreamListener):
     """ Listener handler that passes tweets for analysis"""
+
+    def __init__(self, f, ip, port):
+        '''Initializes write to file and api args'''
+        self.f = f
+        self.ip = ip
+        self.port = port
+
+        self.count = 0
+
     def on_data(self, data):
-        data_dict = json.loads(data)
+
         tagged_tweet = tweetTagger(json.loads(data)) # Load raw JSON into dict
-        print(tagged_tweet.getJSONTaggedTweet())
+        json_tagged_tweet = tagged_tweet.getJSONTaggedTweet()
+
+        # Decide what to do with the tweet
+        self.f.write(data) # Temporarily
+
+        self.count += 1
+        print(self.count)
+
         return True
 
     def on_error(self, status):
@@ -45,9 +48,23 @@ class TweetAnalysisListener(StreamListener):
 
 # Main Entry
 if __name__ == '__main__':
-    tal = TweetAnalysisListener()
-    auth = OAuthHandler(consumer_key, consumer_secret)
-    auth.set_access_token(access_token, access_token_secret)
+
+    # Arg Parsing
+    ap = ArgParser()
+    args = ap.getArgs()
+
+    if (args.dump):
+        f = open(args.dump,'a+')
+        #f.close()
+    else:
+        f = None
+
+    print("Boundary:",bounding_box)
+
+    tal = TweetAnalysisListener(f, args.ip, args.port)
+    auth = OAuthHandler(Config.consumer_key, Config.consumer_secret)
+    auth.set_access_token(Config.access_token, Config.access_token_secret)
 
     stream = Stream(auth, tal)
     stream.filter(locations=bounding_box)
+
