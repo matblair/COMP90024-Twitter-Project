@@ -1,27 +1,26 @@
-# Structure
+# Twitter Grabber and Tagger
 
-# Dirs
-OLD/                - Old grabber code. For reference
-
-# Tweet Tagging & Analysis
-./tweetTagger.py    - Processes and Tags tweets
-./tweetAnalyzer.py  - Analysis functions (used by tweetTagger.py)
-./testTweetTagger.py- Test Script
-
-# Tweet Fetching
+====================
+DIRECTORY STRUCUTURE
+====================
 ./tweetStreamer.py  - Utilizes the tweepy streaming API to stream tweets
 ./tweetGrabber.py   - Utilizes tweepy to grab historical tweets
 ./tweetCSVParser.py - Utility script to process tweets downloaded in CSV form
 
-# Utils
-./geoTool.py        - Bounding box utility
+tagger/                     - Tweet-by-tweet tagging & analysis
+./tagger/tweetTagger.py     - Processes and Tags tweets
+./tagger/tweetAnalyzer.py   - Analysis functions (used by tweetTagger.py)
+./testTweetTagger.py        - Test Script
 
-# Installation
+utils/                      - General utils. Arg parsing, bounding box
+./utils/geoTool.py          - Bounding box utility
+./utils/argParser.py        - Argument Parsing
+
+OLD/                - Old grabber code. For reference
+
+============
+INSTALLATION
+============
+pip install numpy
 pip install -U textblob
 python -m textblob.download_corpora
-
-# REQUIREMENTS
-Python3
-textblob
-nltk (plus all corpora)
-numpy
