@@ -21,6 +21,7 @@ OLD/                - Old grabber code. For reference
 ============
 INSTALLATION
 ============
-pip install numpy
-pip install -U textblob
-python -m textblob.download_corpora
+# We assume an Ubuntu default installation
+pip3 install tweepy
+pip3 install textblob
+python3 -m textblob.download_corpora
