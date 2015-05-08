@@ -4,9 +4,9 @@
 import tweepy
 
 import json
-from argParser import ArgParser
 from config import Config
-from tweetTagger import tweetTagger
+from utils.argParser import ArgParser
+from tagger.tweetTagger import tweetTagger
 
 def search_api(auth, f, lng, lat, search_radius):
     api = tweepy.API(auth)

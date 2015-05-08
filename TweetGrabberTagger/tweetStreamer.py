@@ -1,15 +1,14 @@
 # tweetStreamer.py
 # ~Jun Min (542339)
-
 from tweepy.streaming import StreamListener
 from tweepy import OAuthHandler
 from tweepy import Stream
 
 import json
-from argParser import ArgParser
 from config import Config
-from geoTool import BoundingBox
-from tweetTagger import tweetTagger
+from tagger.tweetTagger import tweetTagger
+from utils.argParser import ArgParser
+from utils.geoTool import BoundingBox
 
 class TweetAnalysisListener(StreamListener):
     """ Listener handler that passes tweets for analysis"""
