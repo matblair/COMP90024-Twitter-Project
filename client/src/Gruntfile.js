@@ -66,8 +66,12 @@ module.exports = function(grunt) {
         dest: 'release/app.js'
       },
       dev: {
-        src:['src/js/*.js'],
+        src:['js/*.js', 'js/controllers/*.js'],
         dest: 'build/app.js'
+      },
+      ngD3dev: {
+        src:['js/custom-d3/*.js', 'js/custom-d3/directives/*.js'],
+        dest: 'js/custom-d3/build/ngD3-dev.js'
       }
     },
     jshint: {
@@ -95,7 +99,8 @@ module.exports = function(grunt) {
           livereload: false,
           debounceDelay: 1000
         },
-        files: ['src/js/*.js'],
+        files: ['js/*.js', 'js/controllers/*.js', 'js/custom-d3/*.js', 
+                'js/custom-d3/directives/*.js'],
         tasks: ['dev-build']
       },
       less: {
@@ -131,9 +136,12 @@ module.exports = function(grunt) {
   });
 
   // Default task(s).
-  grunt.registerTask('default', ['clean:dev', 'less:dev', 'jshint:dev', 'wiredep:dev', 'concat:dev']);
-  grunt.registerTask('dev-build', ['clean:dev', 'less:dev', 'jshint:dev', 'concat:dev']);
-  grunt.registerTask('release', ['clean', 'less:release', 'jshint:release', 'concat:release', 'uglify', 'wiredep:release']);
+  grunt.registerTask('default', ['clean:dev', 'less:dev', 'jshint:dev', 
+    'wiredep:dev', 'concat:dev', 'concat:ngD3dev']);
+  grunt.registerTask('dev-build', ['clean:dev', 'less:dev', 'jshint:dev', 
+    'concat:dev']);
+  grunt.registerTask('release', ['clean', 'less:release', 'jshint:release', 
+    'concat:release', 'uglify', 'wiredep:release']);
   grunt.registerTask('serve', ['default', 'connect', 'watch']);
 
 };

@@ -26,4 +26,7 @@ angular.module('d3', [])
       return {
         d3: function() { return d.promise; }
       };
-}]);
+  }])
+  .factory('d3DataParserService', ['', function() {
+    
+  }])
