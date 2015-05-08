@@ -11,10 +11,6 @@ from config import Config
 from geoTool import BoundingBox
 from tweetTagger import tweetTagger
 
-# Bounding Box
-bounding_box = BoundingBox(Config.longitude,
-        Config.latitude, Config.search_radius)
-
 class TweetAnalysisListener(StreamListener):
     """ Listener handler that passes tweets for analysis"""
 
@@ -32,7 +28,8 @@ class TweetAnalysisListener(StreamListener):
         json_tagged_tweet = tagged_tweet.getJSONTaggedTweet()
 
         # Decide what to do with the tweet
-        self.f.write(data) # Temporarily
+        if f:
+            self.f.write(data) # Temporarily
 
         self.count += 1
         print(self.count)
@@ -59,6 +56,9 @@ if __name__ == '__main__':
     else:
         f = None
 
+    # Bounding Box
+    bounding_box = BoundingBox(Config.longitude,
+            Config.latitude, Config.search_radius)
     print("Boundary:",bounding_box)
 
     tal = TweetAnalysisListener(f, args.ip, args.port)

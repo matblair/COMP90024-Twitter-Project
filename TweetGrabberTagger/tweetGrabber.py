@@ -2,29 +2,42 @@
 # ~Jun Min (542339)
 
 import tweepy
-import json
 
+import json
+from argParser import ArgParser
+from config import Config
 from tweetTagger import tweetTagger
 
-# API Key, Secret
-api_key="esfbRz6gUhGyckd2t7K7BLQeW"
-api_secret="A7GyPaNmpJsKgXXgR2qIgNCRhPN1KCvb0qJ3YfImPqHNevhTwx"
-
-# Longitude, Latitude
-lat = "29.424122"
-lng = "-98.493629"
-
-auth = tweepy.auth.AppAuthHandler(api_key, api_secret)
-
-def search_api(auth):
-
+def search_api(auth, f, lng, lat, search_radius):
     api = tweepy.API(auth)
 
-    radius = "50km"
-    geocode_str = lat + "," + lng + "," + radius
-    tweets = api.search("", geocode=geocode_str, count=1)
+    geocode_str = str(lat) + "," + str(lng) + "," + str(search_radius) + "km"
+    tweets = api.search("", geocode=geocode_str, count=5)
     for tweet in tweets:
         tagged_tweet = tweetTagger(tweet._json)
-        print(tagged_tweet.getJSONTaggedTweet())
+        #tagged_tweet.getJSONTaggedTweet()
+        if f:
+            f.write(json.dumps(tweet._json)) # Temporarily
 
-search_api(auth)
+if __name__ == '__main__':
+
+    # Arg Parsing
+    ap = ArgParser()
+    args = ap.getArgs()
+
+    if (args.dump):
+        f = open(args.dump, 'a+')
+        #f.close()
+    else:
+        f = None
+
+    auth = tweepy.auth.AppAuthHandler(Config.consumer_key,
+            Config.consumer_secret)
+
+    # Longitude, Latitude
+    lat = Config.latitude
+    lng = Config.longitude
+    search_radius = Config.search_radius
+
+    search_api(auth, f, lng, lat, search_radius)
+
