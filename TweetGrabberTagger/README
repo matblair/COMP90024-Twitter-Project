@@ -25,3 +25,14 @@ INSTALLATION
 pip3 install tweepy
 pip3 install textblob
 python3 -m textblob.download_corpora
+
+=====
+USAGE
+=====
+# Must pass either --dump or --ip
+# --dump specifies path of file to dump tagged tweet jsons objects to
+# --ip specifies ip/location of REST API server to submit tweets to.
+# --port defaults to 80 if not specified (sent to ip:port)
+python3 tweetStreamer.py --ip localhost --port 80
+python3 tweetGrabber.py --dump ~/dump_file
+

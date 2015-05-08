@@ -53,7 +53,10 @@ class tweetAnalyzer:
     def analyzeFeatureDetectedLanguage(self):
         '''detected language. Just grabbed from raw tweet since
          Twitter already does MT on it...'''
-        return self.raw_tweet['lang']
+        if 'lang' in raw_tweet:
+            return self.raw_tweet['lang']
+        else:
+            return None
 
     def analyzeFeatureEnglishTranslation(self):
         '''Translate to English if not English'''
