@@ -495,3 +495,61 @@ GET /users/:user_id/connections?degree=1
   }
 }
 ```
+
+### Updated! Tweet Data Structure
+```json
+{
+  "id": "1239812093801298421",
+  "user": {
+    "id": "134212421343214",
+    "screen_name": "Blaine",
+  },
+  "metadata": {
+    "result_type": "recent",
+    "iso_language_code": "ar"
+  },
+  "user_mentions": [
+    {
+      "id": "123123123",
+      "name": "Mat",
+      "screen_name": "alskdjaslkdjlaksjd"
+    }
+  ],
+  "symbols": [],
+  "hashtags": [
+    "content"
+  ],
+  "urls": [],
+  "text": "blahlsdhalskdjalskdja sdlkajs dlkasj dlaksjd laskjd aslkdj",
+  "lang": "en",
+  "geo": {
+    "type": "point",
+    "coordinates": [
+      "23.123123",
+      "12.1231"
+    ]
+  },
+  "retweeted": true,
+  "analysis": {
+    "language_features": {
+      "polarity": "0.6",
+      "subjectivity": "0.9",
+      "detected_language": "en",
+      "english": "alksdjalskdjlaksjd",
+      "ironic" : true
+    },
+    "emojis": {
+      "text": ":):(",
+      "emoji_sentiment": "happy"
+    },
+    "topics": {
+      "meniton_immigration": true,
+      "mentions_gun_controler": true,
+      "unemployment":true,
+      "democratic_indicator": true,
+      "repulbican_indicator":true
+    }
+  }
+
+}
+```
