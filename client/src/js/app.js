@@ -1,6 +1,6 @@
 'use strict'
 
-var app = angular.module('twitter-app', ['ui.router', 'ui.bootstrap', 'd3.barchart']);
+var app = angular.module('twitter-app', ['ui.router', 'ui.bootstrap', 'ngD3']);
 
 app.config(['$stateProvider', '$urlRouterProvider', 
     function($stateProvider, $urlRouterProvider) {

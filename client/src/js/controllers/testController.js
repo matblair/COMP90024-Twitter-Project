@@ -6,13 +6,20 @@ app.controller('TestController',['$scope', function($scope) {
 		{name: "Dog", value: 49}
 	]
 
-	$scope.showDetail = function(item) {
+	$scope.showDetailToggle = {}
+	$scope.detail = {}
+
+	$scope.showDetail = function(item, arg) {
 		if (!($scope.showDetailToggle))
-			$scope.showDetailToggle = true
-		$scope.detail = item
+			$scope.showDetailToggle[arg] = true
+		console.log(item, arg)
+		$scope.$apply(function() {
+			$scope.detail[arg] = item
+		})
 	}
 
-	$scope.unshowDetail = function() {
-		$scope.showDetailToggle = false
+	$scope.unshowDetail = function(arg) {
+		$scope.showDetailToggle[arg] = false
+		$scope.detail[arg] = null
 	}
 }])

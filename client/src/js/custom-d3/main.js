@@ -26,7 +26,7 @@ angular.module('d3', [])
       return {
         d3: function() { return d.promise; }
       };
-  }])
-  .factory('d3DataParserService', ['', function() {
-    
-  }])
+  }]);
+
+
+angular.module('ngD3', ['d3.bar', 'd3.pie']);

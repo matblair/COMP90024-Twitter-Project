@@ -1,6 +1,4 @@
-'use strict'
-
-angular.module("d3.barchart", ["d3"])
+angular.module("d3.bar", ["d3"])
 	/*
 	 * Bar Chart Directive 
 	 * PARAMs:
