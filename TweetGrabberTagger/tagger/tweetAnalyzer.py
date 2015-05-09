@@ -4,24 +4,6 @@ from textblob import TextBlob
 #from textblob.sentiments import NaiveBayesAnalyzer  # Sentiment
 from .categoryParser import CategoryParser
 
-positive_emoji = []
-negative_emoji = []
-
-immigration_words = ['visa']
-immigration_topics = []
-
-gun_control_words = []
-gun_control_topics = []
-
-unemployment_words = []
-unemployment_topics = ['unemployed', 'fired', 'laidoff']
-
-democratic_words = []
-democratic_topics = ['obama']
-
-republican_words = []
-republican_topics = []
-
 class tweetAnalyzer:
     '''Tweet analysis functions.'''
 
@@ -38,13 +20,48 @@ class tweetAnalyzer:
 
         # Store normalized words
         words_list = []
+        for word in self.blob.words:
+            words_list.append(word.lower())
         self.words = set(words_list)
 
-        # Store emoji
-        self.emojis = []
+        # Get Data Categories 
+        categories = CategoryParser()
 
-        # Get 
-        cp = CategoryParser()
+        # Emoji Categories
+        self.emoji_categories = categories.getEmojiCategories()
+
+        # Immigration Terms
+        self.immigration_terms = \
+                list(categories.getImmigrationCategories().keys())
+
+        # Gun Control Terms
+        self.gun_control_terms = \
+                list(categories.getGunControlCategories().keys())
+
+        # Unemployment Terms
+        self.unemployment_terms = \
+                list(categories.getUnemploymentCategories().keys())
+
+        # Democratic Terms
+        self.democratic_terms = \
+                list(categories.getDemocraticCategories().keys())
+
+        # Republican Terms
+        self.republican_terms = \
+                list(categories.getRepublicanCategories().keys())
+
+        # Emoji Parsing
+        self.emoji_text = ""
+        self.emoji_rating = 0
+
+        # Tally pos/neg emojis
+        for character in self.raw_tweet['text']:
+            if character in self.emoji_categories:
+                self.emoji_text += character # Append to emoji text
+                if self.emoji_categories[character]['mood'] == 'happy':
+                    self.emoji_rating += 1
+                elif self.emoji_categories[character]['mood'] == 'sad':
+                    self.emoji_rating -= 1
 
     def analyzeFeatureSentimentPolarity(self):
         '''sentiment polarity is the "mood" of the tweet'''
@@ -81,68 +98,43 @@ class tweetAnalyzer:
         # if conflicting sentiment and emoji sentiment
         if (emoji_sentiment == "happy" and polarity < 0)\
                 or (emoji_sentiment == "sad" and polarity > 0):
-            is_ironic = True
+            return True
         else:
-            is_ironic = False
-
-        return is_ironic
+            return False
 
     def analyzeEmojiText(self):
         '''Emoji's used in tweet'''
-
-        # emoji analysis
-        # Tokenize, identify emoji
-        #'/[\x{1F600}-\x{1F64F}]/u'
-        # Add positive, subtract negative emoji
-        text = ":):("
-        return text
+        return self.emoji_text
 
     def analyzeEmojiSentiment(self):
         '''Emoji Sentiment: happy, neutral, sad'''
-        positive_emoji_count = 0
-        negative_emoji_count = 0
-
-        # Tally pos/neg emojis
-        for emoji in self.emojis:
-            if emoji in positive_emoji:
-                positive_emoji_count += 1
-            if emoji in negative_emoji:
-                negative_emoji_count += 1
-
-        # Calculate pos/neg surplus/deficit
-        emoji_rating = positive_emoji_count - negative_emoji_count
-
-        if emoji_rating > 0:
+        # Return result based on rating
+        if self.emoji_rating > 0:
             return "happy"
-        elif emoji_rating < 0:
+        elif self.emoji_rating < 0:
             return "negative"
         else:
             return "neutral"
 
     def analyzeTopicImmigration(self):
         '''Check if immegration mentioned'''
-        return self.hasWords(immigration_words) or \
-                self.hasTopics(immigration_topics)
+        return self.containsTerms(self.immigration_terms)
 
     def analyzeTopicGunControl(self):
         '''Check if gun control mentioned'''
-        return self.hasWords(gun_control_words) or \
-                self.hasTopics(gun_control_topics)
+        return self.containsTerms(self.gun_control_terms)
 
     def analyzeTopicUnemployment(self):
         '''Unemployment is calculated from topics/sentiments and keywords'''
-        return self.hasWords(unemployment_words) or \
-                self.hasTopics(unemployment_topics)
+        return self.containsTerms(self.unemployment_terms)
 
     def analyzeTopicDemocrat(self):
         '''Analyze if tweet mentions democratic party'''
-        return self.hasWords(democratic_words) or \
-                self.hasTopics(democratic_topics)
+        return self.containsTerms(self.democratic_terms)
 
     def analyzeTopicRepublican(self):
         '''Analyze if tweet mentions republican party'''
-        return self.hasWords(republican_words) or \
-                self.hasTopics(republican_topics)
+        return self.containsTerms(self.republican_terms)
 
     # Private methods
     def hasTopics(self, topics):
@@ -152,4 +144,8 @@ class tweetAnalyzer:
     def hasWords(self, words):
         '''Checks if tweet has any words in the given list'''
         return bool(self.words & set(words))
+
+    def containsTerms(self, terms):
+        '''Checks if terms are in either topics or words'''
+        return bool(self.hasTopics(terms) or self.hasWords(terms))
 

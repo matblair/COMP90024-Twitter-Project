@@ -5,11 +5,12 @@ DIRECTORY STRUCUTURE
 ====================
 ./tweetStreamer.py          - Utilizes the tweepy streaming API to stream tweets
 ./tweetGrabber.py           - Utilizes tweepy to grab historical tweets
+./testTweetTagger.py        - Test Script
+./tweetDumpParser.py        - Parses JSON tweet dump file
 
 tagger/                     - Tweet-by-tweet tagging & analysis
 ./tagger/tweetTagger.py     - Processes and Tags tweets
 ./tagger/tweetAnalyzer.py   - Analysis functions (used by tweetTagger.py)
-./tagger/testTweetTagger.py - Test Script
 
 tagger/data/                - Contains raw csv data files used to categorization
 .../data/emoji.csv          - Emoji categorization
@@ -22,7 +23,6 @@ tagger/data/                - Contains raw csv data files used to categorization
 utils/                      - General utils. Arg parsing, bounding box
 ./utils/geoTool.py          - Bounding box utility
 ./utils/argParser.py        - Argument Parsing
-./utils/tweetDumpParser.py  - Parses JSON tweet dump file
 
 OLD/                        - Old grabber code. For reference
 

@@ -20,6 +20,9 @@ class tweetTagger:
         # Id
         self.addField('id', raw_tweet)
 
+        # Created at
+        self.addField('created_at', raw_tweet)
+
         # Add metadata
         if 'metadata' in raw_tweet:
             metadata = {}

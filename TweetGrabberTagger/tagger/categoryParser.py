@@ -72,10 +72,9 @@ class CategoryParser:
 
                 category_dict[line['term']] = attrib_dict
 
-            #print(line['term'])
-            #print(category_dict[line['term']])
-
         f.close()
+
+        return category_dict
 
     def getCSVPath(self, file_name):
         '''Gets absolute file path of CSV file'''

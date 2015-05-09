@@ -6,7 +6,7 @@ raw_tweet = {
     'user':{
         'location':'Yuma,Az',
         'profile_use_background_image':True,
-        'description':'Not for the money , not for the fame \nbut for the love oғ тнe gaмe ❤️',
+        'description':'Fuck Obama. He is so stupid. Like a retard!',
         'default_profile':False,
         'protected':False,
         'following':None,
@@ -72,7 +72,7 @@ raw_tweet = {
         ]
     },
     'retweeted':False,
-    'text':'What I miss most about basketball is handling the ball.Scoring through traffic,getting through the press,or getting the assist! Ah, miss it',
+    'text':'😄 Man, fuck Obama What I miss most about basketball is handling the ball.Scoring through traffic,getting through the press,or getting the assist! Ah, miss it',
     'source':'<a href="http://twitter.com/download/iphone" rel="nofollow">Twitter for iPhone</a>',
     'truncated':False,
     'coordinates':None,

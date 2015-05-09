@@ -7,6 +7,8 @@ import sys
 import json
 import re
 
+from tagger.tweetTagger import tweetTagger
+
 file_name = sys.argv[1]
 dest_name = sys.argv[2]
 
@@ -15,9 +17,9 @@ f = open(dest_name,"a+")
 with open(file_name) as fp:
     for line in fp:
         new_json = json.loads(line)
-        regex = r"\d+"
-        m = re.search(regex, new_json['text'])
-        print(m.group())
+        tagged_tweet = tweetTagger(new_json)
+        print(tagged_tweet.getJSONTaggedTweet())
+
         #if (u"\U0001F494" in new_json['text']): # Broken Heart
         #    print(new_json['text'])
         f.write(new_json['text'])
