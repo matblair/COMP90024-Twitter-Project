@@ -78,4 +78,4 @@ class CategoryParser:
 
     def getCSVPath(self, file_name):
         '''Gets absolute file path of CSV file'''
-        return os.path.join(os.path.dirname(__file__),'data',file_name)
+        return os.path.join(os.path.dirname(__file__), file_name)

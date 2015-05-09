@@ -10,10 +10,10 @@ class tweetTagger:
 
     tagged_tweet = {} # Tweet with analysis tags
     
-    def __init__(self, raw_tweet):
+    def __init__(self, raw_tweet, categories):
         '''Initialization. Grabs attributes from tweet and performs analysis'''
-        self.grabAttributes(raw_tweet)      # Parse Tweet Attribs
-        self.analyzeTweet(raw_tweet)        # Tag Analysis
+        self.grabAttributes(raw_tweet)              # Parse Tweet Attribs
+        self.analyzeTweet(raw_tweet, categories)    # Tag Analysis
 
     def grabAttributes(self, raw_tweet):
         '''Grabs attributes from raw tweet'''
@@ -22,6 +22,15 @@ class tweetTagger:
 
         # Created at
         self.addField('created_at', raw_tweet)
+
+        # Add user
+        if 'user' in raw_tweet:
+            user = {}
+            user['id'] = raw_tweet['user']['id_str']
+            user['screen_name'] = raw_tweet['user']['screen_name']
+            self.tagged_tweet['user'] = user
+        else:
+            self.tagged_tweet['user'] = None
 
         # Add metadata
         if 'metadata' in raw_tweet:
@@ -73,11 +82,11 @@ class tweetTagger:
         # Retweeted
         self.addField('retweeted', raw_tweet)
 
-    def analyzeTweet(self, raw_tweet):
+    def analyzeTweet(self, raw_tweet, categories):
         '''Analyzes and adds tags to tagged_tweet'''
         
         # Initialize tweet analysis
-        tweet_analyzer = tweetAnalyzer(raw_tweet)
+        tweet_analyzer = tweetAnalyzer(raw_tweet, categories)
 
         # Translation here?
         tweet_analysis = {} # Build analysis dictionary

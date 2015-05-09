@@ -2,12 +2,12 @@
 
 from textblob import TextBlob
 #from textblob.sentiments import NaiveBayesAnalyzer  # Sentiment
-from .categoryParser import CategoryParser
+#from .categoryParser import CategoryParser
 
 class tweetAnalyzer:
     '''Tweet analysis functions.'''
 
-    def __init__(self, raw_tweet):
+    def __init__(self, raw_tweet, categories):
         '''Initialization. textblob analysis done here'''
         self.raw_tweet = raw_tweet
         self.blob = TextBlob(raw_tweet['text']) # PatternAnalyzer default
@@ -25,7 +25,7 @@ class tweetAnalyzer:
         self.words = set(words_list)
 
         # Get Data Categories 
-        categories = CategoryParser()
+        # categories = CategoryParser()
 
         # Emoji Categories
         self.emoji_categories = categories.getEmojiCategories()

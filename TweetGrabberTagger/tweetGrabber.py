@@ -7,15 +7,17 @@ import json
 from config import Config
 from utils.argParser import ArgParser
 from tagger.tweetTagger import tweetTagger
+from data.categoryParser import CategoryParser
 
-def search_api(auth, f, lng, lat, search_radius):
+def search_api(auth, f, lng, lat, search_radius, categories):
     api = tweepy.API(auth)
 
     geocode_str = str(lat) + "," + str(lng) + "," + str(search_radius) + "km"
     tweets = api.search("", geocode=geocode_str, count=5)
     for tweet in tweets:
-        tagged_tweet = tweetTagger(tweet._json)
-        #tagged_tweet.getJSONTaggedTweet()
+        tagged_tweet = tweetTagger(tweet._json, categories)
+        json_tagged_tweet = tagged_tweet.getJSONTaggedTweet()
+        #print(json_tagged_tweet)
         if f:
             f.write(json.dumps(tweet._json)) # Temporarily
 
@@ -39,5 +41,8 @@ if __name__ == '__main__':
     lng = Config.longitude
     search_radius = Config.search_radius
 
-    search_api(auth, f, lng, lat, search_radius)
+    # Categories object
+    categories = CategoryParser()
+
+    search_api(auth, f, lng, lat, search_radius, categories)
 

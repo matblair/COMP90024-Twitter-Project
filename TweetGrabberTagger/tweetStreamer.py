@@ -7,6 +7,7 @@ from tweepy import Stream
 import json
 from config import Config
 from tagger.tweetTagger import tweetTagger
+from data.categoryParser import CategoryParser
 from utils.argParser import ArgParser
 from utils.geoTool import BoundingBox
 
@@ -21,10 +22,14 @@ class TweetAnalysisListener(StreamListener):
 
         self.count = 0
 
-    def on_data(self, data):
+        # Categories Object
+        self.categories = CategoryParser()
 
-        tagged_tweet = tweetTagger(json.loads(data)) # Load raw JSON into dict
+    def on_data(self, data):
+        # Load raw JSON into dict
+        tagged_tweet = tweetTagger(json.loads(data), self.categories) 
         json_tagged_tweet = tagged_tweet.getJSONTaggedTweet()
+        print(json_tagged_tweet)
 
         # Decide what to do with the tweet
         if f:
@@ -59,6 +64,7 @@ if __name__ == '__main__':
     bounding_box = BoundingBox(Config.longitude,
             Config.latitude, Config.search_radius)
     print("Boundary:",bounding_box)
+
 
     tal = TweetAnalysisListener(f, args.ip, args.port)
     auth = OAuthHandler(Config.consumer_key, Config.consumer_secret)
