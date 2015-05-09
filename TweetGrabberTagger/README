@@ -34,6 +34,10 @@ pip3 install tweepy
 pip3 install textblob
 python3 -m textblob.download_corpora
 
+# Set twitter API Keys in config.py
+# Let me know if you want a more convenient way to do this..
+# Might build some api key wrapper thingi
+
 =====
 USAGE
 =====
