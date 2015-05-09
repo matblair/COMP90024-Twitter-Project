@@ -9,7 +9,7 @@
 			</div>
 			<div class="col-sm-4">
 				<div class="jumbotron">
-					{{ detail || "Nothing Selected" }}
+					{{ detail.bar || "Nothing Selected" }}
 					<button class="btn btn-default" ng-click="unshowDetail('bar')"> Reset </button>
 				</div>
 			</div>
@@ -17,21 +17,37 @@
 		<h4> Pie Chart </h4>
 		<div class="row">
 			<div class="col-sm-8">
-				<d3-pie data="data" categorical-label="name" numerical-label="value" on-click="showDetail(item, 'pie')"> </d3-pie>
+				<d3-pie data="data" categorical-label="name" numerical-label="value" on-click="showDetail(item, 'pie')" height="300"> </d3-pie>
 			</div>
 			<div class="col-sm-4">
 				<div class="jumbotron">
-					{{ detail || "Nothing Selected" }}
+					{{ detail.pie || "Nothing Selected" }}
 					<button class="btn btn-default" ng-click="unshowDetail('pie')"> Reset </button>
 				</div>
 			</div>
 		</div>
 		<h4> Line Chart </h4>
-
+		<div class="row">
+			<div class="col-sm-8">
+			</div>
+			<div class="col-sm-4">
+			</div>
+		</div>
 		<h4> Histogram </h4>
 
 		<h4> Graph </h4>
+		<h5> Sticky Graph Variant </h5>
+		<div class="row">
+			<div class="col-sm-12">
+				<d3-sticky-graph xLabel="x" yLabel="y" data="data1"> </d3-sticky-graph>
+			</div>
+		</div>
+		<h5> Directional Graph with Node Highlighting Variant </h5>
+		<div class="row">
+			<div class="col-sm-12">
 
+			</div>
+		</div>
 
 	</div>
 </div>

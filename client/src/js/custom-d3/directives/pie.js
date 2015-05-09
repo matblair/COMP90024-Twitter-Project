@@ -29,6 +29,7 @@ angular.module('d3.pie', ['d3'])
 					});
 
 					scope.render = function(data) {
+
 						var width = d3.select(element[0]).node().offsetWidth - margin,
 							radius = Math.min(width, height) / 2;
 
