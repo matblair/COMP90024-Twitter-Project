@@ -1,0 +1,50 @@
+# Twitter Grabber and Tagger
+
+====================
+DIRECTORY STRUCUTURE
+====================
+./tweetStreamer.py          - Utilizes the tweepy streaming API to stream tweets
+./tweetGrabber.py           - Utilizes tweepy to grab historical tweets
+./tweetDumpParser.py        - Parses JSON tweet dump file
+
+tagger/                     - Tweet-by-tweet tagging & analysis
+./tagger/tweetTagger.py     - Processes and Tags tweets
+./tagger/tweetAnalyzer.py   - Analysis functions (used by tweetTagger.py)
+
+.data/                      - Contains raw csv data files used to categorization
+./data/categoryParser.py    - Parses csv files and returns category dicts
+./data/emoji.csv            - Emoji categorization
+./data/immigration.csv      - Immigration topics
+./data/gun_control.csv      - Gun Control topics
+./data/unemployment.csv     - Unemployment topics
+./data/democratic.csv       - Democratic topics
+./data/republican.csv       - Republican topics
+
+utils/                      - General utils. Arg parsing, bounding box
+./utils/geoTool.py          - Bounding box utility
+./utils/argParser.py        - Argument Parsing
+
+OLD/                        - Old grabber code. For reference
+
+============
+INSTALLATION
+============
+# We assume an Ubuntu default installation
+pip3 install tweepy
+pip3 install textblob
+python3 -m textblob.download_corpora
+
+# Set twitter API Keys in config.py
+# Let me know if you want a more convenient way to do this..
+# Might build some api key wrapper thingi
+
+=====
+USAGE
+=====
+# Must pass either --dump or --ip
+# --dump specifies path of file to dump tagged tweet jsons objects to
+# --ip specifies ip/location of REST API server to submit tweets to.
+# --port defaults to 80 if not specified (sent to ip:port)
+python3 tweetStreamer.py --ip localhost --port 80
+python3 tweetGrabber.py --dump ~/dump_file
+
