@@ -2,6 +2,7 @@
 
 from textblob import TextBlob
 #from textblob.sentiments import NaiveBayesAnalyzer  # Sentiment
+from .categoryParser import CategoryParser
 
 positive_emoji = []
 negative_emoji = []
@@ -42,6 +43,9 @@ class tweetAnalyzer:
         # Store emoji
         self.emojis = []
 
+        # Get 
+        cp = CategoryParser()
+
     def analyzeFeatureSentimentPolarity(self):
         '''sentiment polarity is the "mood" of the tweet'''
         return self.blob.sentiment.polarity
@@ -53,7 +57,7 @@ class tweetAnalyzer:
     def analyzeFeatureDetectedLanguage(self):
         '''detected language. Just grabbed from raw tweet since
          Twitter already does MT on it...'''
-        if 'lang' in raw_tweet:
+        if 'lang' in self.raw_tweet:
             return self.raw_tweet['lang']
         else:
             return None

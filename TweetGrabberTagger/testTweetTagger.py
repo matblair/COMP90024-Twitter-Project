@@ -1,4 +1,4 @@
-from tweetTagger import tweetTagger
+from tagger.tweetTagger import tweetTagger
 
 # Test tweet
 raw_tweet = {

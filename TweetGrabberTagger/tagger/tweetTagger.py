@@ -2,7 +2,7 @@
 
 import json
 
-from tagger.tweetAnalyzer import tweetAnalyzer
+from .tweetAnalyzer import tweetAnalyzer
 
 class tweetTagger:
     '''Tweet tagger. Adds tags on a tweet-by-tweet basis.
