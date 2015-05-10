@@ -20,7 +20,7 @@ def search_api(auth, f, lng, lat, search_radius, categories):
         #print(json_tagged_tweet)
         if f:
             #f.write(json.dumps(tweet._json)) # Temporarily
-            f.write(json_tagged_tweet)
+            f.write(json_tagged_tweet + '\n') # Added new line sepeartor which isn't currently there.
 
 if __name__ == '__main__':
 
