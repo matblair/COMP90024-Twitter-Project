@@ -117,7 +117,8 @@ angular.module("d3.graph", ["d3"])
 				data: '=',
 				xLabel: '@',
 				yLabel: '@',
-				onClick: '&'
+				onSelect: '&',
+				onUnselect: '&'
 			},
 			template: "<style>\
 			\
@@ -269,7 +270,7 @@ angular.module("d3.graph", ["d3"])
 						}
 
 						// action to take on mouse click
-						function click() {
+						function click(d) {
 					    d3.select(this).select("text").transition()
 				        .duration(750)
 				        .attr("x", 25)
@@ -281,6 +282,7 @@ angular.module("d3.graph", ["d3"])
 				        .duration(750)
 				        .attr("r", 24)
 				        .style("fill", "lightsteelblue");
+				      return scope.onSelect({item: d})
 						}
 
 						// action to take on mouse double click
@@ -296,6 +298,8 @@ angular.module("d3.graph", ["d3"])
 				        .style("fill", "black")
 				        .style("stroke", "none")
 				        .style("font", "14px sans-serif");
+
+				      return scope.onUnselect();
 						}
 					}
 				})

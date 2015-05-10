@@ -63,7 +63,6 @@ app.controller('TestController',['$scope', function($scope) {
 	$scope.showDetail = function(item, arg) {
 		if (!($scope.showDetailToggle))
 			$scope.showDetailToggle[arg] = true
-		console.log(item, arg)
 		$scope.$apply(function() {
 			$scope.detail[arg] = item
 		})
