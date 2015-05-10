@@ -1,7 +1,6 @@
 # config.py
 class Config:
     '''Config Class, holds configs'''
-
     # Consumer Key/Secret
     consumer_key=""
     consumer_secret=""

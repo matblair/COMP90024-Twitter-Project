@@ -29,11 +29,11 @@ class TweetAnalysisListener(StreamListener):
         # Load raw JSON into dict
         tagged_tweet = tweetTagger(json.loads(data), self.categories) 
         json_tagged_tweet = tagged_tweet.getJSONTaggedTweet()
-        print(json_tagged_tweet)
+        #print(json_tagged_tweet)
 
         # Decide what to do with the tweet
         if f:
-            self.f.write(data) # Temporarily
+            self.f.write(json_tagged_tweet) # Temporarily
 
         self.count += 1
         print(self.count)
