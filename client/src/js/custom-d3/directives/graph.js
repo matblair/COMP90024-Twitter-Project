@@ -52,7 +52,7 @@ angular.module("d3.graph", ["d3"])
 						if (!data) return;
 
 						var width = d3.select(element[0]).node().offsetWidth - margin;
-						console.log(width)
+
 						var force = d3.layout.force()
 							.charge(-400)
 							.linkDistance(40)
@@ -134,13 +134,171 @@ angular.module("d3.graph", ["d3"])
 			} \
 			\
 			text { \
-			  fill: #000; \
-			  font: 10px sans-serif; \
+			  fill: black; \
+			  font: 14px sans-serif; \
 			  pointer-events: none; \
 			} \
-			</style>"
-		},
-		link: function(scope, element, attrs) {
+			</style>",
+			link: function(scope, element, attrs) {
+				d3Service.d3().then(function(d3) {
+					var margin = parseInt(attrs.margin) || 20,
+							height = parseInt(attrs.height) || 500
 
+					var svg = d3.select(element[0])
+						.append("svg")
+						.style('width', '100%')
+						.attr("height", height)
+
+					window.onresize = function() {
+						scope.$apply();
+					};
+
+					scope.$watch(function() {
+						return angular.element($window)[0].innerWidth;
+					}, function() {
+						scope.render(scope.data);
+					});
+
+					scope.render = function(data) {
+						var width = d3.select(element[0]).node().offsetWidth - margin;
+
+						if (!data) return;
+
+						svg.selectAll("*").remove();
+
+						/* 
+						 * Link Builder automatically builds links based on the edges that have been linked
+						 * using keywords source and target that are written in String instead of index.
+						 * EXAMPLE INPUT:
+						 * {
+						 *	"links": [
+						 *		{"source": "harry", "target": "sally"},
+						 *		{"source": "sally", "target": "chloe"},
+						 *		{"source": "chloe", "target": "harry"}
+						 *	],
+						 *	"nodes": [
+						 *		{"name": "harry", "value": 0.7},
+						 *		{"name": "sally", "value": 0.8},
+						 *		{"name": "chloe", "value": 0.9}
+						 *	]
+						 * }; 
+						 */
+						var linkBuilder = function(links, nodes, source, target) {
+							var edges = [];
+
+							data.links.forEach(function(e) {
+								var sourceNode = data.nodes.filter(function(n) { return n[source] === e.source; })[0],
+									targetNode = data.nodes.filter(function(n) { return n[target] === e.target; })[0];
+								edges.push({source: sourceNode, target: targetNode})
+							});
+							console.log("edges", edges)
+							return edges;
+						}
+
+						var force = d3.layout.force()
+							.nodes(d3.values(data.nodes))
+							.links(linkBuilder(data.links, data.nodes, "name", "name"))
+							.size([width, height])
+							.linkDistance(100)
+							.charge(-300)
+							.on("tick", tick)
+							.start();
+
+						svg.append("svg:defs").selectAll("marker")
+							.data(["end"])
+							.enter().append("svg:marker")
+								.attr("id", String)
+								.attr("viewBox", "0 -5 10 10")
+								.attr("refX", 25)
+								.attr("refY", -1.5)
+								.attr("markerWidth", 6)
+								.attr("markerHeight", 6)
+								.attr("orient", "auto")
+								.append("svg:path")
+									.attr("d", "M0, -5L10, 0L0, 5");
+
+						// add the links and the arrows
+						console.log(force.links())
+						var path = svg.append("svg:g").selectAll("path")
+						    .data(force.links())
+						  .enter().append("svg:path")
+						//    .attr("class", function(d) { return "link " + d.type; })
+						    .attr("class", "link")
+						    .attr("marker-end", "url(#end)");
+
+						// define the nodes
+						var node = svg.selectAll(".node")
+						    .data(force.nodes())
+						  .enter().append("g")
+						    .attr("class", "node")
+						    .on("click", click)
+						    .on("dblclick", dblclick)
+						    .call(force.drag);
+
+						// add the nodes
+						node.append("circle")
+						    .attr("r", 12);
+
+						// add the text 
+						node.append("text")
+						    .attr("x", 18)
+						    .attr("dy", ".35em")
+						    .style("stroke", "none")
+						    .style("fill", "black")
+				        .style("stroke", "none")
+						    .text(function(d) { return d.name; });
+
+						// add the curvy lines
+						function tick() {
+					    path.attr("d", function(d) {
+				        var dx = d.target.x - d.source.x,
+			            dy = d.target.y - d.source.y,
+			            dr = Math.sqrt(dx * dx + dy * dy);
+				        return "M" + 
+			            d.source.x + "," + 
+			            d.source.y + "A" + 
+			            dr + "," + dr + " 0 0,1 " + 
+			            d.target.x + "," + 
+			            d.target.y;
+				    	});
+
+					    node
+				        .attr("transform", function(d) { 
+			  	    		return "translate(" + d.x + "," + d.y + ")"; 
+			  	    	});
+						}
+
+						// action to take on mouse click
+						function click() {
+					    d3.select(this).select("text").transition()
+				        .duration(750)
+				        .attr("x", 25)
+				        .style("fill", "steelblue")
+				        .style("stroke", "lightsteelblue")
+				        .style("stroke-width", ".5px")
+				        .style("font", "20px sans-serif");
+					    d3.select(this).select("circle").transition()
+				        .duration(750)
+				        .attr("r", 24)
+				        .style("fill", "lightsteelblue");
+						}
+
+						// action to take on mouse double click
+						function dblclick() {
+					    d3.select(this).select("circle").transition()
+				        .duration(750)
+				        .attr("r", 12)
+				        .style("fill", "#ccc");
+					    d3.select(this).select("text").transition()
+				        .duration(750)
+				        .attr("x", 18)
+				        .style("stroke", "none")
+				        .style("fill", "black")
+				        .style("stroke", "none")
+				        .style("font", "14px sans-serif");
+						}
+					}
+				})
+			}
 		}
 	}])

@@ -44,6 +44,19 @@ app.controller('TestController',['$scope', function($scope) {
 	  ]
 	}
 
+	$scope.data2 = {
+		"links": [
+			{"source": "harry", "target": "sally"},
+			{"source": "sally", "target": "chloe"},
+			{"source": "chloe", "target": "harry"}
+		],
+		"nodes": [
+			{"name": "harry", "value": 0.7},
+			{"name": "sally", "value": 0.8},
+			{"name": "chloe", "value": 0.9}
+		]
+	};
+
 	$scope.showDetailToggle = {}
 	$scope.detail = {}
 

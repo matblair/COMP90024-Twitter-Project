@@ -14,7 +14,7 @@ angular.module('d3', [])
       var scriptTag = $document[0].createElement('script');
       scriptTag.type = 'text/javascript'; 
       scriptTag.async = true;
-      scriptTag.src = 'http://d3js.org/d3.v3.min.js';
+      scriptTag.src = 'http://d3js.org/d3.v3.js';
       scriptTag.onreadystatechange = function () {
         if (this.readyState == 'complete') onScriptLoad();
       }
@@ -26,7 +26,8 @@ angular.module('d3', [])
       return {
         d3: function() { return d.promise; }
       };
-  }]);
+  }])
+
 
 
 angular.module('ngD3', ['d3.bar', 'd3.pie', 'd3.graph']);
