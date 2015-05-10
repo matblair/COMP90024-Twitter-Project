@@ -6,7 +6,7 @@ class CouchUploader
   COUCH_PORT = 5984
   COUCH_IP = '144.6.227.66'
 
-  def self.upload_documents documents, id_key = nil
+  def self.upload_documents documents, database, id_key = nil
   	# Create a new connection object to couch
   	http = Net::HTTP.new(COUCH_IP, COUCH_PORT)
 
@@ -20,7 +20,7 @@ class CouchUploader
       end
 
       # Upload the document to couch
-      response = http.send_request('PUT', "/tweets/#{key}", doc.to_json)
+      response = http.send_request('PUT', "/#{database}/#{key}", doc.to_json)
       puts response
     end
   end

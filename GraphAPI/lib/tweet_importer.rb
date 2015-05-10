@@ -12,15 +12,14 @@ class TweetImporter
     ## Process each tweet as if it has the correct structure
     ## and then upload to couchdb if save is correct
     to_couch = []
+    errors = []
+
     tweets.each do |tweet_hash|
       ## Create the tweet
       tweet_id = tweet_hash[TWEET_ID_KEY]
       retweeted = tweet_hash[RETWEET_KEY]
       tweet = Tweet.new(twitter_id: tweet_id,
-      					retweeted: retweeted)
-
-      # Errors
-      errors = []
+      					retweet: retweeted)
 
       # Check if unique
       if tweet.save
@@ -32,17 +31,17 @@ class TweetImporter
         # Push to couch for tweet content storage
         to_couch << tweet_hash
       else
-        errors << tweet.errorss
+        errors << tweet.errors
       end
 
     end
 
     # Upload all things to couch if there is anything
     if to_couch.count > 0
-      CouchUploader.upload_documents to_couch, TWEET_ID_KEY
+      CouchUploader.upload_documents to_couch, "tweets", TWEET_ID_KEY
     end
     # Return nil if no errors
-    error.empty? nil : errors
+    errors.empty? ? nil : errors
   end
 
   # Functions to build tweet relationships
@@ -58,8 +57,9 @@ class TweetImporter
   def self.find_topics tweet, tweet_hash
     if tweet_hash.has_key? HASHTAG_KEY
       topics = tweet_hash[HASHTAG_KEY]
-      topics.each do |t|
-        t = Topic.find_or_create_by(tag: t)
+      topics.each do |topic|
+      	text = topic['text']
+        t = Topic.find_or_create_by(tag: text)
         t.tweets << tweet
         t.save
       end
@@ -67,7 +67,7 @@ class TweetImporter
   end
 
   def self.find_mentions tweet, tweet_hash
-    if tweet_hash.has_key? MENTION_KEY
+    if (tweet_hash.has_key? MENTION_KEY) && tweet_hash[MENTION_KEY]
       mentions = tweet_hash[MENTION_KEY]
       mentions.each do |mention|
         u = User.find_or_create_by(twitter_id: mention["id"],
