@@ -13,13 +13,14 @@ def search_api(auth, f, lng, lat, search_radius, categories):
     api = tweepy.API(auth)
 
     geocode_str = str(lat) + "," + str(lng) + "," + str(search_radius) + "km"
-    tweets = api.search("", geocode=geocode_str, count=5)
+    tweets = api.search("", geocode=geocode_str, count=100)
     for tweet in tweets:
         tagged_tweet = tweetTagger(tweet._json, categories)
         json_tagged_tweet = tagged_tweet.getJSONTaggedTweet()
         #print(json_tagged_tweet)
         if f:
-            f.write(json.dumps(tweet._json)) # Temporarily
+            #f.write(json.dumps(tweet._json)) # Temporarily
+            f.write(json_tagged_tweet)
 
 if __name__ == '__main__':
 
@@ -44,5 +45,16 @@ if __name__ == '__main__':
     # Categories object
     categories = CategoryParser()
 
-    search_api(auth, f, lng, lat, search_radius, categories)
+    count = 0
+    # Just infinite loop
+    while True:
+        try:
+            search_api(auth, f, lng, lat, search_radius, categories)
+        except tweepy.TweepError:
+            print("error")
+            time.sleep(60 * 15)
+        except:
+            break
+        count += 1
+        print(count,"x",100)
 

@@ -48,3 +48,5 @@ USAGE
 python3 tweetStreamer.py --ip localhost --port 80
 python3 tweetGrabber.py --dump ~/dump_file
 
+# Situational Script - tweetDumpParser.py
+python3 tweetDumpParser.py raw_json_dump_file tagged_json_dump_file
