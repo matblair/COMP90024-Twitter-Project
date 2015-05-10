@@ -5,6 +5,7 @@ class User
   property :name, type: String
   property :twitter_id, type: String, index: :exact, constraint: :unique
   property :language, type: String, index: :exact
+  property :sleuthed, type: Boolean
 
   # Validations for uniqueness contrainsts
   validates_uniqueness_of :twitter_id
@@ -15,6 +16,7 @@ class User
   has_many :out, :follows, model_class: User, origin: :followers
   has_many :in, :followers, model_class: User, type: "follows"
   has_many :in, :mentions, model_class: Tweet, type: "mentions"
+
 
   # Methods to find popular people
   def self.popular_tweeters
