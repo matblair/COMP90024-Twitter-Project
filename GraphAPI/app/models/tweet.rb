@@ -15,9 +15,4 @@ class Tweet
   has_many :out, :topics, model_class: Topic, origin: :tweets
   has_many :out, :mentions, model_class: User, origin: :mentions
 
-  def add_retweet
-  	# if !self.
-  end
-
-
 end

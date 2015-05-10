@@ -502,7 +502,7 @@ GET /users/:user_id/connections?degree=1
   "id": "1239812093801298421",
   "user": {
     "id": "134212421343214",
-    "screen_name": "Blaine",
+    "screen_name": "Blaine"
   },
   "metadata": {
     "result_type": "recent",

@@ -7,6 +7,9 @@ class CouchUploader
   COUCH_IP = '144.6.227.66'
 
   def self.upload_documents documents, id_key = nil
+  	# Create a new connection object to couch
+  	http = Net::HTTP.new(COUCH_IP, COUCH_PORT)
+
     # Upload each document using id key
     documents.each do |doc|
       if id_key
@@ -16,10 +19,7 @@ class CouchUploader
         key = get_uuid
       end
 
-
-      puts "key is #{key}"
       # Upload the document to couch
-      http = Net::HTTP.new(COUCH_IP, COUCH_PORT)
       response = http.send_request('PUT', "/tweets/#{key}", doc.to_json)
       puts response
     end

@@ -1,29 +1,23 @@
 class Api::TweetsController < ApplicationController
 	include TweetRepresentor
 
+	require 'tweet_importer'
+
 	def submit
 		# Find tweets
 		tweets = params[:tweets]
 		# Hold errors
 		errors = []
-		# Process each tweet
-		tweets.each do |t|
-			user_id = t[:user_id]
-			tweet_id = t[:tweet_id]
-			u = User.find_or_create_by(twitter_id: user_id, name: "Mat")
-			t = Tweet.new(twitter_id: tweet_id)
-			if not t.save
-				errors << {:id => tweet_id, :msg => "already have tweet #{tweet_id}"}
-			end
-		end
+		# Process each tweet with the tweet importer
+		TweetImporter.import_tweets tweets
 
-		if errors 
+		if errors
 			render json: errors
 		else
-		# Loop over each tweet and if successful save the relationships
-			render json: Tweet.all
+			render json: {"msg" => "#{tweets.count} tweets imported"}.to_json, status: :ok
 		end
 	end
+
 
 	def index
 		render json: Tweet.all

@@ -3,9 +3,11 @@ class User
 
   # Properties
   property :name, type: String
+  property :screen_name, type: String
   property :twitter_id, type: String, index: :exact, constraint: :unique
   property :language, type: String, index: :exact
   property :sleuthed, type: Boolean
+
 
   # Validations for uniqueness contrainsts
   validates_uniqueness_of :twitter_id
