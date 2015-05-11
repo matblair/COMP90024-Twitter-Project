@@ -8,17 +8,37 @@ app.config(['$stateProvider', '$urlRouterProvider',
     $urlRouterProvider.otherwise('/')
 
     $stateProvider
-        .state('topic', {
-            url: "/topic",
-            templateUrl: "partials/topic.html"
+        .state('gun-control', {
+            url: "/topic/gun-control",
+            templateUrl: "partials/gun-control.html"
         })
-        .state('generic', {
-            url: "/generic",
-            templateUrl: "partials/generic.html"
+        .state('immigration', {
+            url: "/topic/immigration",
+            templateUrl: "partials/immigration.html"
+        })
+        .state('unemployment', {
+            url: "/topic/unemployment",
+            templateUrl: "partials/unemployment.html"
+        })
+        .state('proportions', {
+            url: "/proportions",
+            templateUrl: "partials/proportions.html"
+        })
+        .state('relationships', {
+            url: "/relationships",
+            templateUrl: "partials/relationships.html"
+        })
+        .state('facts', {
+            url: "/facts",
+            controller: "FactController",
+            templateUrl: "partials/facts.html"
+        })
+        .state('main', {
+            url: "/",
+            templateUrl: "partials/landing.html"
         })
         .state('test', {
             url: "/test",
             templateUrl: "partials/test.html"
         })
-
 }])
