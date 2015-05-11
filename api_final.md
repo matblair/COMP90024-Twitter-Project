@@ -61,8 +61,10 @@ GET /topics/:topic/trend
         "language":"",
         "visitor":true
     },
-    "start_date":"21/01/2015",
-    "end_date":"04/05/2015",
+   "date_range":{
+      "start_date":"21/01/2015",
+      "end_date":"02/03/2015"
+    }
     "granularity":"level"
 }
 ```
@@ -269,7 +271,7 @@ Language is a two character language code, i.e. "en","ch","gb"
 Return information about a particular hashtag
 
 ```http
-GET /hashtags/:tag
+GET /hashtags/stats/:tag
 ```
 
 #### Input
@@ -279,7 +281,7 @@ GET /hashtags/:tag
         "politcal_leaning":"",
         "language":"",
         "visitor":true
-    },
+    }
 }
 ```
 
@@ -414,32 +416,32 @@ GET /users/:user_id/connections?degree=1
     "time":"12:39PM",
     "user":"user_id",
     "connections":{
-      "1":{
+      "1":[{
           "user":{
             "name":"asdkljalskdja",
             "user_id":"1",
-            "connections":"1"
+            "num_connections":"1"
           },
           "demographic":{
 
             },
           "subjectivty":"0.9",
           "sentiment":"0.1"
-      },
-      "2":{
+      }],
+      "2":[{
           "user":{
             "name":"asdkljalskdja",
             "user_id":"1",
-            "connections":"1"
+            "num_connections":"1"
           },
           "demographic":{
 
           },
           "subjectivty":"0.9",
           "sentiment":"0.1"
-      }
+      }]
     },
-    "connections":"1",
+    "num_connections":"1",
     "degree_of_connectivity":"12"
 }
 ```
