@@ -4,6 +4,7 @@
 import tweepy
 
 import json
+import time
 from config import Config
 from utils.argParser import ArgParser
 from tagger.tweetTagger import tweetTagger
