@@ -59,3 +59,5 @@ if __name__ == '__main__':
             break
         count += 1
 
+
+passenger_ruby /home/deploy/.rvm/wrappers/ruby-2.1.5/ruby
