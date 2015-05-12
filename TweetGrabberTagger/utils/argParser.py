@@ -21,6 +21,9 @@ class ArgParser:
         # Rest API Route (defaults to 80)
         parser.add_argument('--port', type=int, default=80)
 
+        # Input file
+        parser.add_argument('--input')
+
         args = parser.parse_args()
 
         if not (args.dump or args.ip):
