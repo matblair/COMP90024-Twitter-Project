@@ -32,8 +32,8 @@ class TweetAnalysisListener(StreamListener):
 
         # Decide what to do with the tweet
         if f:
-            # self.f.write(data) # Temporarily, dumps raw JSON
-            self.f.write(json_tagged_tweet) 
+            #self.f.write(data) # Temporarily, dumps raw JSON
+            self.f.write(json_tagged_tweet + '\n') 
 
         self.count += 1
         print(self.count)
