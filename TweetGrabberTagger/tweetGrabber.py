@@ -46,7 +46,7 @@ class TweetGrabber:
             tagged_tweet = tweetTagger(json_dict, self.categories)
             json_tagged_tweet = tagged_tweet.getJSONTaggedTweet()
             if f:
-                #f.write(json.dumps(tweet._json) + '\n') # Temporarily
+                #f.write(json.dumps(tweet._json) + '\n') # Temporarily. Dump raw json
                 f.write(json_tagged_tweet + '\n') # Added new line sepeartor which isn't currently there.
                 pass
 
