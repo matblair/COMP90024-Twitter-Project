@@ -1,5 +1,5 @@
 ## Analysis API For San Antonio Texas
-This API provides an interface through which users can query certain attributes about the people of San Antonio Texas to discover changing feelings on alskdjaslkdjaskljdasd
+This API provides an interface through which users can query certain attributes about the people of San Antonio Texas to discover changing feelings on certain topics. 
 
 ### Topic Queries
 This api endpoint provides information about one of the three chosen topics we are investigating in San Antonio

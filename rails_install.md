@@ -6,12 +6,12 @@
 - 3 `rvm install ruby-2.1.5`
 - 4 `rvm --default use ruby-2.1.5`
 
-#### Step 2, install nginx, nodejs and thin
-- 1 `sudo aptitude install nginx`
+#### Step 2, install nginx, nodejs and thin (plus supporting features)
 - 2 `gem install thin`
 - 3 `rvmsudo thin install`
 - 4 `sudo apt-get install nodejs`
 - 5 `rvm @global do gem install thin`
+- 6 `rvmsudo rvm @global do gem install --user-install executable-hooks`
 
 #### Step 3, generate public keys and add to the server
 - 1 `ssh-keygen -t rsa `
