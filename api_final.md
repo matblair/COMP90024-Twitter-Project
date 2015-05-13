@@ -369,8 +369,8 @@ GET /users
 {
     "date":"21/01/2015",
     "time":"12:39PM",
-    "average_activity":"12",
-    "average_connectivity":"12"
+    "activity":"12",
+    "connectivity":"12"
 }
 ```
 
