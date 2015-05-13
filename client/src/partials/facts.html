@@ -44,6 +44,7 @@
 							<option value=""> Neither </option>
 						</select> 
 					</div>
+					<button class="btn btn-default" ng-click="hashtagFetch()"> Search </button>
 				</div>
 			</div>
 			<table class="table">
@@ -68,6 +69,26 @@
 
 <div class="row">
 	<div class="col-sm-12">
-
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				Local Social Summary of Twitter Users
+			</div>
+			<div class="panel-body">
+				<div class="row">
+					<div class="col-sm-6">
+						<i class="fa fa-user fa-3x"></i> <br>
+						<p> Typically, A San Antonian Twitter User is connected to <b>{{ socialGraph.activity || "many"}} </b> users. </p>
+					</div>
+					<div class="col-sm-6">
+						<i class="fa fa-twitter fa-3x"></i><br>
+						<p> An average San Antonian Twitter User tweets <b>{{ socialGraph.connectivity || "many times"}} </b> a day. </p>
+					</div>
+				</div>
+			</div>
+		</div>
 	</div>
+</div>
+
+<div class="row">
+
 </div>
