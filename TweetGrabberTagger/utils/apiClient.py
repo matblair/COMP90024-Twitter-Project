@@ -12,7 +12,7 @@ class APIClient:
     def postApiTweetsSubmit(self, data):
         '''POST /api/tweets/submit'''
         new_url = self.url + "/api/tweets/submit"
-        print(new_url)
+        #print(new_url)
 
         data_obj = { "tweets": data }
         send_data = data_obj
