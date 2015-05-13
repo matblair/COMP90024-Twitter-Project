@@ -11,6 +11,7 @@
 - 2 `gem install thin`
 - 3 `rvmsudo thin install`
 - 4 `sudo apt-get install nodejs`
+- 5 `rvm @global do gem install thin`
 
 #### Step 3, generate public keys and add to the server
 - 1 `ssh-keygen -t rsa `
@@ -25,13 +26,18 @@
 - 1 Modify the `config/deployment/production.yml` file and change the IP adress of the server to deploy to the chosen IP.
 - 2 Deploy the server with `cap production deploy` from the directory.
 
-### Run the server
+### Run the server (TESTING)
 - 1 `ssh ubuntu@instance_ip`
 - 2 `cd /webapps/analysis_api/current`
 - 2 `thin start -p 4500`
-
 The server is now available on IPADRESS:4500
 
+### Run the server (actual deployment)
+- 1 `ssh ubuntu@instance_ip`
+- 2 `sudo chmod 775 /etc/thin`
+- 3 `rvmsudo thin config -C /etc/thin/analysis_api.yml -c /webapps/analysis_api/current -p 4500 -d`
+- 4 `cd /webapps/analysis_api/current && thin stop`
+- 5 `service thin start`
 
 <!-- ### Setup nginx and three server instances
 - 1 `rvmsudo thin config -C /etc/thin/analysis_api.yml -c /webapps/analysis_api/current/ --servers 3 -e production`
