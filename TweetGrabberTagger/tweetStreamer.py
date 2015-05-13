@@ -53,9 +53,15 @@ class TweetAnalysisListener(StreamListener):
     def on_error(self, status):
         # Crap, rate limit reached
         if status_code == 420:
+            print("ERROR: Rate limit reached")
             #returning False in on_data disconnects the stream
-            return False
         print(status)
+        return True
+
+
+    def on_timeout(self):
+        print("ERROR: Timeout...")
+        return True # Don't kill the stream
 
 # Main Entry
 if __name__ == '__main__':
