@@ -11,6 +11,8 @@ from data.categoryParser import CategoryParser
 from utils.argParser import ArgParser
 from utils.geoTool import BoundingBox
 
+from utils.apiClient import APIClient
+
 class TweetAnalysisListener(StreamListener):
     """ Listener handler that passes tweets for analysis"""
 
@@ -25,15 +27,23 @@ class TweetAnalysisListener(StreamListener):
         # Categories Object
         self.categories = CategoryParser()
 
+        # API Client
+        self.apiclient = APIClient(self.ip, self.port)
+
     def on_data(self, data):
         # Load raw JSON into dict
         tagged_tweet = tweetTagger(json.loads(data), self.categories) 
         json_tagged_tweet = tagged_tweet.getJSONTaggedTweet()
+        dict_tagged_tweet = tagged_tweet.getTaggedTweet()
 
         # Decide what to do with the tweet
         if f:
             #self.f.write(data) # Temporarily, dumps raw JSON
             self.f.write(json_tagged_tweet + '\n') 
+
+        if self.ip:
+            tweet_array = [dict_tagged_tweet]
+            self.apiclient.postApiTweetsSubmit(tweet_array)
 
         self.count += 1
         print(self.count)
@@ -53,6 +63,7 @@ if __name__ == '__main__':
     # Arg Parsing
     ap = ArgParser()
     args = ap.getArgs()
+    #print(args)
 
     if (args.dump):
         f = open(args.dump,'a+')

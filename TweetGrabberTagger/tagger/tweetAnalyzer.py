@@ -86,6 +86,7 @@ class tweetAnalyzer:
         if language != 'en': 
             # Translate if not English
             translation = "N/A"
+            # translation = self.blob.translate(to='en') # Translate to en
         else:
             translation = ""
         return translation

@@ -128,6 +128,10 @@ class tweetTagger:
         '''Returns Graph API Compatible JSON Object'''
         return json.dumps(self.tagged_tweet)
 
+    def getTaggedTweet(self):
+        '''Return Dict of Tagged Tweet'''
+        return self.tagged_tweet
+
     # Private Methods
     def addField(self, field, raw_tweet):
         '''Adds field if exists in raw_tweet'''
