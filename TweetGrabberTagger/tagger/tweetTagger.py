@@ -1,15 +1,19 @@
 # tweetTagger.py
 
 import json
+import collections
 
 from .tweetAnalyzer import tweetAnalyzer
+
+nested_dict = lambda: collections.defaultdict(nested_dict)
 
 class tweetTagger:
     '''Tweet tagger. Adds tags on a tweet-by-tweet basis.
     Returned JSON Object conforms to Graph REST API.'''
 
-    tagged_tweet = {} # Tweet with analysis tags
-    
+    # Tweet with analysis tags
+    tagged_tweet = nested_dict()
+
     def __init__(self, raw_tweet, categories):
         '''Initialization. Grabs attributes from tweet and performs analysis'''
         self.grabAttributes(raw_tweet)              # Parse Tweet Attribs
@@ -17,70 +21,73 @@ class tweetTagger:
 
     def grabAttributes(self, raw_tweet):
         '''Grabs attributes from raw tweet'''
-        # Id
-        self.addField('id', raw_tweet)
-
         # Created at
         self.addField('created_at', raw_tweet)
 
-        # Add user
-        if 'user' in raw_tweet:
-            user = {}
-            user['id'] = raw_tweet['user']['id_str']
-            user['screen_name'] = raw_tweet['user']['screen_name']
-            self.tagged_tweet['user'] = user
-        else:
-            self.tagged_tweet['user'] = None
-
-        # Add metadata
-        if 'metadata' in raw_tweet:
-            metadata = {}
-            metadata['result_type'] = raw_tweet['metadata']['result_type']
-            metadata['iso_language_code'] = \
-                    raw_tweet['metadata']['iso_language_code']
-            self.tagged_tweet['metadata'] = metadata
-        else:
-            self.tagged_tweet['metadata'] = None
-
-        # Add mentioned users
-        if 'user_mentions' in raw_tweet:
-            user_mentions = []
-            for mentioned_user in raw_tweet['entities']['user_mentions']:
-                user = {}
-                user['id'] = mentioned_user['id_str']
-                user['name'] = mentioned_user['name']
-                user['screen_name'] = mentioned_user['screen_name']
-                user_mentions.append(user)
-            self.tagged_tweet['user_mentions'] = user_mentions
-        else:
-            self.tagged_tweet['user_mentions'] = None
-            
-        # Symbols
-        self.addField('symbols', raw_tweet)
-
-        # Hashtags
-        if 'entities' in raw_tweet:
-            hashtags = []
-            for hashtag in raw_tweet['entities']['hashtags']:
-                hashtags.append({'text': hashtag['text']})
-            self.tagged_tweet['hashtags'] = hashtags
-        else:
-            self.tagged_tweet['hashtags'] = None
-
-        # URLs
-        self.addField('urls', raw_tweet)
+        # Id
+        self.addField('id', raw_tweet)
 
         # Text
         self.addField('text', raw_tweet)
 
-        # Lang
-        self.addField('lang', raw_tweet)
+        # Truncated
+        self.addField('truncated', raw_tweet)
+
+        # In Reply
+        self.addField('in_reply_to_status_id', raw_tweet)
+        self.addField('in_reply_to_user_id', raw_tweet)
+        self.addField('in_reply_to_screen_name', raw_tweet)
+        
+        # Add user
+        user_fields = ['id', 'name', 'screen_name', 'location', 'url',\
+                'description', 'protected', 'verified', 'followers_count',\
+                'friends_count', 'statuses_count', 'created_at', 'utc_offset',\
+                'time_zone', 'geo_enabled', 'lang', 'is_translator']
+        self.addSubField('user', user_fields, raw_tweet)
 
         # Geo
         self.addField('geo', raw_tweet)
 
+        # Coordinates
+        self.addField('coordinates', raw_tweet)
+    
+        # Retweet Count
+        self.addField('retweet_count', raw_tweet)
+
+        # Favourite Count
+        self.addField('favourite_count', raw_tweet)
+
+        # Entities, hashtags
+        self.addEntityField('hashtags', \
+                ['id', 'name', 'screen_name'], raw_tweet)
+
+        # Entites, trends
+        self.addEntityField('trends', True, raw_tweet)
+
+        # Entities, urls
+        self.addEntityField('urls', ['url', 'expanded_url'], raw_tweet)
+
+        # Entities, user_mentions
+        self.addEntityField('user_mentions',\
+                ['id','name','screen_name'], raw_tweet)
+
+        # Entities, symbols
+        self.addEntityField('symbols', True, raw_tweet)
+        
+        # Favourited
+        self.addField('favourited', raw_tweet)
+
         # Retweeted
         self.addField('retweeted', raw_tweet)
+
+        # Possibly Sensitive
+        self.addField('possibly_sensitive', raw_tweet)
+
+        # Filter Level
+        self.addField('filter_level', raw_tweet)
+
+        # Lang
+        self.addField('lang', raw_tweet)
 
     def analyzeTweet(self, raw_tweet, categories):
         '''Analyzes and adds tags to tagged_tweet'''
@@ -139,3 +146,39 @@ class tweetTagger:
             self.tagged_tweet[field] = raw_tweet[field]
         else:
             self.tagged_tweet[field] = None
+
+    def addSubField(self, field_category, fields, raw_tweet):
+        for field in fields:
+            if field in raw_tweet.get(field_category, {}):
+                self.tagged_tweet[field_category][field] = \
+                        raw_tweet[field_category][field]
+            else:
+                print("Missing Sub Field")
+                self.tagged_tweet[field_category][field] = None
+
+    def addEntityField(self, field_category, fields, raw_tweet):
+        '''Adds entity field if exists'''
+        new_array = []
+
+        if field_category in raw_tweet.get('entities', {}):
+            for item in raw_tweet['entities'][field_category]:
+                new_dict = {}
+
+                # Just take everything
+                if fields == True:
+                    new_dict = item
+                else:
+                    for field in fields:
+                        if field in item:
+                            new_dict[field] = item[field] 
+                        else:
+                            new_dict[field] = None
+
+                new_array.append(new_dict)
+
+            self.tagged_tweet['entities'][field_category] = new_array
+        
+        else:
+            self.tagged_tweet['entities'][field_category] = None
+                    
+                
