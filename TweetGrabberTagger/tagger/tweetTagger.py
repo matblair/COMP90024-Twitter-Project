@@ -56,10 +56,10 @@ class tweetTagger:
         self.addField('retweet_count', raw_tweet)
 
         # Favourite Count
-        self.addField('favourite_count', raw_tweet)
+        self.addField('favorite_count', raw_tweet)
 
         # Entities, hashtags
-        self.addEntityField('hashtags', ['text'], raw_tweet))
+        self.addEntityField('hashtags', ['text'], raw_tweet)
 
         # Entites, trends
         self.addEntityField('trends', True, raw_tweet)
@@ -75,7 +75,7 @@ class tweetTagger:
         self.addEntityField('symbols', ['text'], raw_tweet)
         
         # Favourited
-        self.addField('favourited', raw_tweet)
+        self.addField('favorited', raw_tweet)
 
         # Retweeted
         self.addField('retweeted', raw_tweet)
@@ -153,31 +153,29 @@ class tweetTagger:
                 self.tagged_tweet[field_category][field] = \
                         raw_tweet[field_category][field]
             else:
-                print("Missing Sub Field")
                 self.tagged_tweet[field_category][field] = None
 
     def addEntityField(self, field_category, fields, raw_tweet):
         '''Adds entity field if exists'''
-        new_array = []
+
+        new_list = []
 
         if field_category in raw_tweet.get('entities', {}):
             for item in raw_tweet['entities'][field_category]:
-                new_dict = {}
-
-                # Just take everything
                 if fields == True:
+                    # Just take everything
                     new_dict = item
                 else:
+                    new_dict = {}
                     for field in fields:
                         if field in item:
                             new_dict[field] = item[field] 
                         else:
                             new_dict[field] = None
+                new_list.append(new_dict)
 
-                new_array.append(new_dict)
+            self.tagged_tweet['entities'][field_category] = new_list
 
-            self.tagged_tweet['entities'][field_category] = new_array
-        
         else:
             self.tagged_tweet['entities'][field_category] = None
                     
