@@ -1,32 +1,6 @@
 ## Analysis API For San Antonio Texas
 This API provides an interface through which users can query certain attributes about the people of San Antonio Texas to discover changing feelings on certain topics. 
 
-### Demographic Queries
-This API endpoint provides information about each demographic queries within San Antonio.
-
-#### Get Number of Twitter Users for various demographic attributes.
-```http
-GET /demographic
-```
-##### Input Params
-```json
-{
-    "politcal_leaning":"democratic", //OPTIONAL
-    "language":"zh", //OPTIONAL
-    "visitor":true //OPTIONAL
-    "mood": "sad" //OPTIONAL
-}
-```
-Note: If all attributes are empty, simply return the total number of twitter users. 
-
-##### Output Params
-```json
-{
-    "number_of_matching_users": 1278,
-    "time": 12/4/2015, 1236
-}
-```
-
 ### Topic Queries
 This api endpoint provides information about one of the three chosen topics we are investigating in San Antonio
 
@@ -428,6 +402,29 @@ GET /users/:user_id
         "prefered_languge":"en",
         "visitor":true
     }
+}
+```
+
+#### Get Number of Twitter Users for various demographic attributes.
+```http
+GET /users/demographics
+```
+##### Input Params
+```json
+{
+    "politcal_leaning":"democratic", //OPTIONAL
+    "language":"zh", //OPTIONAL
+    "visitor": true, //OPTIONAL
+    "mood": "sad" //OPTIONAL
+}
+```
+Note: If all attributes are empty, simply return the total number of twitter users. 
+
+##### Output Params
+```json
+{
+    "number_of_matching_users": 1278,
+    "time": "UTCTime"
 }
 ```
 
