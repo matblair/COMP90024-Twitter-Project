@@ -59,7 +59,7 @@ class tweetTagger:
         self.addField('favourite_count', raw_tweet)
 
         # Entities, hashtags
-        self.addEntityField('hashtags', ['text'], raw_tweet))
+        self.addEntityField('hashtags', ['text'], raw_tweet)
 
         # Entites, trends
         self.addEntityField('trends', True, raw_tweet)
