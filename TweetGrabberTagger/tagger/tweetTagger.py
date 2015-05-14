@@ -41,7 +41,8 @@ class tweetTagger:
         # Add user
         user_fields = ['id', 'name', 'screen_name', 'location', 'url',\
                 'description', 'protected', 'verified', 'followers_count',\
-                'friends_count', 'statuses_count', 'created_at', 'utc_offset',\
+                'friends_count', 'listed_count', 'favourites_count',\
+                'statuses_count', 'created_at', 'utc_offset',\
                 'time_zone', 'geo_enabled', 'lang', 'is_translator']
         self.addSubField('user', user_fields, raw_tweet)
 
@@ -58,8 +59,7 @@ class tweetTagger:
         self.addField('favourite_count', raw_tweet)
 
         # Entities, hashtags
-        self.addEntityField('hashtags', \
-                ['id', 'name', 'screen_name'], raw_tweet)
+        self.addEntityField('hashtags', ['text'], raw_tweet))
 
         # Entites, trends
         self.addEntityField('trends', True, raw_tweet)
@@ -72,7 +72,7 @@ class tweetTagger:
                 ['id','name','screen_name'], raw_tweet)
 
         # Entities, symbols
-        self.addEntityField('symbols', True, raw_tweet)
+        self.addEntityField('symbols', ['text'], raw_tweet)
         
         # Favourited
         self.addField('favourited', raw_tweet)
