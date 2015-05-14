@@ -23,7 +23,8 @@ class APIClient:
         r = requests.post(new_url, data=json.dumps(send_data), headers=headers)
         return r
 
+# Mini test, if route is alive
 if __name__ == "__main__":
-    ac = ApiClient('144.6.227.66', 4500)
+    ac = APIClient('144.6.227.66', 4500)
     r = ac.postApiTweetsSubmit([])
     print(r)
