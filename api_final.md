@@ -16,7 +16,7 @@ GET /topics/:topic
 ###### Input Params
 ```json
 {
-    "deomographic_markers":{
+    "demographic_markers":{
         "politcal_leaning":"",
         "language":"",
         "visitor":true
@@ -56,7 +56,7 @@ GET /topics/:topic/trend
 ###### Input Params
 ```json
 {
-    "deomographic_markers":{
+    "demographic_markers":{
         "politcal_leaning":"",
         "language":"",
         "visitor":true
@@ -71,6 +71,7 @@ GET /topics/:topic/trend
 
 ###### Granularity
 One of:
+- hourly 
 - daily
 - weekly
 - monthly
@@ -369,8 +370,8 @@ GET /users
 {
     "date":"21/01/2015",
     "time":"12:39PM",
-    "average_activity":"12",
-    "average_connectivity":"12"
+    "activity":"12",
+    "connectivity":"12"
 }
 ```
 
@@ -401,6 +402,29 @@ GET /users/:user_id
         "prefered_languge":"en",
         "visitor":true
     }
+}
+```
+
+#### Get Number of Twitter Users for various demographic attributes.
+```http
+GET /users/demographics
+```
+##### Input Params
+```json
+{
+    "politcal_leaning":"democratic", //OPTIONAL
+    "language":"zh", //OPTIONAL
+    "visitor": true, //OPTIONAL
+    "mood": "sad" //OPTIONAL
+}
+```
+Note: If all attributes are empty, simply return the total number of twitter users. 
+
+##### Output Params
+```json
+{
+    "number_of_matching_users": 1278,
+    "time": "UTCTime"
 }
 ```
 
