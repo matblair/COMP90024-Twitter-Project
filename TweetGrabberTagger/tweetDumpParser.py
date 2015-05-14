@@ -17,6 +17,8 @@ dest_name = sys.argv[2]
 
 f = open(dest_name,"a+")
 
+count = 0
+
 with open(file_name) as fp:
 
     # Categories Object
@@ -35,6 +37,9 @@ with open(file_name) as fp:
         
         #tweet_array = [dict_tagged_tweet]
         #r = ac.postApiTweetsSubmit(tweet_array)   
+
+        count += 1
+        print(count)
 
         f.write(json_tagged_tweet)
         f.write("\n")
