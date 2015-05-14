@@ -98,7 +98,7 @@ class tweetAnalyzer:
 
         # if conflicting sentiment and emoji sentiment
         if (emoji_sentiment == "happy" and polarity < 0)\
-                or (emoji_sentiment == "sad" and polarity > 0):
+                or (emoji_sentiment == "negative" and polarity > 0):
             return True
         else:
             return False
