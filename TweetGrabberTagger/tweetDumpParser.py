@@ -30,9 +30,11 @@ with open(file_name) as fp:
         tagged_tweet = tweetTagger(new_json, categories)
         json_tagged_tweet = tagged_tweet.getJSONTaggedTweet()
         dict_tagged_tweet = tagged_tweet.getTaggedTweet()
+
+        #print(dict_tagged_tweet['user_mentions'])
         
-        tweet_array = [dict_tagged_tweet]
-        r = ac.postApiTweetsSubmit(tweet_array)   
+        #tweet_array = [dict_tagged_tweet]
+        #r = ac.postApiTweetsSubmit(tweet_array)   
 
         f.write(json_tagged_tweet)
         f.write("\n")
