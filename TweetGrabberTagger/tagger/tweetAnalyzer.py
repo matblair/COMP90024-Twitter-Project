@@ -140,7 +140,11 @@ class tweetAnalyzer:
     # Private methods
     def hasTopics(self, topics):
         '''Checks if tweet has any hashtags in the given list''' 
-        return bool(self.hashtags & set(topics))
+        for hashtag in self.hashtags:
+            for topic in topics:
+                if hashtag in topic:
+                    return True
+        return False
 
     def hasWords(self, words):
         '''Checks if tweet has any words in the given list'''
