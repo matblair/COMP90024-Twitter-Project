@@ -142,7 +142,7 @@ class tweetAnalyzer:
         '''Checks if tweet has any hashtags in the given list''' 
         for hashtag in self.hashtags:
             for topic in topics:
-                if hashtag in topic:
+                if topic in hashtag:
                     return True
         return False
 
