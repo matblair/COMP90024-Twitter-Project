@@ -60,4 +60,4 @@ if __name__ == '__main__':
         count += 1
 
 
-passenger_ruby /home/deploy/.rvm/wrappers/ruby-2.1.5/ruby
+#passenger_ruby /home/deploy/.rvm/wrappers/ruby-2.1.5/ruby

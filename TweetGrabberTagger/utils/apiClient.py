@@ -25,6 +25,9 @@ class APIClient:
 
 # Mini test, if route is alive
 if __name__ == "__main__":
+    print("Started")
     ac = APIClient('144.6.227.66', 4500)
+    print("Connecting..")
     r = ac.postApiTweetsSubmit([])
+    print("OK")
     print(r)
