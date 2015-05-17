@@ -1,7 +1,14 @@
 ## Analysis API For San Antonio Texas
 This API provides an interface through which users can query certain attributes about the people of San Antonio Texas to discover changing feelings on certain topics. 
 
-### Topic Queries
+TABLE OF CONTENT
+1. [Topic](#topic)
+2. [Location](#location)
+3. [Hashtag](#hashtag)
+4. [Social Network](#social)
+5. [Tweet Data Structure](#tweet)
+
+### <a name="topic"></a>Topic Queries
 This api endpoint provides information about one of the three chosen topics we are investigating in San Antonio
 
 #### Topics
@@ -166,7 +173,7 @@ GET /topics/:topic/extremes
 
 ---------
 
-### Location Queries
+### <a name="location"></a>Location Queries
 ```http
 GET /locations
 ```
@@ -175,7 +182,7 @@ GET /locations
 ```json
 {
     "date":"21/01/2015",
-    "deomographic_markers":{
+    "demographic_markers":{
         "politcal_leaning":"",
         "language":"",
         "visitor":true
@@ -198,15 +205,9 @@ Language is a two character language code, i.e. "en","ch","gb"
     "date":"21/01/2015",
     "period":"1:00pm - 2:00pm", //(optional)
     "locations":[{
-        "geo":{
-            "nw":{
-                "lat":"29.192",
-                "long":"21.91"
-             },
-             "se":{
-                "lat":"29.192",
-                "long":"21.91"
-             }
+        "point":{
+            "lat": 27.10230129, 
+            "lng": 82.12039120        
         },
         "sentiment":{
             "polarity":"0.1",
@@ -267,8 +268,30 @@ Language is a two character language code, i.e. "en","ch","gb"
 }
 ```
 
+##### Returns topic interests for a location. 
+```http
+GET /location/topics
+```
 
-### Hashtag Queries
+#### Input
+```json
+{
+  "start_date":"21/01/2015",
+  "end_date":"03/02/2015",
+  "location":[{"lat":"123","long":"123"},{"lat":"123","long":"123"}],
+  "period":"1:00pm - 2:00pm" //(optional)
+}
+```
+
+#### Output
+```json
+
+```
+
+
+#####
+
+### <a name="hashtag"></a>Hashtag Queries
 Return information about a particular hashtag
 
 ```http
@@ -359,7 +382,7 @@ One of:
 ```
 
 
-### Social Network Queries
+### <a name="social"></a>Social Network Queries
 Provide general information about the social graph
 ```http
 GET /users
@@ -470,6 +493,32 @@ GET /users/:user_id/connections?degree=1
 }
 ```
 
+#### Ask about the top 10 affluent twitter users in the region (ie. highest follower count)
+```http
+GET /users/affluent
+```
+
+##### Input
+```json
+{
+    "politcal_leaning":"democratic", //OPTIONAL
+    "language":"zh", //OPTIONAL
+    "visitor": true, //OPTIONAL
+}
+```
+
+##### Output
+``` json
+{
+  "0": {//DEFAULT Twitter User Object
+  },
+  "1": {//DEFAULT Twitter User Object
+  }
+}
+```
+
+#### Ask about 
+
 ### Tweet Data Structure
 ```json
 {
@@ -522,7 +571,7 @@ GET /users/:user_id/connections?degree=1
 }
 ```
 
-### Updated! Tweet Data Structure
+### <a name="tweet"></a>Updated! Tweet Data Structure
 ```json
 {
   "id": "1239812093801298421",
