@@ -659,12 +659,45 @@ GET /users/affluent
 }
 ```
 
-#####<a name="social-retweet"></a> Ask about outward connectivity of twitter users 
+#####<a name="social-retweet"></a> Ask about outward engagement summary of twitter users in San Antonio
+We want to figure out how engaging are tweets tweeted by SA residents and their perception by Twitter Users that do not reside in San Antonio. 
 ```http
 GET /social/outward
 ```
 
-PENDING...
+#### Output
+```json
+{
+  "avg_engagement_count": 12, //of the origin tweet
+  "engagement_sentiment": { //of all responding tweets to the origin tweet
+    "avg_polarity": 0.212312,
+    "avg_subjectivity": 0.501021
+  },
+  "origin_sentiment": { //of all origin tweets that gained engagement
+    "avg_polarity": -0.912312,
+    "avg_subjectivity": 1
+  },
+  "origin_user_stat": {
+    "followers_count": {
+      "lq": 21,
+      "median": 30,
+      "uq": 40,
+      "mean": 34
+    },
+    "locations": [
+      {"lat": 12.1231232, "lng": 13.1231221}
+    ] // list of all engaged tweets from SA. 
+  },
+  "outward_user_stat": {
+    "followers_count": {
+      "lq": 100,
+      "median": 150,
+      "uq": 200,
+      "mean": 101
+    }
+  }
+}
+```
 
 #####<a name="social-retweet"></a> Ask about highest retweets
 ```http
@@ -700,7 +733,7 @@ GET /social/retweets
 -----------------
 
 ### <a name="emoji"></a> Emoji Queries
-#####<a name="emoji-general></a>Get General Information about Emoji Usage
+#####<a name="emoji-summary></a>Get General Information about Emoji Usage
 ```http
 GET /emoji/general
 ```
@@ -726,7 +759,7 @@ GET /emoji/general
 }
 ```
 
-#####<a name="emoji-heatmap"> Get Emoji used locations
+#####<a name="emoji-heatmap"></a> Get Emoji used locations
 ```http
 GET /emoji/:emoji_code/locations
 ```
@@ -744,7 +777,7 @@ GET /emoji/:emoji_code/locations
 ]} 
 ```
 
-#####<a name="emoji-affluence"> Get Emoji affluence
+#####<a name="emoji-affluence"></a> Get Emoji affluence
 ```http
 GET /emoji/:emoji_code/affluence
 ```
