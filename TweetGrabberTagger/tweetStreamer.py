@@ -42,8 +42,11 @@ class TweetAnalysisListener(StreamListener):
             #self.f.write(json_tagged_tweet + '\n') 
 
         if self.ip:
-            tweet_array = [dict_tagged_tweet]
-            self.apiclient.postApiTweetsSubmit(tweet_array)
+            try:
+                tweet_array = [dict_tagged_tweet]
+                self.apiclient.postApiTweetsSubmit(tweet_array)
+            except:
+                print("ERROR: API Error")
 
         self.count += 1
         print(self.count)
