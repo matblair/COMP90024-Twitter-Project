@@ -1,15 +1,12 @@
 ## Analysis API For San Antonio Texas
 This API provides an interface through which users can query certain attributes about the people of San Antonio Texas to discover changing feelings on certain topics. 
 
-TABLE OF CONTENT
+###TABLE OF CONTENT
+-------------------
 1. [Topic](#topic)
-
 2. [Location](#location)
-
 3. [Hashtag](#hashtag)
-
 4. [Social Network](#social)
-
 5. [Tweet Data Structure](#tweet)
 
 ### <a name="topic"></a>Topic Queries
