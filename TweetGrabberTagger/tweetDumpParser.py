@@ -37,6 +37,7 @@ with open(file_name) as fp:
         
         #tweet_array = [dict_tagged_tweet]
         #r = ac.postApiTweetsSubmit(tweet_array)   
+        #print(r)
 
         count += 1
         print(count)
