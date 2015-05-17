@@ -3,9 +3,13 @@ This API provides an interface through which users can query certain attributes 
 
 TABLE OF CONTENT
 1. [Topic](#topic)
+
 2. [Location](#location)
+
 3. [Hashtag](#hashtag)
+
 4. [Social Network](#social)
+
 5. [Tweet Data Structure](#tweet)
 
 ### <a name="topic"></a>Topic Queries
@@ -517,7 +521,7 @@ GET /users/affluent
 }
 ```
 
-#### Ask about 
+#### Ask about highest retweets
 
 ### Tweet Data Structure
 ```json
