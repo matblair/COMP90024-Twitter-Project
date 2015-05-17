@@ -241,7 +241,9 @@ GET /topics/:topic/affluence
   }
 }
 ```
+
 NOTE: Insider refers to users within the search radius, while outsiders refer to users that have been connected via tweets outside the search radius. 
+
 ---------
 
 ### <a name="location"></a>Location Queries
