@@ -95,7 +95,7 @@ GET /topics/:topic/trend
    "date_range":{
       "start_date":"21/01/2015",
       "end_date":"02/03/2015"
-    }
+    },
     "granularity":"level"
 }
 ```
@@ -119,12 +119,12 @@ Language is a two character language code, i.e. "en","ch","gb"
 ```json
 {
     "topic": "ALSKDJASL",
+    "trend":"stable",
     "time_periods":[
       {
         "start":"21/01/2015",
         "end":"21/02/2015",
         "count":"100",
-        "trend":"stable",
         "polarity": 0.9,
         "subjectivity": 0.2
       }
