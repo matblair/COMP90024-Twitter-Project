@@ -35,6 +35,7 @@ app.config(['$stateProvider', '$urlRouterProvider', 'uiGmapGoogleMapApiProvider'
 		})
 		.state('location', {
 			url: "/location",
+			controller: "LocationController",	
 			templateUrl: "partials/location.html"
 		})
 		.state('hashtags', {
