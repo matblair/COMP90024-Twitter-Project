@@ -13,6 +13,9 @@ class Config:
     # Latitude / Longitude
     longitude = -98.493629
     latitude = 29.424122
+
+    # Location (String)
+    location = "San Antonio"
     
     # Search Radius (KM)
     search_radius = 100
