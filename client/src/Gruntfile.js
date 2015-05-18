@@ -91,12 +91,12 @@ module.exports = function(grunt) {
         livereload: true
       },
       src: {
-        files: ['src/index.html', 'src/html/*.html'],
+        files: ['src/index.html', 'src/partials/*.html'],
         tasks: ['dev-build']
       },
       scripts: {
         options: {
-          livereload: false,
+          livereload: true,
           debounceDelay: 1000
         },
         files: ['js/*.js', 'js/controllers/*.js', 'js/custom-d3/*.js', 

@@ -1,13 +1,27 @@
-<div class="row">
-	<div class="col-sm-12">
-		<div class="jumbotron">
-			We are Team 26 - San Antonio
-		</div>
-	</div>
+<div style="height: 500px">
+	<carousel interval="myInterval">
+		<slide ng-repeat="slide in slides" active="slide.active">
+	    <img ng-src="{{slide.image}}" style="margin:auto;">
+	    <div class="carousel-caption">
+	      <h4>Slide {{$index}}</h4>
+	      <p>{{slide.text}}</p>
+	    </div>
+	  </slide>
+	</carousel>
 </div>
 
 <div class="row">
 	<div class="col-sm-12">
-		<h1> Introductions </h1>
+		<h1> Our Analytics Target Location </h1>
+		<div class="map_canvas">
+			<ui-gmap-google-map center='sa.center'
+	                    zoom='sa.zoom'
+	                    dragging='false'
+	                    options='sa.options'
+	                    refresh='true'>
+
+	    <!-- other ui-gmap-directives here -->
+			</ui-gmap-google-map>
+		</div>
 	</div>
 </div>
