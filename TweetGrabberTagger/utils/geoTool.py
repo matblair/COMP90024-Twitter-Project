@@ -17,3 +17,13 @@ def BoundingBox(core_lon, core_lat, radius):
     lat2 = lat + math.degrees(radius/R);
 
     return [lon1, lat1, lon2, lat2]
+
+def isInBox(point_lon, point_lat, box_lon1, box_lat1, box_lon2, box_lat2):
+
+    if( box_lon1 <= point_lon\
+            and point_lon <= box_lon2\
+            and box_lat1 <= point_lat\
+            and point_lat <= box_lat2 ):
+        return True
+    else:
+        return False
