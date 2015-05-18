@@ -38,7 +38,6 @@
       with_items:
         - wget http://ftp.ruby-lang.org/pub/ruby/2.2/ruby-2.2.2.tar.gz
         - tar -xzvf ruby-2.2.2.tar.gz
-        - cd ruby-2.2.2/
         - "cd ruby-2.2.2/ && ./configure"
         - "cd ruby-2.2.2/ && make"
         - "cd ruby-2.2.2/ && make install"
