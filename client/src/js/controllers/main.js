@@ -21,10 +21,33 @@ app.controller("MainController", ["$scope", "uiGmapGoogleMapApi", function($scop
 	  $scope.sa = {
 	  	center: {
 	  		latitude: 29.4167,
-	  		longitude: 98.5000
+	  		longitude: -98.5000
 	  	},
 	  	zoom: 8,
-	  	options: {}
+	  	pan: false,
+	  	options: {
+	  		scrollwheel: false,
+	  		panControl: false,
+	  		draggable: false
+	  	},
+	  	circle: {
+	  		radius: 100000,
+	  		stroke: {
+	        color: '#08B21F',
+	        weight: 2,
+	        opacity: 1
+	    	},
+	    	fill: {
+          color: '#08B21F',
+          opacity: 0.5
+      	},
+      	geodesic: true, // optional: defaults to false
+        draggable: true, // optional: defaults to false
+        clickable: true, // optional: defaults to true
+        editable: true, // optional: defaults to false
+        visible: true, // optional: defaults to true
+        control: {}
+	  	}
 	  };
 	});
 }])

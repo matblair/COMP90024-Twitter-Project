@@ -91,7 +91,7 @@ module.exports = function(grunt) {
         livereload: true
       },
       src: {
-        files: ['src/index.html', 'src/partials/*.html'],
+        files: ['index.html', 'partials/*.html'],
         tasks: ['dev-build']
       },
       scripts: {
