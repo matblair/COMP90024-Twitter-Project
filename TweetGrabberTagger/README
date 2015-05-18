@@ -4,8 +4,9 @@
 DIRECTORY STRUCUTURE
 ====================
 ./tweetStreamer.py          - Utilizes the tweepy streaming API to stream tweets
-./tweetGrabber.py           - Utilizes tweepy to grab historical tweets
 ./tweetDumpParser.py        - Parses JSON tweet dump file
+./userGrabber.py            - Grabs User Relationships
+./userTimelineScraper.py    - Scrapes user timelines
 
 tagger/                     - Tweet-by-tweet tagging & analysis
 ./tagger/tweetTagger.py     - Processes and Tags tweets
@@ -21,7 +22,7 @@ tagger/                     - Tweet-by-tweet tagging & analysis
 ./data/republican.csv       - Republican topics
 
 utils/                      - General utils. Arg parsing, bounding box
-./utils/geoTool.py          - Bounding box utility
+./utils/geoTool.py          - Bounding box utilities
 ./utils/argParser.py        - Argument Parsing
 
 OLD/                        - Old grabber code. For reference
@@ -36,8 +37,7 @@ pip3 install requests
 python3 -m textblob.download_corpora
 
 # Set twitter API Keys in config.py
-# Let me know if you want a more convenient way to do this..
-# Might build some api key wrapper thingi
+# Each NECTAR Instance deployed on should have its own config.py
 
 =====
 USAGE
@@ -51,3 +51,13 @@ python3 tweetGrabber.py --dump ~/dump_file
 
 # Situational Script - tweetDumpParser.py
 python3 tweetDumpParser.py raw_json_dump_file tagged_json_dump_file
+
+==================
+ANSIBLE DEPLOYMENT
+==================
+1. Install dependencies as in INSTALLATION
+2. Place config.py script in DIRECTORY (seeded with API KEYS)
+3. >>> python3 tweetStreamer.py --ip 144.6.227.64 --port 4500
+4. >>> python3 userTimelineScraper.py --ip 144.6.227.64 --port 4500
+
+# Step 3 OPTIONAL. Some Instances may not need a streamer
