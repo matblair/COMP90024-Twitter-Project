@@ -49,7 +49,8 @@ GET /topics/:topic
 {
     "demographic_markers":{
         "politcal_leaning":"",
-        "language":""
+        "language":"",
+        "visitor":true
     },
     "date_range":{
       "start_date":"21/01/2015",
@@ -88,7 +89,8 @@ GET /topics/:topic/trend
 {
     "demographic_markers":{
         "politcal_leaning":"",
-        "language":""        
+        "language":"",
+        "visitor":true
     },
    "date_range":{
       "start_date":"21/01/2015",
@@ -171,7 +173,8 @@ GET /topics/:topic/extremes
         "demographic":{
             "politcal_leaning":"",
             "languages":["",""],
-            "prefered_languge":"en"            
+            "prefered_languge":"en",
+            "visitor":true
         }
       },
     "greatest_detract":{
@@ -255,7 +258,8 @@ GET /locations
     "demographic_markers":{
         "politcal_leaning":"",
         "language":"",
-        "mood": "sad"        
+        "mood": "sad",
+        "visitor":true
     },
     "period":"1:00pm - 2:00pm" //(optional)
 }
@@ -309,7 +313,8 @@ GET /location/sentiment
 
     "deomographic_markers":{
         "politcal_leaning":"",
-        "language":""        
+        "language":"",
+        "visitor":true
     }
     "location"[{"lat":"123","long":"123"},{"lat":"23","long":"123"}]
 }
@@ -370,7 +375,8 @@ GET /hashtags/stats/:tag
 {
     "deomographic_markers":{
         "politcal_leaning":"",
-        "language":""        
+        "language":"",
+        "visitor":true
     }
 }
 ```
@@ -406,7 +412,8 @@ GET /hashtags/trending
 {
     "demographic_markers":{
         "politcal_leaning":"",
-        "language":""        
+        "language":"",
+        "visitor":true
     },
     "mood": "happy",
     "time_range": {
@@ -558,7 +565,8 @@ GET /users/:user_id
     "demographic":{
         "politcal_leaning":"",
         "languages":["",""],
-        "prefered_languge":"en"        
+        "prefered_languge":"en",
+        "visitor":true
     }
 }
 ```
@@ -715,7 +723,8 @@ GET /social/retweets
       "demographic":{
         "politcal_leaning":"",
         "languages":["",""],
-        "prefered_languge":"en"        
+        "prefered_languge":"en",
+        "visitor":true
       }
     }
   }
