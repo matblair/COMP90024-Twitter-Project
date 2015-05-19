@@ -1,0 +1,19 @@
+- name: install ruby
+  shell: "cd /tmp && {{item}}"
+  with_items:
+    - wget http://ftp.ruby-lang.org/pub/ruby/2.1/ruby-2.1.5.tar.gz
+    - tar -xzvf ruby-2.1.5.tar.gz
+    - "cd ruby-2.1.5/ && ./configure"
+    - "cd ruby-2.1.5/ && make"
+    - "cd ruby-2.1.5/ && make install"
+  args:
+    creates: /usr/local/bin/ruby
+
+- name: Install Rubygems
+  shell: "{{item}}"
+  with_items:
+    - wget http://production.cf.rubygems.org/rubygems/rubygems-2.4.7.tgz
+    - tar xvf rubygems-2.4.7.tgz
+    - "cd rubygems-2.4.7 && ruby setup.rb"
+  args:
+    creates: /usr/local/bin/gem

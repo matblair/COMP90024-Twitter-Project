@@ -1,27 +1,38 @@
-- name: Install RVM
-  shell: curl -L get.rvm.io | bash -s stable
-
-- name: Install Ruby
-  shell: >
-    executable=/bin/bash source /etc/profile.d/rvm.sh;
-    rvm install {{ruby_version}}
-
-- name: Set default ruby version
-  shell: >
-    executable=/bin/bash source /etc/profile.d/rvm.sh;
-    rvm --default use {{ruby_version}}
+- name: install bundler
+  gem: name=bundler
 
 - name: Gem install thin
   gem: name=thin
 
-- name: something
-  command: "{{rvm_path}} @global do gem install thin"
-
 - name: Setup init.d for thin
-  command: "{{rvmsudo_path}} {{thin_path}} install"
+  sudo: no
+  shell: thin install
 
-- name: Install nodejs
-  apt: name=nodejs
+- name: update code
+  git: repo=git://{{repo}}
+       dest=/webapps/{{name}}
+       force=yes
+       accept_hostkey=yes
 
-- name: something
-  command: "{{rvmsudo_path}} {{rvm_path}} @global do gem install --user-install executable-hooks"
+- name: change repo folder owner to ubuntu
+  command: chown ubuntu /webapps/{{name}}
+
+- name: fix permissions
+  shell: chmod 777 /etc/thin
+
+- name: delete me adds thin gem to gemfile
+  shell: echo "gem 'thin'" >> Gemfile
+  args:
+    chdir: /webapps/{{name}}
+
+- name: Install app gems
+  command: bundle install
+  args:
+    chdir: /webapps/{{name}}
+
+- name: setup thin config
+  sudo: no
+  shell: thin config -C /etc/thin/{{name}}.yml -c /webapps/{{name}} -p 4500 -d
+
+- name: Ensure thin is started
+  service: name=thin state=started

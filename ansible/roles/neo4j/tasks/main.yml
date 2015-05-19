@@ -13,5 +13,5 @@
 - name: install neo4j
   apt: name=neo4j
 
-- name: Ensure scraper neo4j is started
+- name: Ensure neo4j is started
   service: name=neo4j-service state=started

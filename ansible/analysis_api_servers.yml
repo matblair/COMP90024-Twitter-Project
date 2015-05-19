@@ -3,11 +3,5 @@
   sudo: yes
   roles:
     - common
-    # - role: rvm_io.rvm1-ruby
-    #   tags: ruby
-    #   sudo: True
-    #   rvm1_rubies: 
-    #     - 'ruby-2.1.5'
-    - rails
-      # force: yes
-    - analysis_api
+    - ruby
+    - { role: rails, repo: github.com/matblair/COMP90024-Analysis-Api.git, name: analysis_api}

@@ -2,8 +2,7 @@
   remote_user: ubuntu
   sudo: yes
   roles:
-    # - rails
     - common
-    # - couch
+    - couch
     - neo4j
-    # - graph_api
+    - { role: rails, repo: github.com/matblair/COMP90024-Graph-API, name: graph_api}
