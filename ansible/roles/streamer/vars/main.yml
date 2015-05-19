@@ -1,0 +1,5 @@
+user: ubuntu
+daemon: /usr/bin/python3
+pidfile: /var/run/streamer.pid
+daemon_opts: "/twitteranalysis/TweetGrabberTagger/userTimelineScraper.py --ip localhost --port 4500 --config /twitteranalysis/TweetGrabberTagger/{{twitterConfig}}"
+service_name: streamer

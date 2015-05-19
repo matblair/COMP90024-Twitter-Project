@@ -1,4 +1,5 @@
-- name: Run streamer(s)
-  shell: "python3 tweetStreamer.py --ip localhost --port 4500 --config {{twitterConfig}} > /dev/null/ &"
-  args:
-    chdir: /twitteranalysis/TweetGrabberTagger
+- name: Add streamer init.d daemon script
+  template: src=../../common/templates/init.d-template.j2 dest=/etc/init.d/streamer mode=0751
+
+- name: Ensure streamer daemon is started
+  service: name=streamer state=started
