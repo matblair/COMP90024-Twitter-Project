@@ -1,5 +1,6 @@
 - hosts: streamer_scraper_servers
   roles:
-    - python3
+    - common
+    - twitter_analysis
     - streamer
     - scraper

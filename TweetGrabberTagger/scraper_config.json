@@ -1,0 +1,25 @@
+{
+    "consumer_key": "dfasfadsfdsaf",
+    "consumer_secret": "adsfadsfadsf",
+
+    "access_token": "adsfadsfasdfasd",
+    "access_token_secret": "adfadfasdfdsa",
+
+    "api_tokens": [
+            {
+                "key": "asdfdasfadsfs",
+                "secret": "asdfdasfafas"
+            },
+            {
+                "key": "asdfasfdasf",
+                "secret": "asdfasdfasfads"
+            }
+    ],
+
+    "longitude": -98.493629,
+    "latitude": 29.424122,
+
+    "location": "San Antonio",
+    
+    "search_radius": 100
+}

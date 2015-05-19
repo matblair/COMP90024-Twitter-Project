@@ -1,0 +1,4 @@
+- name: Run streamer
+  command: "python3 tweetStreamer.py --ip localhost --port 4500 --config {{twitterConfig}}"
+  args:
+    chdir: /twitteranalysis/TweetGrabberTagger
