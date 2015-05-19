@@ -50,10 +50,11 @@ USAGE
 # --port defaults to 80 if not specified (sent to ip:port)
 # --config specifies location of config file. Defaults to config.json
 python3 tweetStreamer.py --ip localhost --port 80 --config ~/stream_config.json
-python3 userTimelineScraper.py --ip localhost --port 80 --config ~/timeline_config.json
+python3 userTimelineScraper.py --dump ~/timeline_dump --input ~/user_list.txt --ip 144.6.227.66 --port 4500 --config ~/timeline_config.json
 
 # Situational Script - tweetDumpParser.py
 python3 tweetDumpParser.py raw_json_dump_file tagged_json_dump_file
+
 
 ==================
 ANSIBLE DEPLOYMENT
@@ -62,7 +63,8 @@ ANSIBLE DEPLOYMENT
 2. Place config.py script in DIRECTORY (seeded with API KEYS)
 3. >>> python3 tweetStreamer.py --ip 144.6.227.64 --port 4500
              --dump ~/streamer_dump --config ~/streamer_config.json
-4. >>> python3 userTimelineScraper.py --ip 144.6.227.64 --port 4500
-             --dump ~/timeline_dump --config ~/timeline_config.json
+4. >>> python3 userTimelineScraper.py --dump ~/timeline_dump\
+             --input ~/user_list.txt --ip 144.6.227.64 --port 4500\
+             --config ~/timeline_config.json --config ~/timeline_config.json
 
 # Step 3 OPTIONAL. Some Instances may not need a streamer
