@@ -14,12 +14,12 @@ from utils.configParser import ConfigParser
 from utils.apiClient import APIClient
 
 class UserTimelineScraper:
-
-    min_id = -1
-    valid_tweets = 0
-    count = 0
-
     def __init__(self, auth, f, ip, port, user_id, bounding_box, categories):
+
+        self.min_id = -1
+        self.valid_tweets = 0
+        self.count = 0
+
         self.auth = auth
         self.f = f
         self.ip = ip
