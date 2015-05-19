@@ -62,6 +62,22 @@ View : users
 	View count of tweeters about topic "gun_control" grouped by topic
 	
 		/tweets/_design/topic/_view/users?startkey=["gun_control"]&endkey=["gun_control",{},{},{},{}]&group=true&group_level=1
+		
+		
+View : location
+ 
+        Keys : [ "topic", political_leaning, language, year, month, day, hour, minute ]
+       
+                topics : "mention_immigration", "gun_control", "unemployment"
+                political_leaning : "democrat", "republican", "none"
+ 
+        Returns : [ latitude, longitude, count, subjectivity, polarity ]
+ 
+        Query Examples :
+ 
+        View location of all tweets about topic "gun_control".
+       
+                /tweets/_design/topic/_view/location?startkey=["gun_control"]&endkey=["gun_control",{},{},{},{},{},{},{}]
 		 
 	
 
