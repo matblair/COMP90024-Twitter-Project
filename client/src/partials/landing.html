@@ -1,0 +1,30 @@
+<div style="height: 500px">
+	<carousel interval="myInterval">
+		<slide ng-repeat="slide in slides" active="slide.active">
+	    <img ng-src="{{slide.image}}" style="margin:auto;">
+	    <div class="carousel-caption">
+	      <h4>Slide {{$index}}</h4>
+	      <p>{{slide.text}}</p>
+	    </div>
+	  </slide>
+	</carousel>
+</div>
+
+<div class="row">
+	<div class="col-sm-12">
+		<h1> Where is San Antonio, TX? </h1>
+		<div class="map_canvas">
+			<ui-gmap-google-map center='sa.center' zoom='sa.zoom' pan='sa.pan' options='sa.options'>
+	    <!-- other ui-gmap-directives here -->
+	    		<ui-gmap-circle center='sa.center'
+                radius='sa.circle.radius'
+                fill='sa.circle.fill'
+                stroke='sa.circle.stroke'
+                visible='sa.circle.visible'
+        	>
+				</ui-gmap-circle>
+			</ui-gmap-google-map>
+		</div>
+		<p> The highlighted green area represents our search radius for this assignment. </p>
+	</div>
+</div>

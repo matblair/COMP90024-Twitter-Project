@@ -1,0 +1,59 @@
+<div class="row" ng-controller="TestController">
+	<div class="col-sm-12">
+		<h3> Test </h3>
+		<hr>
+		<h4> Bar Chart </h4>
+		<div class="row">
+			<div class="col-sm-8">
+				<d3-bars data="data" categorical-label="name" numerical-label="value" on-click="showDetail(item, 'bar')"> </d3-bars>
+			</div>
+			<div class="col-sm-4">
+				<div class="jumbotron">
+					{{ detail.bar || "Nothing Selected" }}
+					<button class="btn btn-default" ng-click="unshowDetail('bar')"> Reset </button>
+				</div>
+			</div>
+		</div>
+		<h4> Pie Chart </h4>
+		<div class="row">
+			<div class="col-sm-8">
+				<d3-pie data="data" categorical-label="name" numerical-label="value" on-click="showDetail(item, 'pie')" height="300"> </d3-pie>
+			</div>
+			<div class="col-sm-4">
+				<div class="jumbotron">
+					{{ detail.pie || "Nothing Selected" }}
+					<button class="btn btn-default" ng-click="unshowDetail('pie')"> Reset </button>
+				</div>
+			</div>
+		</div>
+		<h4> Line Chart </h4>
+		<div class="row">
+			<div class="col-sm-8">
+			</div>
+			<div class="col-sm-4">
+			</div>
+		</div>
+		<h4> Histogram </h4>
+
+		<h4> Graph </h4>
+		<h5> Sticky Graph Variant </h5>
+		<div class="row">
+			<div class="col-sm-12">
+				<d3-sticky-graph xLabel="x" yLabel="y" data="data1"> </d3-sticky-graph>
+			</div>
+		</div>
+		<h5> Directional Graph with Node Highlighting Variant </h5>
+		<div class="row">
+			<div class="col-sm-8">
+				<d3-directional-graph data="data2" on-select="showDetail(item, 'dirGraph')" on-unselect="unshowDetail('dirGraph')"></d3-directional-graph>
+			</div>
+			<div class="col-sm-4">
+				<div class="jumbotron">
+					{{ detail.dirGraph || "Nothing Selected" }}
+					<button class="btn btn-default" ng-click="unshowDetail('dirGraph')"> Reset </button>
+				</div>
+			</div>
+		</div>
+
+	</div>
+</div>
