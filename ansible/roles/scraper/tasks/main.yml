@@ -1,4 +1,4 @@
 - name: Run streamer
-  command: "python3 userTimelineScraper.py --ip localhost --port 4500 --config {{twitterConfig}}"
+  command: "python3 userTimelineScraper.py --ip localhost --port 4500 --input user_list.txt --config {{twitterConfig}}"
   args:
     chdir: /twitteranalysis/TweetGrabberTagger
