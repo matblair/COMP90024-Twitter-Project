@@ -6,11 +6,7 @@
     "access_token_secret": "",
 
     "api_tokens": [
-            {
-                "key": "",
-                "secret": ""
-            },
-            {
+            {   
                 "key": "",
                 "secret": ""
             }
