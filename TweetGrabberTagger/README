@@ -4,8 +4,11 @@
 DIRECTORY STRUCUTURE
 ====================
 ./tweetStreamer.py          - Utilizes the tweepy streaming API to stream tweets
-./tweetGrabber.py           - Utilizes tweepy to grab historical tweets
 ./tweetDumpParser.py        - Parses JSON tweet dump file
+./userGrabber.py            - Grabs User Relationships
+./userTimelineScraper.py    - Scrapes user timelines
+./config.json               - Default config file. Able to be set with --config
+./config.py                 - Old Config file. Depreciated. May still be a dependency (userGrabber)
 
 tagger/                     - Tweet-by-tweet tagging & analysis
 ./tagger/tweetTagger.py     - Processes and Tags tweets
@@ -21,7 +24,7 @@ tagger/                     - Tweet-by-tweet tagging & analysis
 ./data/republican.csv       - Republican topics
 
 utils/                      - General utils. Arg parsing, bounding box
-./utils/geoTool.py          - Bounding box utility
+./utils/geoTool.py          - Bounding box utilities
 ./utils/argParser.py        - Argument Parsing
 
 OLD/                        - Old grabber code. For reference
@@ -32,11 +35,11 @@ INSTALLATION
 # We assume an Ubuntu default installation
 pip3 install tweepy
 pip3 install textblob
+pip3 install requests
 python3 -m textblob.download_corpora
 
 # Set twitter API Keys in config.py
-# Let me know if you want a more convenient way to do this..
-# Might build some api key wrapper thingi
+# Each NECTAR Instance deployed on should have its own config.py
 
 =====
 USAGE
@@ -45,8 +48,23 @@ USAGE
 # --dump specifies path of file to dump tagged tweet jsons objects to
 # --ip specifies ip/location of REST API server to submit tweets to.
 # --port defaults to 80 if not specified (sent to ip:port)
-python3 tweetStreamer.py --ip localhost --port 80
-python3 tweetGrabber.py --dump ~/dump_file
+# --config specifies location of config file. Defaults to config.json
+python3 tweetStreamer.py --ip localhost --port 80 --config ~/stream_config.json
+python3 userTimelineScraper.py --dump ~/timeline_dump --input ~/user_list.txt --ip 144.6.227.66 --port 4500 --config ~/timeline_config.json
 
 # Situational Script - tweetDumpParser.py
 python3 tweetDumpParser.py raw_json_dump_file tagged_json_dump_file
+
+
+==================
+ANSIBLE DEPLOYMENT
+==================
+1. Install dependencies as in INSTALLATION
+2. Create a config.json file (specify path with --config, Also include API keys in it)
+3. >>> python3 tweetStreamer.py --ip 144.6.227.64 --port 4500
+             --dump ~/streamer_dump --config ~/streamer_config.json
+4. >>> python3 userTimelineScraper.py --dump ~/timeline_dump\
+             --input ~/user_list.txt --ip 144.6.227.64 --port 4500\
+             --config ~/timeline_config.json --config ~/timeline_config.json
+
+# Step 3 OPTIONAL. Some Instances may not need a streamer

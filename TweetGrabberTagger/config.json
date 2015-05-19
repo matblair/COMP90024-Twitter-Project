@@ -1,0 +1,21 @@
+{
+    "consumer_key": "",
+    "consumer_secret": "",
+
+    "access_token": "",
+    "access_token_secret": "",
+
+    "api_tokens": [
+            {   
+                "key": "",
+                "secret": ""
+            }
+    ],
+
+    "longitude": -98.493629,
+    "latitude": 29.424122,
+
+    "location": "San Antonio",
+    
+    "search_radius": 100
+}

@@ -86,6 +86,7 @@ class tweetAnalyzer:
         if language != 'en': 
             # Translate if not English
             translation = "N/A"
+            # translation = self.blob.translate(to='en') # Translate to en
         else:
             translation = ""
         return translation
@@ -112,7 +113,7 @@ class tweetAnalyzer:
         if self.emoji_rating > 0:
             return "happy"
         elif self.emoji_rating < 0:
-            return "negative"
+            return "sad"
         else:
             return "neutral"
 
@@ -139,7 +140,11 @@ class tweetAnalyzer:
     # Private methods
     def hasTopics(self, topics):
         '''Checks if tweet has any hashtags in the given list''' 
-        return bool(self.hashtags & set(topics))
+        for hashtag in self.hashtags:
+            for topic in topics:
+                if topic in hashtag:
+                    return True
+        return False
 
     def hasWords(self, words):
         '''Checks if tweet has any words in the given list'''
