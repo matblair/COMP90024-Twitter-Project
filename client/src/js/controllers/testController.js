@@ -57,6 +57,13 @@ app.controller('TestController',['$scope', function($scope) {
 		]
 	};
 
+	$scope.data3 = [	
+		{"date": 1200, "count": 100},
+		{"date": 1201, "count": 120},
+		{"date": 1202, "count": 128},
+		{"date": 1203, "count": 90}
+	];
+
 	$scope.showDetailToggle = {}
 	$scope.detail = {}
 

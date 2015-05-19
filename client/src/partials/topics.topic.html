@@ -14,6 +14,16 @@
 						<dt> Proportions </dt>
 						<dd> Pie charts are used to illustrate the demographic proportions of Twitter users that tweeted about this particular topic</dd>
 					</dl>
+					<dl>
+						<dt> Language Breakdown </dt>
+						<dd> This pie chart illustrates the proportion of languages used for this particular topic </dd>
+					</dl>
+					<d3-pie data="topic.lang_count" categoricalLabel="language" numericalLabel="count"></d3-pie>
+					<dl>
+						<dt> Political Affiliation </dt>
+						<dd> This pie chart illustrates the proportion of political affilation for this particular topic </dd>
+					</dl>
+					<d3-pie data="topic.poltical_count" categoricalLabel="political" numericalLabel="count"></d3-pie>
 				</div>
 
 				<!-- Bar Graph -->
@@ -21,8 +31,8 @@
 					<dl>
 						<dt> Enumerations </dt>
 						<dd> Bar graphs are used to illustrate the magnitude and comparative scale of Twitter users that tweeted about this particular topic</dd>
-
 					</dl>
+					
 				</div>
 			</div>
 		</div>

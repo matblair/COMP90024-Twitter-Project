@@ -30,4 +30,4 @@ angular.module('d3', [])
 
 
 
-angular.module('ngD3', ['d3.bar', 'd3.pie', 'd3.graph']);
+angular.module('ngD3', ['d3.bar', 'd3.pie', 'd3.graph', 'd3.line']);

@@ -91,112 +91,234 @@ angular.module("d3.line", ["d3"])
 		return {
 			restrict: "E",
 			scope: {
-				xlabel: "@",
 				ylabel: "@",
 				data: "=",
 				height: "@",
-				margin: "@",
 				onClick: "&"
 			},
+			template: " \
+				<style> \
+				svg { \
+				  font: 10px sans-serif; \
+				} \
+				\
+				.area { \
+				  fill: steelblue; \
+				  clip-path: url(#clip); \
+				} \
+				.axis path, \
+				.axis line { \
+				  fill: none; \
+				  stroke: #000; \
+				  shape-rendering: crispEdges; \
+				} \
+ 				\
+				.brush .extent { \
+				  stroke: #fff; \
+				  fill-opacity: .125; \
+				  shape-rendering: crispEdges; \
+				} \
+				</style> \
+			",
 			link: function(scope, element, attrs) {
+				d3Service.d3().then(function(d3) {
+					var height = parseInt(attrs.height) || 500;
 
-				var margin = parseInt(attrs.margin) || 20,
-					height = parseInt(attrs.height) || 500;
+					window.onresize = function() {
+							scope.$apply();
+					};
 
-				var parseDate = d3.time.format("%b %Y").parse;
+					scope.$watch(function() {
+						return angular.element($window)[0].innerWidth;
+					}, function() {
+						scope.render(scope.data);
+					});
 
-				var x = d3.time.scale().range([0, width]),
-				    x2 = d3.time.scale().range([0, width]),
-				    y = d3.scale.linear().range([height, 0]),
-				    y2 = d3.scale.linear().range([height2, 0]);
+					var svg = d3.select(element[0])
+						.append("svg")
+						.style('width', '100%')
+						.attr("height", height)
 
-				var xAxis = d3.svg.axis().scale(x).orient("bottom"),
-				    xAxis2 = d3.svg.axis().scale(x2).orient("bottom"),
-				    yAxis = d3.svg.axis().scale(y).orient("left");
+					scope.render = function(data) {
 
-				var brush = d3.svg.brush()
-				    .x(x2)
-				    .on("brush", brushed);
+						if (!data) return 
 
-				var area = d3.svg.area()
-				    .interpolate("monotone")
-				    .x(function(d) { return x(d.date); })
-				    .y0(height)
-				    .y1(function(d) { return y(d.price); });
+						svg.selectAll("*").remove();
 
-				var area2 = d3.svg.area()
-				    .interpolate("monotone")
-				    .x(function(d) { return x2(d.date); })
-				    .y0(height2)
-				    .y1(function(d) { return y2(d.price); });
+						var margin1 = {top: 10, right: 10, bottom: (0.3 * height), left: 40},
+							margin2 = {top: (0.8 * height), right: 10, bottom: 20, left: 40},
+							width = d3.select(element[0]).node().offsetWidth - margin1.left - margin1.right,
+							height1 = height - margin1.top - margin1.bottom,
+							height2 = height - margin2.top - margin2.bottom;
 
-				var svg = d3.select("body").append("svg")
-				    .attr("width", width + 2 * margin)
-				    .attr("height", height + 2 * margin);
+						var parseDate = d3.time.format("%b %Y").parse;
 
-				svg.append("defs").append("clipPath")
-				    .attr("id", "clip")
-				  .append("rect")
-				    .attr("width", width)
-				    .attr("height", height);
+						var x = d3.time.scale().range([0, width]),
+					    x2 = d3.time.scale().range([0, width]),
+					    y = d3.scale.linear().range([height1, 0]),
+					    y2 = d3.scale.linear().range([height2, 0]);
 
-				var focus = svg.append("g")
-				    .attr("class", "focus")
-				    .attr("transform", "translate(" + margin + "," + margin + ")");
+						var xAxis = d3.svg.axis().scale(x).orient("bottom"),
+					    xAxis2 = d3.svg.axis().scale(x2).orient("bottom"),
+					    yAxis = d3.svg.axis().scale(y).orient("left");
 
-				var context = svg.append("g")
-				    .attr("class", "context")
-				    .attr("transform", "translate(" + margin + "," + margin + ")");
+				   	var brush = d3.svg.brush()
+					    .x(x2)
+					    .on("brush", brushed);
 
-				d3.csv("sp500.csv", type, function(error, data) {
-				  x.domain(d3.extent(data.map(function(d) { return d.date; })));
-				  y.domain([0, d3.max(data.map(function(d) { return d.price; }))]);
-				  x2.domain(x.domain());
-				  y2.domain(y.domain());
+						var area = d3.svg.area()
+					    .interpolate("monotone")
+					    .x(function(d) { return x(d.date); })
+					    .y0(height1)
+					    .y1(function(d) { return y(d[attrs.ylabel]); });
 
-				  focus.append("path")
-				      .datum(data)
+						var area2 = d3.svg.area()
+					    .interpolate("monotone")
+					    .x(function(d) { return x2(d.date); })
+					    .y0(height2)
+					    .y1(function(d) { return y2(d[attrs.ylabel]); });
+
+				   	svg.append("defs").append("clipPath")
+					    .attr("id", "clip")
+					  .append("rect")
+					    .attr("width", width)
+					    .attr("height", 0.9 * height1);
+
+						var focus = svg.append("g")
+					    .attr("class", "focus")
+					    .attr("transform", "translate(" + margin1.left + "," + margin1.top + ")");
+
+						var context = svg.append("g")
+					    .attr("class", "context")
+					    .attr("transform", "translate(" + margin2.left + "," + margin2.top + ")");
+
+					  x.domain(d3.extent(scope.data.map(function(d) { return d.date; })));
+					  y.domain([0, d3.max(scope.data.map(function(d) { return d[attrs.ylabel]; }))]);
+					  x2.domain(x.domain());
+					  y2.domain(y.domain());
+
+					  focus.append("path")
+				      .datum(scope.data)
 				      .attr("class", "area")
 				      .attr("d", area);
 
-				  focus.append("g")
+				  	focus.append("g")
 				      .attr("class", "x axis")
-				      .attr("transform", "translate(0," + height + ")")
+				      .attr("transform", "translate(0," + height1 + ")")
 				      .call(xAxis);
 
-				  focus.append("g")
+				  	focus.append("g")
 				      .attr("class", "y axis")
 				      .call(yAxis);
 
-				  context.append("path")
-				      .datum(data)
+				  	context.append("path")
+				      .datum(scope.data)
 				      .attr("class", "area")
 				      .attr("d", area2);
 
-				  context.append("g")
+				  	context.append("g")
 				      .attr("class", "x axis")
 				      .attr("transform", "translate(0," + height2 + ")")
 				      .call(xAxis2);
 
-				  context.append("g")
-				      .attr("class", "x brush")
-				      .call(brush)
-				    .selectAll("rect")
-				      .attr("y", -6)
-				      .attr("height", height2 + 7);
+				  	context.append("g")
+			      	.attr("class", "x brush")
+			      	.call(brush)
+			    		.selectAll("rect")
+				      	.attr("y", -6)
+				      	.attr("height", height1 + 7);
+
+				    function brushed() {
+						  x.domain(brush.empty() ? x2.domain() : brush.extent());
+						  focus.select(".area").attr("d", area);
+						  focus.select(".x.axis").call(xAxis);
+						}
+
+						function type(d) {
+						  d.date = parseDate(d.date);
+						  d[attrs.ylabel] = +d[attrs.ylabel];
+						  return d;
+						}
+					};
 				});
-
-				function brushed() {
-				  x.domain(brush.empty() ? x2.domain() : brush.extent());
-				  focus.select(".area").attr("d", area);
-				  focus.select(".x.axis").call(xAxis);
-				}
-
-				function type(d) {
-				  d.date = parseDate(d.date);
-				  d.price = +d.price;
-				  return d;
-				}
 			}
 		}
-	}]);	
+	}])
+	.directive("d3MultiLineBrusher", ["d3Service", "$window", function(d3Service, $window) {
+		return {
+			restrict: "E",
+			scope: {
+				dateFormat: "@",
+				ylabel: "@",
+				data: "=",
+				height: "@",
+				onClick: "&"
+			},
+			template: " \
+				<style> \
+					\
+					body { \
+					  font: 10px sans-serif; \
+					} \
+					\
+					.axis path, \
+					.axis line { \
+					  fill: none; \
+					  stroke: #000; \
+					  shape-rendering: crispEdges; \
+					} \
+					\
+					.x.axis path { \
+					  display: none; \
+					} \
+					\
+					.line { \
+					  fill: none; \
+					  stroke: steelblue; \
+					  stroke-width: 1.5px; \
+					} \
+					\
+					</style> \
+					\
+			",
+			link: function(scope, element, attrs) {
+				d3Service.d3().then(function(d3) {
+
+					var height = parseInt(attrs.height) || 500,
+						dateFormat = dateFormat || "%Y%m%d";
+
+					window.onresize = function() {
+							scope.$apply();
+					};
+
+					scope.$watch(function() {
+						return angular.element($window)[0].innerWidth;
+					}, function() {
+						scope.render(scope.data);
+					});
+
+					var svg = d3.select(element[0])
+						.append("svg")
+						.style('width', '100%')
+						.attr("height", height)
+
+					/* RENDER START */
+					scope.render = function(data) {
+						if (!data) return;
+
+						svg.selectAll("*").remove();
+
+						// Set up all the sizes
+						var margin1 = {top: 10, right: 10, bottom: (0.3 * height), left: 40},
+							margin2 = {top: (0.8 * height), right: 10, bottom: 20, left: 40},
+							width = d3.select(element[0]).node().offsetWidth - margin1.left - margin1.right,
+							height1 = height - margin1.top - margin1.bottom,
+							height2 = height - margin2.top - margin2.bottom;
+
+
+					}
+					/* RENDER END */
+				});
+			}
+		}
+	}])
