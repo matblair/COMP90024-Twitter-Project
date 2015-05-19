@@ -70,8 +70,7 @@ Language is a two character language code, i.e. "en","ch","gb"
 ```json
 {
     "topic": "ALSKDJASL",
-    "popularity":"1000",
-    "sentiment":"0.9",
+    "polarity":"0.9",
     "subjectivity":"0.4",
     "most_popular_language":"gb",
     "least_popular_language":"en",
@@ -96,7 +95,7 @@ GET /topics/:topic/trend
    "date_range":{
       "start_date":"21/01/2015",
       "end_date":"02/03/2015"
-    }
+    },
     "granularity":"level"
 }
 ```
@@ -121,13 +120,13 @@ Language is a two character language code, i.e. "en","ch","gb"
 {
     "topic": "ALSKDJASL",
     "trend":"stable",
-    "sentiment":"0.9",
     "time_periods":[
       {
         "start":"21/01/2015",
         "end":"21/02/2015",
-        "popularity":"100",
-        "trend":"stable"
+        "count":"100",
+        "polarity": 0.9,
+        "subjectivity": 0.2
       }
     ]
 }
