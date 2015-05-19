@@ -1,14 +1,17 @@
-# userTimelineScraper.py
-# ~Jun Min (542339)
-import sys
+from multiprocessing import Pool
+import multiprocessing
+
 import tweepy
 import json
 import time
+import math
+import sys
 
 from config import Config
 from utils.geoTool import BoundingBox
 from utils.geoTool import isInBox
 from utils.argParser import ArgParser
+
 
 class UserTimelineScraper:
 
@@ -23,12 +26,14 @@ class UserTimelineScraper:
         self.categories = categories
         self.bb = bounding_box
 
+        self.api = tweepy.API(auth)
+
     def scrape_timeline(self):
 
         if self.min_id == -1:
-            tweets = api.user_timeline(self.user_id, count=200)
+            tweets = self.api.user_timeline(self.user_id, count=200)
         else:
-            tweets = api.user_timeline(self.user_id,\
+            tweets = self.api.user_timeline(self.user_id,\
                     max_id=self.min_id, count=200)
 
         # Count
@@ -50,7 +55,7 @@ class UserTimelineScraper:
                 
                 # Write to file
                 if self.f:
-                    f.write(json.dumps(json_dict) + '\n')
+                    self.f.write(json.dumps(json_dict) + '\n')
 
         if current_search_count == 0:
             # No more to search, return False
@@ -62,35 +67,25 @@ class UserTimelineScraper:
     def update_min_id(self, tweet_id):
         if (self.min_id == -1) or (tweet_id < self.min_id):
             self.min_id = tweet_id - 1 # Reduce redundancy
-
-# Main
-if __name__ == '__main__':
-
-    # Arg Parsing
-    ap = ArgParser()
-    args = ap.getArgs()
+ 
+def scrape_timeline(input_file, output_file, api_token):
+    """worker function"""
+    print('Args', input_file, output_file, api_token)
 
     # Dump File
-    if (args.dump):
-        f = open(args.dump, 'a+')
+    if output_file != None:
+        f = open(output_file, 'a+')
     else:
         f = None
+    
+    # Open Input split file
+    i = open(input_file, 'r')
 
-    # Input File (for user_ids)
-    if (args.input):
-        i = open(args.input, 'r')
-    else:
-        sys.exit("No input file given")
-
-    # Tweepy
-    auth = tweepy.auth.AppAuthHandler(Config.consumer_key,\
-            Config.consumer_secret)
-    api = tweepy.API(auth)
+    # Authentication
+    auth = tweepy.auth.AppAuthHandler(api_token['key'], api_token['secret'])
 
     # Analysis stuff
     categories = None
-
-    #user_ids = ["BarackObama", "Pheo"] 
 
     break_loop = False
 
@@ -99,14 +94,15 @@ if __name__ == '__main__':
 
     for user_id in i:
 
-        print("Scraping User",user_id)
+        print("Scraping User (",input_file ,")" ,user_id)
         uts = UserTimelineScraper(auth, f, user_id, bounding_box, categories)
         
         # Keep looping until timeline scraped
         while True:
             try:
                 status = uts.scrape_timeline()
-                print(uts.valid_tweets,"/",uts.count)
+                print("Dumped (",output_file ,")",\
+                        uts.valid_tweets,"/",uts.count)
 
                 if status == False:
                    # No new tweets found, break
@@ -122,3 +118,69 @@ if __name__ == '__main__':
 
         if break_loop:
             break
+
+def split_file_name(num, name):
+    return str(name) + '.split.' + format(num, '03d')
+
+def split_output_file_name(num, name):
+    return str(name) + '.output.' + format(num, '03d')
+
+def split_file(split_count, input_file, output_file):
+    '''Splits input file into multiple output files'''
+
+    len_input = sum(1 for line in open(input_file))
+    num_lines = math.ceil(len_input / split_count)
+
+    # Input file to be split
+    f = open(input_file, 'r')
+
+    count = 0   # Line Count
+    at = 0      # Current split file count
+    split_output_file = None
+
+    for line in f:
+        # Close current file
+        if count % num_lines == 0:
+            if split_output_file:
+                split_output_file.close()
+            split_output_file = open(split_file_name(at, input_file), 'w')
+            at += 1
+        split_output_file.write(line)
+        count += 1
+
+    # Split done, close input file
+    f.close()
+
+if __name__ == '__main__':
+
+    ap = ArgParser()
+    args = ap.getArgs()
+
+    # Main Input File
+    if (args.input):
+        pass
+    else:
+        sys.exit("No input file given")
+
+    # Count tokens in Config
+    num_keys = len(Config.api_tokens)
+
+    # Split input_file
+    split_file(num_keys, args.input, args.dump)
+
+    for i in range(num_keys):
+        # Assign a different token to each process
+        input_file = split_file_name(i, args.input)
+
+        # Check if have dumpfile
+        if (args.dump):
+            output_file = split_output_file_name(i, args.dump)
+        else:
+            output_file = None
+
+        process = multiprocessing\
+                .Process(target=scrape_timeline,\
+                args=(input_file,\
+                output_file,\
+                Config.api_tokens[i],))
+        process.start()
