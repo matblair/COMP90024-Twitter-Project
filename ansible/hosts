@@ -6,3 +6,6 @@
 
 [streamer_scraper_servers]
 144.6.227.63
+
+[db_servers]
+144.6.227.63

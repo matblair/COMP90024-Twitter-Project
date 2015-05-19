@@ -1,8 +1,9 @@
 - hosts: db_servers
   remote_user: ubuntu
-  # sudo: yes
+  sudo: yes
   roles:
-    - rails
-    - couch
+    # - rails
+    - common
+    # - couch
     - neo4j
-    - graph_api
+    # - graph_api
