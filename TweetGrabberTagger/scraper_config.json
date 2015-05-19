@@ -1,18 +1,26 @@
 {
-    "consumer_key": "dfasfadsfdsaf",
-    "consumer_secret": "adsfadsfadsf",
+    "consumer_key": "",
+    "consumer_secret": "",
 
-    "access_token": "adsfadsfasdfasd",
-    "access_token_secret": "adfadfasdfdsa",
+    "access_token": "",
+    "access_token_secret": "",
 
     "api_tokens": [
             {
-                "key": "asdfdasfadsfs",
-                "secret": "asdfdasfafas"
+                "key": "esfbRz6gUhGyckd2t7K7BLQeW",
+                "secret": "A7GyPaNmpJsKgXXgR2qIgNCRhPN1KCvb0qJ3YfImPqHNevhTwx"
             },
             {
-                "key": "asdfasfdasf",
-                "secret": "asdfasdfasfads"
+                "key": "9lw8QLwJiIbIRKJzUXiJRIPQI",
+                "secret": "CSW7UdH1gzDD1oZzkaTIQtmvfeaQ7ChQg2tr9Q0BrPWroDaQAP"
+            },
+            {
+                "key": "4JW3TuIzXr3XcmKXS9nb6yrnT",
+                "secret": "WihA2SaA4iwPNA2WlgzGmJsPVYHitBws3ewO5K2fkbA1teUIzd"
+            },
+            {
+                "key": "UAEbw7pMQofVDGfAb4aLlaJbF",
+                "secret": "lHACnajLLF3JiIx6oH5YHfGZCb8YThxN0Q8Mv8wWFtm8GGUR5w"
             }
     ],
 
@@ -20,6 +28,6 @@
     "latitude": 29.424122,
 
     "location": "San Antonio",
-    
+
     "search_radius": 100
 }

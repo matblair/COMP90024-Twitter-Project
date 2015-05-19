@@ -1,18 +1,18 @@
 {
-    "consumer_key": "dfasfadsfdsaf",
-    "consumer_secret": "adsfadsfadsf",
+    "consumer_key": "esfbRz6gUhGyckd2t7K7BLQeW",
+    "consumer_secret": "A7GyPaNmpJsKgXXgR2qIgNCRhPN1KCvb0qJ3YfImPqHNevhTwx",
 
-    "access_token": "adsfadsfasdfasd",
-    "access_token_secret": "adfadfasdfdsa",
+    "access_token": "2362162429-GYwJY4gknR5Gj6JHs9aSlP7hax8k3Z0fXK8PVwE",
+    "access_token_secret": "4kWkv1Yqpst0o7V7QaYMiusFZppAyCtOXg06AJ693o1WZ",
 
     "api_tokens": [
             {
-                "key": "asdfdasfadsfs",
-                "secret": "asdfdasfafas"
+                "key": "d5G06lkn62j2ZbYFRKZRTHjdJ",
+                "secret": "gsNN8JRcM9t9fCAuJvHBcqMTetBN0elLF5dcEfIihRjExz9zYR"
             },
             {
-                "key": "asdfasfdasf",
-                "secret": "asdfasdfasfads"
+                "key": "WR5eLoIeRW539Ao429Ao2ZRYA",
+                "secret": "mHRfs2B2G9in72cSxtQjQeNpM6sTzDBprr7aJbWeGEIAGEGOiY"
             }
     ],
 
@@ -20,6 +20,6 @@
     "latitude": 29.424122,
 
     "location": "San Antonio",
-    
+
     "search_radius": 100
 }
