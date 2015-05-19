@@ -12,6 +12,7 @@ from utils.geoTool import BoundingBox
 from utils.geoTool import isInBox
 from utils.argParser import ArgParser
 
+from utils.apiClient import APIClient
 
 class UserTimelineScraper:
 
@@ -19,14 +20,17 @@ class UserTimelineScraper:
     valid_tweets = 0
     count = 0
 
-    def __init__(self, auth, f, user_id, bounding_box, categories):
+    def __init__(self, auth, f, ip, port, user_id, bounding_box, categories):
         self.auth = auth
         self.f = f
+        self.ip = ip
+        self.port = port
         self.user_id = user_id
         self.categories = categories
         self.bb = bounding_box
 
         self.api = tweepy.API(auth)
+        self.apiclient = APIClient(self.ip, self.port)
 
     def scrape_timeline(self):
 
@@ -39,6 +43,9 @@ class UserTimelineScraper:
         # Count
         current_search_count = len(tweets)
         self.count = self.count + current_search_count
+
+        # tweet_array for bulk API send
+        tweet_array = []
 
         for tweet in tweets:
             json_dict = tweet._json
@@ -57,6 +64,18 @@ class UserTimelineScraper:
                 if self.f:
                     self.f.write(json.dumps(json_dict) + '\n')
 
+                # Send to API
+                if self.ip:
+                    tweet_array.append(json_dict)
+
+        # Send to API
+        if self.ip:
+            try:
+                status = self.apiclient.postApiTweetsSubmit(tweet_array)
+                print("Status",status)
+            except:
+                print("ERROR: API Error")
+
         if current_search_count == 0:
             # No more to search, return False
             return False
@@ -68,7 +87,7 @@ class UserTimelineScraper:
         if (self.min_id == -1) or (tweet_id < self.min_id):
             self.min_id = tweet_id - 1 # Reduce redundancy
  
-def scrape_timeline(input_file, output_file, api_token):
+def scrape_timeline(input_file, output_file, api_token, ip, port):
     """worker function"""
     print('Args', input_file, output_file, api_token)
 
@@ -95,7 +114,8 @@ def scrape_timeline(input_file, output_file, api_token):
     for user_id in i:
 
         print("Scraping User (",input_file ,")" ,user_id)
-        uts = UserTimelineScraper(auth, f, user_id, bounding_box, categories)
+        uts = UserTimelineScraper(auth, f, ip, port,\
+                user_id, bounding_box, categories)
         
         # Keep looping until timeline scraped
         while True:
@@ -182,5 +202,6 @@ if __name__ == '__main__':
                 .Process(target=scrape_timeline,\
                 args=(input_file,\
                 output_file,\
-                Config.api_tokens[i],))
+                Config.api_tokens[i],
+                args.ip, args.port,))
         process.start()
