@@ -1,6 +1,7 @@
 # argParser.py
 # ~Jun Min (542339)
 
+import os
 import argparse
 
 class ArgParser:
@@ -23,6 +24,12 @@ class ArgParser:
 
         # Input file
         parser.add_argument('--input')
+
+        # Config file
+        config_json_path = \
+                os.path.join(os.path.dirname(__file__), '..', 'config.json')
+
+        parser.add_argument('--config', default=config_json_path)
 
         args = parser.parse_args()
 

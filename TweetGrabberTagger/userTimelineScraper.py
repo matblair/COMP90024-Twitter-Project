@@ -7,11 +7,10 @@ import time
 import math
 import sys
 
-from config import Config
 from utils.geoTool import BoundingBox
 from utils.geoTool import isInBox
 from utils.argParser import ArgParser
-
+from utils.configParser import ConfigParser
 from utils.apiClient import APIClient
 
 class UserTimelineScraper:
@@ -87,7 +86,8 @@ class UserTimelineScraper:
         if (self.min_id == -1) or (tweet_id < self.min_id):
             self.min_id = tweet_id - 1 # Reduce redundancy
  
-def scrape_timeline(input_file, output_file, api_token, ip, port):
+def scrape_timeline(input_file, output_file, api_token, ip, port,\
+        longitude, latitude, search_radius):
     """worker function"""
     print('Args', input_file, output_file, api_token)
 
@@ -108,8 +108,8 @@ def scrape_timeline(input_file, output_file, api_token, ip, port):
 
     break_loop = False
 
-    bounding_box = BoundingBox(Config.longitude,\
-            Config.latitude, Config.search_radius)
+    bounding_box = BoundingBox(longitude,\
+            latitude, search_radius)
 
     for user_id in i:
 
@@ -182,8 +182,11 @@ if __name__ == '__main__':
     else:
         sys.exit("No input file given")
 
+    # Config Parsing
+    Config = ConfigParser(args.config).getConfig()
+
     # Count tokens in Config
-    num_keys = len(Config.api_tokens)
+    num_keys = len(Config['api_tokens'])
 
     # Split input_file
     split_file(num_keys, args.input, args.dump)
@@ -202,6 +205,8 @@ if __name__ == '__main__':
                 .Process(target=scrape_timeline,\
                 args=(input_file,\
                 output_file,\
-                Config.api_tokens[i],
-                args.ip, args.port,))
+                Config['api_tokens'][i],\
+                args.ip, args.port,\
+                Config['longitude'], Config['latitude'],\
+                Config['search_radius'],))
         process.start()

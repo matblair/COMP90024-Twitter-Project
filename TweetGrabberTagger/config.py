@@ -12,10 +12,10 @@ class Config:
 
     # List of API Tokens (Needed for userTimelineScraper)
     api_tokens=[
-            { "key": "key1",\
-            "secret": "secret1" },\
-            { "key": "key2",\
-            "secret": "secret2" }] 
+            { "key": "",\
+            "secret": "" },\
+            { "key": "",\
+            "secret": "" }] 
 
     # Latitude / Longitude
     longitude = -98.493629

@@ -5,12 +5,11 @@ from tweepy import OAuthHandler
 from tweepy import Stream
 
 import json
-from config import Config
 from tagger.tweetTagger import tweetTagger
 from data.categoryParser import CategoryParser
 from utils.argParser import ArgParser
 from utils.geoTool import BoundingBox
-
+from utils.configParser import ConfigParser
 from utils.apiClient import APIClient
 
 class TweetAnalysisListener(StreamListener):
@@ -80,15 +79,18 @@ if __name__ == '__main__':
     else:
         f = None
 
+    # Config Parsing
+    Config = ConfigParser(args.config).getConfig()
+
     # Bounding Box
-    bounding_box = BoundingBox(Config.longitude,
-            Config.latitude, Config.search_radius)
+    bounding_box = BoundingBox(Config['longitude'],
+            Config['latitude'], Config['search_radius'])
     print("Boundary:",bounding_box)
 
 
     tal = TweetAnalysisListener(f, args.ip, args.port)
-    auth = OAuthHandler(Config.consumer_key, Config.consumer_secret)
-    auth.set_access_token(Config.access_token, Config.access_token_secret)
+    auth = OAuthHandler(Config['consumer_key'], Config['consumer_secret'])
+    auth.set_access_token(Config['access_token'], Config['access_token_secret'])
 
     stream = Stream(auth, tal)
     stream.filter(locations=bounding_box)
