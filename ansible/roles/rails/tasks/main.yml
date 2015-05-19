@@ -1,0 +1,27 @@
+- name: Install RVM
+  shell: curl -L get.rvm.io | bash -s stable
+
+- name: Install Ruby
+  shell: >
+    executable=/bin/bash source /etc/profile.d/rvm.sh;
+    rvm install {{ruby_version}}
+
+- name: Set default ruby version
+  shell: >
+    executable=/bin/bash source /etc/profile.d/rvm.sh;
+    rvm --default use {{ruby_version}}
+
+- name: Gem install thin
+  gem: name=thin
+
+- name: something
+  command: "{{rvm_path}} @global do gem install thin"
+
+- name: Setup init.d for thin
+  command: "{{rvmsudo_path}} {{thin_path}} install"
+
+- name: Install nodejs
+  apt: name=nodejs
+
+- name: something
+  command: "{{rvmsudo_path}} {{rvm_path}} @global do gem install --user-install executable-hooks"

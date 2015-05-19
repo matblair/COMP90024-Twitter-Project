@@ -1,0 +1,13 @@
+- hosts: analysis_api_servers
+  remote_user: ubuntu
+  sudo: yes
+  roles:
+    - common
+    # - role: rvm_io.rvm1-ruby
+    #   tags: ruby
+    #   sudo: True
+    #   rvm1_rubies: 
+    #     - 'ruby-2.1.5'
+    - rails
+      # force: yes
+    - analysis_api

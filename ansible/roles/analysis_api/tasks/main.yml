@@ -1,0 +1,26 @@
+- name: update code
+  git: repo=git://github.com/matblair/COMP90024-Analysis-Api.git
+       dest=/webapps/analysis_api
+       force=yes
+       accept_hostkey=yes
+
+- name: change repo folder owner to ubuntu
+  command: chown ubuntu /webapps/analysis_api
+
+- name: fix thin permissions
+  shell: chmod 775 /etc/thin
+
+- name: setup thin config
+  shell: /usr/local/rvm/bin/rvmsudo /usr/local/rvm/gems/ruby-2.1.5/wrappers/thin config -C /etc/thin/analysis_api.yml -c /webapps/analysis_api/current -p 4500 -d
+
+# - name: make sure thin is stopped
+#   shell: "cd /webapps/analysis_api && /usr/local/rvm/gems/ruby-2.1.5/wrappers/thin stop"
+
+- name: start thin service
+  shell: service thin start
+  sudo: no
+  register: hello
+
+- debug: msg="{{ hello.stdout }}"
+
+- debug: msg="{{ hello.stderr }}"

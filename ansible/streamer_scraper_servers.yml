@@ -1,0 +1,5 @@
+- hosts: streamer_scraper_servers
+  roles:
+    - python3
+    - streamer
+    - scraper

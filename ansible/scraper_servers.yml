@@ -1,0 +1,4 @@
+- hosts: scraper_servers
+  roles:
+    - python3
+    - scraper
