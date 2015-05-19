@@ -7,6 +7,9 @@ import time
 import math
 import sys
 
+from tagger.tweetTagger import tweetTagger
+from data.categoryParser import CategoryParser
+
 from utils.geoTool import BoundingBox
 from utils.geoTool import isInBox
 from utils.argParser import ArgParser
@@ -14,7 +17,7 @@ from utils.configParser import ConfigParser
 from utils.apiClient import APIClient
 
 class UserTimelineScraper:
-    def __init__(self, auth, f, ip, port, user_id, bounding_box, categories):
+    def __init__(self, auth, f, ip, port, user_id, bounding_box):
 
         self.min_id = -1
         self.valid_tweets = 0
@@ -25,11 +28,12 @@ class UserTimelineScraper:
         self.ip = ip
         self.port = port
         self.user_id = user_id
-        self.categories = categories
         self.bb = bounding_box
 
         self.api = tweepy.API(auth)
         self.apiclient = APIClient(self.ip, self.port)
+
+        self.categories = CategoryParser()
 
     def scrape_timeline(self):
 
@@ -51,13 +55,15 @@ class UserTimelineScraper:
 
             self.update_min_id(json_dict['id'])
 
-            # Make sure tweet in relevant location
-
             if json_dict["coordinates"] != None and\
                 isInBox(json_dict["coordinates"]["coordinates"][0],
                             json_dict["coordinates"]["coordinates"][1],
                             self.bb[0], self.bb[1], self.bb[2], self.bb[3]):
                 self.valid_tweets = self.valid_tweets + 1
+
+                # Tagging
+                tagged_tweet = tweetTagger(json_dict, self.categories)
+                dict_tagged_tweet = tagged_tweet.getTaggedTweet()
                 
                 # Write to file
                 if self.f:
@@ -65,7 +71,7 @@ class UserTimelineScraper:
 
                 # Send to API
                 if self.ip:
-                    tweet_array.append(json_dict)
+                    tweet_array.append(dict_tagged_tweet)
 
         # Send to API
         if self.ip:
@@ -103,9 +109,6 @@ def scrape_timeline(input_file, output_file, api_token, ip, port,\
     # Authentication
     auth = tweepy.auth.AppAuthHandler(api_token['key'], api_token['secret'])
 
-    # Analysis stuff
-    categories = None
-
     break_loop = False
 
     bounding_box = BoundingBox(longitude,\
@@ -115,7 +118,7 @@ def scrape_timeline(input_file, output_file, api_token, ip, port,\
 
         print("Scraping User (",input_file ,")" ,user_id)
         uts = UserTimelineScraper(auth, f, ip, port,\
-                user_id, bounding_box, categories)
+                user_id, bounding_box)
         
         # Keep looping until timeline scraped
         while True:
