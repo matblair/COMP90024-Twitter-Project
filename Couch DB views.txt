@@ -65,8 +65,8 @@ View : users
 		 
 	
 
-3. GET /locations
-4. GET /location/sentiment
+4. GET /locations
+5. GET /location/sentiment
 
 Design Document : location
 
@@ -102,8 +102,8 @@ View : loc_sentiment
 		
 			
 			
-5. GET /hashtags/stats/:tag
-6. GET /hashtags/trending
+6. GET /hashtags/stats/:tag
+7. GET /hashtags/trending
 
 Design Document : hashtag
 
@@ -131,5 +131,57 @@ View : stat
 	
 	View sentiment for unemployment in english democrats between latitude 29 and 30, and longitude -99 and -100 .
 	
-		/tweets/_design/hashtag/_view/users?startkey=["unemployment","democrat","en",29,-99]&endkey=["unemployment","democrat","en",30,-100,{},{},{},{},{}]
+		/tweets/_design/hashtag/_view/stat?startkey=["unemployment","democrat","en",29,-99]&endkey=["unemployment","democrat","en",30,-100,{},{},{},{},{}]
+
+
+8. GET /emoji/general 
+9. GET /emoji/happiness/locations
+
+Design Document : emojis
+
+View : general
+
+	Keys : [  emoji_sentiment, political_leaning, language, year, month, day, hour, minute, latitude, longitude ]
+
+		 emoji_sentiment : "happy", "neutral", "sad"	
+	
+	Returns : [ count, subjectivity, polarity ]
+
+	Query Examples :
+	
+	View count of all happy democrats
+	
+		/tweets/_design/emojis/_view/general?startkey=["happy","democrat"]&endkey=["sad","democrat",{},{},{},{},{},{},{},{}]
+		
+View : happiness
+
+	Keys : [  'happiness', political_leaning, language, year, month, day, hour, minute, latitude, longitude ]
+
+		 emoji_sentiment : "happy", "neutral", "sad"	
+	
+	Returns : [ count ]
+
+	Query Examples :
+	
+	View the happiness level of english speaking democrats in 2014 and 2015
+	
+		/tweets/_design/emojis/_view/happiness?startkey=["happiness","democrat","en",2014]&endkey=["happiness","democrat","en",2015,{},{},{},{},{},{}]&group=true&group_level=4
+		
+		
+   GET /users/:user
+   
+   Design Document : users
+
+View : basic_info
+
+	Keys : [  'User', User_screen_name, User_id ]
+
+	Returns : [ language, statuses_count, followers_count, friends_count ]
+
+	Query Examples :
+	
+	View basic information about user with screen name "xyz"
+	
+		/twitter_users/_design/users/_view/basic_info?startkey=["User","xyz"]&endkey=["User","xyz",{}]
+		
  
