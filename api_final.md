@@ -19,7 +19,6 @@ GET /topics/:topic
     "deomographic_markers":{
         "politcal_leaning":"",
         "language":"",
-        "visitor":true
     },
     "date_range":{
       "start_date":"21/01/2015",
@@ -59,7 +58,6 @@ GET /topics/:topic/trend
     "deomographic_markers":{
         "politcal_leaning":"",
         "language":"",
-        "visitor":true
     },
    "date_range":{
       "start_date":"21/01/2015",
@@ -141,7 +139,6 @@ GET /topics/:topic/extremes
             "politcal_leaning":"",
             "languages":["",""],
             "prefered_languge":"en",
-            "visitor":true
         }
       },
     "greatest_detract":{
@@ -177,7 +174,6 @@ GET /locations
     "deomographic_markers":{
         "politcal_leaning":"",
         "language":"",
-        "visitor":true
     },
     "period":"1:00pm - 2:00pm" //(optional)
 }
@@ -233,7 +229,6 @@ GET /location/sentiment
     "deomographic_markers":{
         "politcal_leaning":"",
         "language":"",
-        "visitor":true
     }
     "location"[{"lat":"123","long":"123"},{"lat":"23","long":"123"}]
 }
@@ -280,7 +275,6 @@ GET /hashtags/stats/:tag
     "deomographic_markers":{
         "politcal_leaning":"",
         "language":"",
-        "visitor":true
     }
 }
 ```
@@ -317,7 +311,6 @@ GET /hashtags/trending
     "deomographic_markers":{
         "politcal_leaning":"",
         "language":"",
-        "visitor":true
     },
     "mood":"happy"
 }
@@ -399,7 +392,6 @@ GET /users/:user_id
         "politcal_leaning":"",
         "languages":["",""],
         "prefered_languge":"en",
-        "visitor":true
     }
 }
 ```
