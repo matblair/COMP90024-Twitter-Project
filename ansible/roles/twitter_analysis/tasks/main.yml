@@ -16,4 +16,4 @@
        dest=/twitteranalysis/
        force=yes
        accept_hostkey=yes
-       version=a60c0081ce6cee9cce42bbb4fd0c47285630d4f5
+       version=178fc7e5046e8cc7dedf73d6937721e4f76cd3a7

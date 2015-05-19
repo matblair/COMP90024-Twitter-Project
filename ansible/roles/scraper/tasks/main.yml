@@ -1,4 +1,12 @@
-- name: Run streamer
-  command: "python3 userTimelineScraper.py --ip localhost --port 4500 --input user_list.txt --config {{twitterConfig}}"
-  args:
-    chdir: /twitteranalysis/TweetGrabberTagger
+- name: Add twistd init.d daemon script
+  template: src=../common/templates/init.d-template.j2 dest=/etc/init.d/myd mode=0751
+  
+- name: Ensure my daemon myd is started
+  service: name=myd state=started
+
+# - name: Run scraper(s)
+#   shell: "python3 userTimelineScraper.py --ip localhost --port 4500 --input user_list.txt --config {{twitterConfig}}"
+#   # async: 1000
+#   # poll: 10
+#   args:
+#     chdir: /twitteranalysis/TweetGrabberTagger/
