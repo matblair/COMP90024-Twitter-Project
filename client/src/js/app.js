@@ -40,14 +40,17 @@ app.config(['$stateProvider', '$urlRouterProvider', 'uiGmapGoogleMapApiProvider'
 		})
 		.state('hashtags', {
 			url: "/hashtag",
-			templateUrl: "partials/hashtag.html"
+			controller: "HashtagController",
+			templateUrl: "partials/hashtags.html"
 		})
 		.state('social', {
 			url: "/social-network",
-			templateUrl: "partials/social-network.html"
+			controller: "SocialController",
+			templateUrl: "partials/social.html"
 		})
 		.state('emoji', {
 			url: "/emoji",
+			controller: "EmojiController",
 			templateUrl: "partials/emoji.html"
 		})
 		.state('main', {
