@@ -1,5 +1,5 @@
 #Cluster and Cloud Computing - Assignment 2
-##Global Twittering
+##Global Twittering - Analysis API
 
 ###Members:
 - Ed Crupi - 538156 - crupie@unimelb.edu.au
@@ -23,7 +23,7 @@ sudo apt-get install curl
 sudo apt-get install python-swiftclient
 
 ###Related Applications
-These related applications are required for deployment of this system as a whole. They are kept in seperate repos for ease of development and deployment.
+These related applications are required for deployment of this system as a whole. They are kept in separate repos for ease of development and deployment.
 
 - [Analysis API](https://github.com/matblair/COMP90024-Analysis-Api)
 - [Graph API](https://github.com/matblair/COMP90024-Graph-API)
