@@ -13,5 +13,8 @@
 - name: install neo4j
   apt: name=neo4j
 
+- name: Update config
+  template: src=../templates/neo4j-server.properties-template.j2 dest=/var/lib/neo4j/neo4j-server.properties mode=0751
+
 - name: Ensure neo4j is started
   service: name=neo4j-service state=started
