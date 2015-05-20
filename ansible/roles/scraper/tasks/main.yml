@@ -1,0 +1,5 @@
+- name: Add scraper init.d daemon script
+  template: src=../../common/templates/init.d-template.j2 dest=/etc/init.d/scraper mode=0751
+
+- name: Ensure scraper daemon is started
+  service: name=scraper state=started

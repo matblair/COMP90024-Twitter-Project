@@ -1,0 +1,18 @@
+- name: Install CouchDB
+  apt: name=couchdb
+
+- name: Update config
+  template: src=../templates/local-template.j2 dest=/etc/couchdb/local.ini mode=0751
+
+- name: Stop couchdb
+  command: couchdb -d
+
+- name: Setup PID folder
+  shell: "{{item}}"
+  with_items:
+    - mkdir -p /var/run/couchdb
+    - chown -R couchdb:couchdb /var/run/couchdb
+    - chmod 777 /var/run/couchdb
+
+- name: Start couchdb
+  command: couchdb -b

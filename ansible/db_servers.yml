@@ -1,0 +1,9 @@
+- hosts: db_servers
+  remote_user: ubuntu
+  sudo: yes
+  roles:
+    - common
+    - couch
+    - neo4j
+    - ruby
+    - { role: rails, repo: github.com/matblair/COMP90024-Graph-API, name: graph_api}
