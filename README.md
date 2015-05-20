@@ -21,3 +21,9 @@ sudo apt-get update
 sudo apt-get install couchdb
 sudo apt-get install curl
 sudo apt-get install python-swiftclient
+
+#Related Applications
+These related applications are required for deployment of this system as a whole. They are kept in seperate repos for ease of development and deployment.
+
+- [Analysis API](https://github.com/matblair/COMP90024-Analysis-Api)
+- [Graph API](https://github.com/matblair/COMP90024-Graph-API)
