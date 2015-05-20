@@ -9,15 +9,12 @@
 - Jun Min - 542339 - jmcheong@student.unimelb.edu.au
 - Renlord - 541368 - rnyang@student.unimelb.edu.au
 
-#TODO:
-
-- Update contact details
-
 #IP Address List (username is `ubuntu`)
-144.6.226.193
-144.6.227.63
-144.6.227.64
-144.6.227.66
+
+- 144.6.226.193 (Streaming/Scraping)
+- 144.6.227.63 (Analysis API)
+- 144.6.227.64 (Streaming/Scraping)
+- 144.6.227.66 (Graph API, Neo4j and Couchdb)
 
 #Used Commands (for Ansible playbook)
 sudo apt-get update

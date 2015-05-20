@@ -1,13 +1,14 @@
-Couch DB Map-Reduce views
+# Couch DB Map-Reduce views
+This document aims to explain how to use the couchdb api to retrieve data from the database.
+
+## TOPICS
 
 1. GET /topics/:topic
 2. GET /topics/:topic/trend
 3. GET /topics/:topic/extremes
 
-Design Document : topic
-
-
-View : analysis (analysis of topic)
+### Design Document : topic
+#### View -  Analysis (analysis of topic)
 
 	Keys : [ "topic", political_leaning, language, year, month, day, hour, minute ]
 	
