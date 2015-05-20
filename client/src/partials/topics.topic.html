@@ -58,24 +58,6 @@
 	</div>
 </div>
 
-<!-- Topic Supporters and Detractors -->
-<div class="row">
-	<div class="col-sm-12">
-		<div class="panel panel-default">
-			<div class="panel-heading">
-				<h4> Extreme Supporter and Detractor </h4>
-			</div>
-			<div class="panel-body">
-				<!-- Graph Visualization of Affluence -->
-				<dl>
-					<dt> Supporter vs. Detractor </dt>
-					<dd> We found the user that had tweeted most about this topic postively and compared him/her against the user that had tweeted about this topic negatively.  
-				</dl>
-			</div>
-		</div>	
-	</div>	
-</div>
-
 <!-- Topic mentioned Locations ~ Heatmap -->
 <div class="row">
 	<div class="col-sm-12">
@@ -87,6 +69,18 @@
 				<dl>	
 					<dt> Location Heatmap </dt>
 					<dd> This heatmap highlights where tweets that were associated with this topic is. </dd>
+					 	<ui-gmap-google-map 
+		         center="map.center"
+		         zoom="map.zoom"
+		         dragging="map.dragging"
+		         options="map.options"
+		         pan="false"
+		         control="map.control"
+		       	>
+
+		       	<ui-gmap-layer namespace="visualization" type="HeatmapLayer" show="true" onCreated="map.heatLayerCallback"></ui-gmap-layer>
+
+		       	</ui-gmap-google-map>
 				</dl>
 			</div>
 		</div>

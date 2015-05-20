@@ -6,16 +6,21 @@ app.controller("MainController", ["$scope", "uiGmapGoogleMapApi", function($scop
 		$scope.myInterval = 5000;
 	  var slides = $scope.slides = [];
 	  $scope.addSlide = function() {
-	    var newWidth = 600 + slides.length + 1;
+	  	slides.push({
+	    	image: "http://upload.wikimedia.org/wikipedia/commons/thumb/1/1e/Alamo_pano.jpg/1280px-Alamo_pano.jpg",
+	    	text: "Alamo in San Antonio"
+	    });
 	    slides.push({
-	      image: 'http://placekitten.com/' + newWidth + '/500',
-	      text: ['More','Extra','Lots of','Surplus'][slides.length % 4] + ' ' +
-	        ['Cats', 'Kittys', 'Felines', 'Cutes'][slides.length % 4]
+	      image: "http://upload.wikimedia.org/wikipedia/commons/thumb/b/b4/San_Antonio_Christmas.jpg/600px-San_Antonio_Christmas.jpg",
+	      text: "Downtown San Antonio @ Night"
+	    });
+
+	    slides.push({
+	    	image: "http://upload.wikimedia.org/wikipedia/commons/4/48/Downtown-san-antonio.jpeg",
+	    	text: "Downtown San Antonio @ Daytime"
 	    });
 	  };
-	  for (var i=0; i<4; i++) {
-	    $scope.addSlide();
-	  }
+	  $scope.addSlide()
 
 	  // google maps for San Antonio 
 	  $scope.sa = {
