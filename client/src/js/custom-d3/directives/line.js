@@ -257,28 +257,28 @@ angular.module("d3.line", ["d3"])
 			},
 			template: " \
 				<style> \
-					\
-					body { \
-					  font: 10px sans-serif; \
-					} \
-					\
-					.axis path, \
-					.axis line { \
+					.d3MultiLineBrusher-axis d3MultiLineBrusher-path, \
+					.d3MultiLineBrusher-axis d3MultiLineBrusher-line { \
 					  fill: none; \
 					  stroke: #000; \
 					  shape-rendering: crispEdges; \
 					} \
 					\
-					.x.axis path { \
+					.d3MultiLineBrusher-x.axis d3MultiLineBrusher-path { \
 					  display: none; \
 					} \
 					\
-					.line { \
+					.d3MultiLineBrusher-line { \
 					  fill: none; \
 					  stroke: steelblue; \
 					  stroke-width: 1.5px; \
 					} \
 					\
+					.d3MultiLineBrusher-brush .d3MultiLineBrusher-extent { \
+					  stroke: #fff; \
+					  fill-opacity: .125; \
+					  shape-rendering: crispEdges; \
+					} \
 					</style> \
 					\
 			",
@@ -373,12 +373,12 @@ angular.module("d3.line", ["d3"])
 
 
 					  focus.append("g")
-				      .attr("class", "x axis")
+				      .attr("class", "d3MultiLineBrusher-x axis")
 				      .attr("transform", "translate(0," + height + ")")
 				      .call(xAxis);
 
 				  	focus.append("g")
-				      .attr("class", "y axis")
+				      .attr("class", "d3MultiLineBrusher-y axis")
 				      .call(yAxis)
 				    .append("text")
 				      .attr("transform", "rotate(-90)")
@@ -390,25 +390,25 @@ angular.module("d3.line", ["d3"])
 				 		var category = focus.selectAll(".cat")
 				    	.data(categories)
 				    	.enter().append("g")
-				    		.attr("class", "cat")
+				    		.attr("class", "d3MultiLineBrusher-cat")
 
 				    category.append("path")
-				    	.attr("class", "line")
+				    	.attr("class", "d3MultiLineBrusher-line")
 				      .attr("d", function(d) { return line(d.values); })
 				      .style("stroke", function(d) { return color(d.name); });
 
 				  	context.append("g")
-				      .attr("class", "x axis")
+				      .attr("class", "d3MultiLineBrusher-x axis")
 				      .attr("transform", "translate(0," + height2 + ")")
 				      .call(xAxis2);
 
 				    var category1 = context.selectAll(".cat1")
 				    	.data(categories)
 				    	.enter().append("g")
-				    		.attr("class", "cat1")
+				    		.attr("class", "d3MultiLineBrusher-cat1")
 
 				    category1.append("path")
-				    	.attr("class", "line")
+				    	.attr("class", "d3MultiLineBrusher-line")
 				      .attr("d", function(d) { return line(d.values); })
 				      .style("stroke", function(d) { return color(d.name); });
 
@@ -417,7 +417,7 @@ angular.module("d3.line", ["d3"])
 					    .on("brush", brushed);
 
 				    context.append("g")
-				      .attr("class", "x brush")
+				      .attr("class", "d3MultiLineBrusher-x brush")
 				      .call(brush)
 				    .selectAll("rect")
 				      .attr("y", -6)
@@ -425,11 +425,11 @@ angular.module("d3.line", ["d3"])
 
 				    function brushed() {
 						  x.domain(brush.empty() ? x2.domain() : brush.extent());
-						  focus.selectAll(".cat")
+						  focus.selectAll(".d3MultiLineBrusher-cat")
 						  	.selectAll("path")
 						  	.transition().duration(250)
 						  	.attr("d", function(d) { return line(d.values) });
-						  focus.select(".x.axis")
+						  focus.select(".d3MultiLineBrusher-x.axis")
 						  	.transition().duration(250)
 						  	.call(xAxis);
 						};
