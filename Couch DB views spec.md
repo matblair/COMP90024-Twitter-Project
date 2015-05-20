@@ -104,7 +104,7 @@ For the API calls
 #### View : sentiment
 These are the returned keys and values
 ```
-Keys : [ "location" (unrelated string), latitude, longitude, year, month, day, hour, minute ]
+Keys : [ latitude, longitude, leaning, language, year, month, day, hour, minute ]
 Returns : [ count, subjectivity, polarity ]
 ```
 
@@ -113,13 +113,13 @@ Returns : [ count, subjectivity, polarity ]
 View count of all tweets between latitude 29 to 30 and longitude -98 to -100.
 
 ```
-/tweets/_design/location/_view/sentiment?startkey=["location",29,-98]&endkey=["location",30,-100,{},{},{},{},{}]
+/tweets/_design/location/_view/sentiment?startkey=[29,-98]&endkey=[30,-100,{}]
 ```
 
 View count of all tweets between latitude 29 to 30 and longitude -98 to -100, from 02/05/2015 to 05/05/2015
 
 ```	
-/tweets/_design/location/_view/sentiment?startkey=["location",29,-98,2015,5,2]&endkey=["location",30,-100,2015,5,5,{},{}]
+/tweets/_design/location/_view/sentiment?startkey=[29,-98,"","",2015,5,2]&endkey=[30,-100,"","",2015,5,5,{},{}]
 ```
 
 #### View : loc_sentiment 
