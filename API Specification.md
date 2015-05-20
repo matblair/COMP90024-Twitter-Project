@@ -8,11 +8,9 @@ This API provides an interface through which users can query certain attributes 
   2. [Get Information About Topic Trends](#topic-trends)
   3. [Get Information About Extreme Topic Backers](#topic-extremes)
   4. [Get Information About Topic Locations](#topic-locations)
-  5. [Get Information About Topic Affluence](#topic-affluence)
 2. [Location](#location)
   1. [Get General Information about Locations' Sentiment](#location-general)
   2. [Get information about a particular area](#location-sentiment)
-  3. [Get location of Twitter Users within San Antonio](#location-users)
 3. [Hashtag](#hashtag)
   1. [Return information about a particular hashtag](#hashtag-single)
   2. [Return the ten most popular hashtags](#hashtag-popular)
@@ -23,13 +21,9 @@ This API provides an interface through which users can query certain attributes 
   2. [Ask about a user](#social-user)
   3. [Get Twitter Users for various demographic attributes](#social-demographics)
   4. [Ask about the users particular friends](#social-friends)
-  5. [Ask about the top 10 affluent twitter users in the region](#social-affluence)
-  6. [Ask about outward connectivity of twitter users](#social-outward)
-  7. [Ask about Top 10 Retweeted Tweets](#social-retweet)
 5. [Emoji](#emoji)
   1. [Get general information about emoji usage](#emoji-summary)
   2. [Get emoji heatmap](#emoji-heatmap)
-  3. [Get emoji affluence](#emoji-affluence)
 6. [Tweet Data Structure](#tweet)
 
 ### <a name="topic"></a>Topic Queries
@@ -180,16 +174,6 @@ GET /topics/:topic/extremes
     },
     "maximum_distance":"9",
     "shortest_distance":"3",
-    "shortest_path":{
-      "0":{
-          "user_id":"Name",
-          "name":"mat"
-        },
-        "1":{
-          "user_id":"ASLKD",
-          "name":"john"
-        }
-    }
 }
 ```
 
@@ -204,43 +188,9 @@ List of Points with Sentiment Informations
 [{"geo": {"lat": 12.12321, 
           "lng": 13.12312},
   "polarity": 0.5,
-  "subjectivity": 0.2,
-  "mood": "happy"
+  "subjectivity": 0.2
 }]
 ```
-
-### <a name="topic-affluence"></a>Get Information About Topic Affluence
-```http
-GET /topics/:topic/affluence
-```
-
-#### Output
-```json
-{
-  "insider": {
-    "count": 1283, //counts how many tweets were mentioned within the search radius. 
-    "avg_polarity": 0.5, 
-    "avg_subjectivity": 0.2,
-    "mood": "happy" 
-  },
-  "outsider": {
-    "count": 1000000000,
-    "avg_polarity": -0.2,
-    "avg_subjectivity": 0,
-    "mood": "sad"
-  },
-  "outreach_nodes": {
-    "count": 29, //counts how many insider tweets were retweeted.
-    "avg_spread": 10000, //counts on average how many people retweeted the insider tweet. 
-    "avg_polarity": 1,
-    "avg_subjectivity": 0
-  }
-}
-```
-
-NOTE: Insider refers to users within the search radius, while outsiders refer to users that have been connected via tweets outside the search radius. 
-
----------
 
 ### <a name="location"></a>Location Queries
 ##### <a name="location-general"></a>Get General Information about Locations' Sentiment
@@ -254,17 +204,11 @@ GET /locations
     "date":"21/01/2015",
     "demographic_markers":{
         "politcal_leaning":"",
-        "language":"",
-        "mood": "sad",
+        "language":""
     },
     "period":"1:00pm - 2:00pm" //(optional)
 }
 ```
-
-#### Mood (Optional)
-One of:
-- "happy"
-- "sad"
 
 #### Demographic Markers - (Optional)
 Political Leaning is one of:
@@ -343,21 +287,6 @@ Language is a two character language code, i.e. "en","ch","gb"
 }
 ```
 
-##### <a name="location-users"></a> Get location of Twitter Users within San Antonio
-```http
-GET /location/users
-```
-
-#### Output
-```json
-{[
-  {"lat": 12.12312,
-   "lng": 21.29123},
-  {"lat": 92.12312,
-   "lng": 82.12312}
-]}
-```
-
 ### <a name="hashtag"></a>Hashtag Queries
 #####<a name="hashtag-single"></a>Return information about a particular hashtag
 
@@ -404,15 +333,11 @@ GET /hashtags/trending
 #### Input
 ```json
 {
-    "demographic_markers":{
-        "politcal_leaning":"",
-        "language":"",
-    },
+    "politcal_leaning":"",
+    "language":"",
     "mood": "happy",
-    "time_range": {
-      "since": "15/4/2015",
-      "until": "20/4/2015"
-    },
+    "start_date": "15/4/2015",
+    "start_date": "20/4/2015",
     "granularity": "hourly"
 }
 ```
@@ -501,6 +426,47 @@ GET /hashtag/topics
 }
 ```
 
+#####<a name="hashtag-topic"></a> Return Similar Hashtags mentioned for topics 
+```http
+GET /hashtag/:hashtag/similar
+```
+
+#### Input
+```json
+{
+    "degree": "0",
+    "frequency": "hourly"
+}
+```
+
+##### Degree (Optional)
+One of 0 or 1
+
+##### Frequency (Optional)
+One of:
+- true
+- false
+
+#### Output
+```json
+{
+  "degree": 0,
+  "similar": {
+    "EveryoneThinksImWeirdBecause": 1,
+    "HealthIT": 1,
+    "Leadership": 1,
+    "Mindfulness": 1,
+    "healthcareinnovation": 1,
+    "imaging": 1,
+    "innovation": 1,
+    "medical": 1,
+    "radiology": 1
+  },
+  "topic": "healthcare",
+  "tweet_references": 7,
+  "user_references": 5
+}
+```
 
 #####<a name="hashtag-sentiment"></a> Return sentiment of a hashtag
 ```http
@@ -628,101 +594,6 @@ GET /users/:user_id/connections?degree=1
 }
 ```
 
-##### <a name="social-affluence"></a> Ask about the top 10 affluent twitter users in the region (ie. highest follower count)
-```http
-GET /users/affluent
-```
-
-##### Input
-```json
-{
-    "politcal_leaning":"democratic", //OPTIONAL
-    "language":"zh", //OPTIONAL
-    "visitor": true, //OPTIONAL
-}
-```
-
-##### Output
-``` json
-{
-  "0": {//DEFAULT Twitter User Object
-  },
-  "1": {//DEFAULT Twitter User Object
-  }
-}
-```
-
-#####<a name="social-retweet"></a> Ask about outward engagement summary of twitter users in San Antonio
-We want to figure out how engaging are tweets tweeted by SA residents and their perception by Twitter Users that do not reside in San Antonio. 
-```http
-GET /social/outward
-```
-
-#### Output
-```json
-{
-  "avg_engagement_count": 12, //of the origin tweet
-  "engagement_sentiment": { //of all responding tweets to the origin tweet
-    "avg_polarity": 0.212312,
-    "avg_subjectivity": 0.501021
-  },
-  "origin_sentiment": { //of all origin tweets that gained engagement
-    "avg_polarity": -0.912312,
-    "avg_subjectivity": 1
-  },
-  "origin_user_stat": {
-    "followers_count": {
-      "lq": 21,
-      "median": 30,
-      "uq": 40,
-      "mean": 34
-    },
-    "locations": [
-      {"lat": 12.1231232, "lng": 13.1231221}
-    ] // list of all engaged tweets from SA. 
-  },
-  "outward_user_stat": {
-    "followers_count": {
-      "lq": 100,
-      "median": 150,
-      "uq": 200,
-      "mean": 101
-    }
-  }
-}
-```
-
-#####<a name="social-retweet"></a> Ask about highest retweets
-```http
-GET /social/retweets
-```
-
-```json
-{
-  "0": { // 0 ~ 10 Retweets
-    "tweet": {
-      "hashtags": [
-        "#iloveguns",
-        "#standyourground",
-        "#saynotosmugglers"
-      ],
-      "topic_mentions": [
-        "gun_control",
-        "immigration"
-      ],
-      "polarity": 0.5,
-      "subjectivity": 1,
-      "demographic":{
-        "politcal_leaning":"",
-        "languages":["",""],
-        "prefered_languge":"en",
-        "visitor":true
-      }
-    }
-  }
-}
-```
-
 -----------------
 
 ### <a name="emoji"></a> Emoji Queries
@@ -770,89 +641,7 @@ GET /emoji/:emoji_code/locations
 ]} 
 ```
 
-#####<a name="emoji-affluence"></a> Get Emoji affluence
-```http
-GET /emoji/:emoji_code/affluence
-```
-
-#### Output
-```json
-{
-  "emoji": "😡",
-  "insider": {
-    "count": 1283, //counts how many tweets were mentioned within the search radius. 
-    "avg_polarity": 0.5, 
-    "avg_subjectivity": 0.2,
-    "mood": "happy" 
-  },
-  "outsider": {
-    "count": 1000000000,
-    "avg_polarity": -0.2,
-    "avg_subjectivity": 0,
-    "mood": "sad"
-  },
-  "outreach_nodes": {
-    "count": 29, //counts how many insider tweets were retweeted.
-    "avg_spread": 10000, //counts on average how many people retweeted the insider tweet. 
-    "avg_polarity": 1,
-    "avg_subjectivity": 0
-  }
-}
-```
-
-### Tweet Data Structure
-```json
-{
-  "id": "1239812093801298421",
-  "metadata": {
-    "result_type": "recent",
-    "iso_language_code": "ar"
-  },
-  "user_mentions": [
-    {
-      "id": "123123123",
-      "name": "Mat",
-      "screen_name": "alskdjaslkdjlaksjd"
-    }
-  ],
-  "symbols": [],
-  "hashtags": [
-    "content"
-  ],
-  "urls": [],
-  "text": "blahlsdhalskdjalskdja sdlkajs dlkasj dlaksjd laskjd aslkdj",
-  "lang": "en",
-  "geo": {
-    "type": "point",
-    "coordinates": [
-      "23.123123",
-      "12.1231"
-    ]
-  },
-  "analysis": {
-    "language_features": {
-      "polarity": "0.6",
-      "subjectivity": "0.9",
-      "detected_language": "en",
-      "english": "alksdjalskdjlaksjd",
-      "ironic" : true
-    },
-    "emojis": {
-      "text": ":):(",
-      "emoji_sentiment": "happy"
-    },
-    "topics": {
-      "meniton_immigration": true,
-      "mentions_gun_controler": true,
-      "unemployment":true,
-      "democratic_indicator": true,
-      "repulbican_indicator":true
-    }
-  }
-}
-```
-
-### <a name="tweet"></a>Updated! Tweet Data Structure
+### <a name="tweet"></a> Tweet Data Structure
 ```json
 {
   "id": "1239812093801298421",
