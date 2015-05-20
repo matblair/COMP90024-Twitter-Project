@@ -1,0 +1,19 @@
+- name: Install pip3
+  shell: easy_install3 -U pip
+
+- name: Install python packages
+  pip: name={{ item }} executable=pip3
+  with_items:
+    - tweepy
+    - textblob
+    - requests
+
+- name: Download textblob corpus
+  command: python3 -m textblob.download_corpora
+
+- name: Update twitter analysis code
+  git: repo=git://github.com/matblair/COMP90024-Twitter-Project.git
+       dest=/twitteranalysis/
+       force=yes
+       accept_hostkey=yes
+       version=29183eb6540bfda0a63dcda623288b2b14f02b52
