@@ -4,7 +4,7 @@
 - name: Add gpg key to apt-key
   shell: apt-key add key.pgp
 
-- name: something
+- name: Update package list
   shell: echo 'deb http://debian.neo4j.org/repo stable/' | sudo tee -a /etc/apt/sources.list.d/neo4j.list > /dev/null
 
 - name: update packages

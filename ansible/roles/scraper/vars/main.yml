@@ -1,5 +1,5 @@
 user: ubuntu
 daemon: /usr/bin/python3
 pidfile: /var/run/scraper.pid
-daemon_opts: "/twitteranalysis/TweetGrabberTagger/userTimelineScraper.py --ip localhost --port 4500 --input /twitteranalysis/TweetGrabberTagger/user_list.txt --config /twitteranalysis/TweetGrabberTagger/{{twitterConfig}}"
+daemon_opts: "/twitteranalysis/TweetGrabberTagger/userTimelineScraper.py --ip 144.6.227.66 --port 4500 --input /twitteranalysis/TweetGrabberTagger/user_list.txt --config /twitteranalysis/TweetGrabberTagger/{{twitterConfig}}"
 service_name: scraper
