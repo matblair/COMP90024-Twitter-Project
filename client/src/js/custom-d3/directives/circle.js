@@ -43,7 +43,7 @@ angular.module("d3.circle", ["d3"])
 					var margin = attrs.margin || 20,
 							height = attrs.height || 500;
 
-					var svg = d3.select(element[0])
+					var root_svg = d3.select(element[0])
 							.append("svg")
 							.style('width', '100%')
 							.attr("height", height)
@@ -65,7 +65,10 @@ angular.module("d3.circle", ["d3"])
 					scope.render = function(data) {
 						if (!data) return;
 
-					 	svg = svg.append("g")
+						// remove dirty tags.
+						root_svg.selectAll("*").remove()
+
+					 	var svg = root_svg.append("g")
 						  .attr("transform", "translate(" + (diameter / 2 + margin) + "," + (diameter / 2 + margin) + ")");
 
 						var color = d3.scale.linear()
@@ -89,12 +92,7 @@ angular.module("d3.circle", ["d3"])
 					    .enter().append("circle")
 					      .attr("class", function(d) { return d.parent ? d.children ? "d3CirclePacking-node" : "d3CirclePacking-node d3CirclePacking-node--leaf" : "d3CirclePacking-node d3CirclePacking-node--root"; })
 					      .style("fill", function(d) { return d.children ? color(d.depth) : null; })
-					      .on("click", function(d) { 
-					      	if (!Object.is(focus, d)) {
-						      	zoom(d);
-						      	d3.event.stopPropagation(); 
-						      }
-					      });
+					      .on("click", function(d) { if (focus !== d) zoom(d), d3.event.stopPropagation(); });
 
 					  var text = svg.selectAll("text")
 					      .data(nodes)
@@ -107,11 +105,9 @@ angular.module("d3.circle", ["d3"])
 
 					  var node = svg.selectAll("circle,text");
 						
-						/*
-				  	var test = d3.select(element[0]).select("svg")
+				  	root_svg
 				      .style("background", color(-1))
 				      .on("click", function() { zoom(root); });
-						*/
 				    //console.log(test)
 
 						zoomTo([root.x, root.y, root.r * 2 + margin]);
@@ -119,7 +115,7 @@ angular.module("d3.circle", ["d3"])
 					  function zoom(d) {
 					    var focus0 = focus; focus = d;
 
-					    var transition = d3.transition()
+					    var transition = svg.transition()
 					        .duration(d3.event.altKey ? 7500 : 750)
 					        .tween("zoom", function(d) {
 					          var i = d3.interpolateZoom(view, [focus.x, focus.y, focus.r * 2 + margin]);
@@ -127,7 +123,7 @@ angular.module("d3.circle", ["d3"])
 					        });
 
 					    transition.selectAll("text")
-					      .filter(function(d) { console.log(d); return d.parent === focus || this.style.display === "inline"; })
+					      .filter(function(d) { return d.parent === focus || this.style.display === "inline"; })
 					        .style("fill-opacity", function(d) { return d.parent === focus ? 1 : 0; })
 					        .each("start", function(d) { if (d.parent === focus) this.style.display = "inline"; })
 					        .each("end", function(d) { if (d.parent !== focus) this.style.display = "none"; });
