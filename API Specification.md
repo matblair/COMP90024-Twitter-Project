@@ -65,8 +65,8 @@ Language is a two character language code, i.e. "en","ch","gb"
     "topic": "ALSKDJASL",
     "polarity":"0.9",
     "subjectivity":"0.4",
-    "most_popular_language":"gb",
-    "least_popular_language":"en",
+    "most_popular_languages":["gb","de"],
+    "least_popular_languages":["en"],
     "count": 1921
 }
 ```
@@ -349,11 +349,6 @@ Political Leaning is one of:
 
 Language is a two character language code, i.e. "en","ch","gb"
 
-#### Mood (Optional)
-One of:
-- "happy"
-- "sad"
-
 ###### Granularity (Optional)
 One of:
 - hourly  
@@ -526,29 +521,6 @@ GET /users/:user_id
         "languages":["",""],
         "prefered_languge":"en",
     }
-}
-```
-
-#####<a name="social-demographics"></a> Get Number of Twitter Users for various demographic attributes.
-```http
-GET /users/demographics
-```
-##### Input Params
-```json
-{
-    "politcal_leaning":"democratic", //OPTIONAL
-    "language":"zh", //OPTIONAL
-    "visitor": true, //OPTIONAL
-    "mood": "sad" //OPTIONAL
-}
-```
-Note: If all attributes are empty, simply return the total number of twitter users. 
-
-##### Output Params
-```json
-{
-    "number_of_matching_users": 1278,
-    "time": "UTCTime"
 }
 ```
 
