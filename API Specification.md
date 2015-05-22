@@ -41,14 +41,10 @@ GET /topics/:topic
 ###### Input Params
 ```json
 {
-    "demographic_markers":{
-        "politcal_leaning":"",
-        "language":"",
-    },
-    "date_range":{
-      "start_date":"21/01/2015",
-      "end_date":"02/03/2015"
-    }
+    "politcal_leaning":"",
+    "language":"",
+    "start_date":"21/01/2015",
+    "end_date":"02/03/2015"
 }
 ```
 
@@ -80,14 +76,10 @@ GET /topics/:topic/trend
 ###### Input Params
 ```json
 {
-    "demographic_markers":{
-        "politcal_leaning":"",
-        "language":"",
-    },
-   "date_range":{
-      "start_date":"21/01/2015",
-      "end_date":"02/03/2015"
-    },
+    "politcal_leaning":"",
+    "language":"",
+    "start_date":"21/01/2015",
+    "end_date":"02/03/2015",
     "granularity":"level"
 }
 ```
@@ -137,10 +129,8 @@ GET /topics/:topic/extremes
 ###### Input Params
 ```json
 {
-    "date_range":{
-      "start_date":"21/01/2015",
-      "end_date":"02/03/2015"
-    }
+    "start_date":"21/01/2015",
+    "end_date":"02/03/2015"
 }
 ```
 
@@ -185,11 +175,27 @@ GET /topics/:topic/locations
 #### Output
 List of Points with Sentiment Informations
 ```json
-[{"geo": {"lat": 12.12321, 
-          "lng": 13.12312},
-  "polarity": 0.5,
-  "subjectivity": 0.2
-}]
+{
+  "locations": [
+    {
+      "geo": {
+        "lat": 29.46197139,
+        "lon": -98.3589597
+      },
+      "polarity": 0,
+      "subjectivity": 0
+    },
+    {
+      "geo": {
+        "lat": 29.52802452,
+        "lon": -98.67108143
+      },
+      "polarity": 0,
+      "subjectivity": 0
+    }
+  ],
+  "topic": "unemployment"
+}
 ```
 
 ### <a name="location"></a>Location Queries
@@ -202,10 +208,8 @@ GET /locations
 ```json
 {
     "date":"21/01/2015",
-    "demographic_markers":{
-        "politcal_leaning":"",
-        "language":""
-    },
+    "politcal_leaning":"",
+    "language":"",
     "period":"1:00pm - 2:00pm" //(optional)
 }
 ```
@@ -318,8 +322,8 @@ Language is a two character language code, i.e. "en","ch","gb"
     "polarity":"0.9",
     "subjectivity":"0.1",
     "popularity":"10%",
-    "most_popular_language":"gb",
-    "least_popular_language":"en"
+    "most_popular_languages":["gb"],
+    "least_popular_languages":["en"]
 }
 ```
 
@@ -423,14 +427,14 @@ GET /hashtag/topics
 
 #####<a name="hashtag-topic"></a> Return Similar Hashtags mentioned for topics 
 ```http
-GET /hashtag/:hashtag/similar
+GET /hashtag/stats/:hashtag/similar
 ```
 
 #### Input
 ```json
 {
     "degree": "0",
-    "frequency": "hourly"
+    "frequency": "true"
 }
 ```
 
