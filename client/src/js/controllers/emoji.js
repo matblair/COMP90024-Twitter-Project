@@ -1,5 +1,26 @@
 app.controller("EmojiController", ["$scope", "$http", "uiGmapGoogleMapApi", function($scope, $http, uiGmapGoogleMapApi) {
 
+	// PRE-INIT
+	$scope.promise = {};
+
+	/* ========================== 1. EMOJI GENERAL =============================== */
+	$scope.emoji_general_loaded = false;
+	$scope.promise.general = $http.get("http://144.6.227.63:4500/emoji/general").
+		success(function(res) {
+			$scope.emoji_general = Object.keys(res).map(function(k) {
+				return res[k]
+			});
+			$scope.emoji_general_loaded = true;
+			//console.log($scope.emoji_general);
+		}). 
+		error(function(err) {
+			console.log(err);
+		});
+
+
+	/* ========================== 1. END EMOJI GENERAL =========================== */
+
+	/* ========================== 2. EMOJI LOCATIONS ============================= */
 	// INIT
 	// Emoji Dictionary
 	$scope.emojis = [
@@ -31,7 +52,7 @@ app.controller("EmojiController", ["$scope", "$http", "uiGmapGoogleMapApi", func
 
 	$scope.emojiUsageLocation = function(emoji) {
 		//console.log("query sent", emoji)
-		$scope.heatmapUpdate = $http.get("http://144.6.227.63:4500/emoji/" + emoji + "/locations").
+		$scope.promise.location = $http.get("http://144.6.227.63:4500/emoji/" + emoji + "/locations").
 			success(function(res) {
 				//console.log(res)
 				$scope.loc_update_toggle = false
@@ -81,4 +102,6 @@ app.controller("EmojiController", ["$scope", "$http", "uiGmapGoogleMapApi", func
 				console.log(err)
 			});
 	}
+
+	/*================== 2. END EMOJI LOCATIONS ============================== */
 }]);

@@ -10,13 +10,16 @@
 				<h3> Emoji Summary Statistics </h3>
 			</div>
 			<div class="panel-body">
-				<dl>
-					<dt> Summary Statistics </dt>
-					<dd> Summary lists Top 10 Emojis used within San Antonio and the general sentiment for tweets that contain them. </dd>
-				</dl>
-				<!-- Bar Chart -->
+				<div cg-busy="{promise: promise.general, message: 'Asking Nectar cluster now. Please wait patiently.'}">
+					<dl>
+						<dt> Summary Statistics </dt>
+						<dd> Summary lists Top 10 Emojis used within San Antonio and the general sentiment for tweets that contain them. </dd>
+					</dl>
+					<!-- Bar Chart -->
+					<d3-bars data="emoji_general" categorical-label="emoji_name" numerical-label="count" ng-if="emoji_general_loaded"> </d3-bars>
 
-				<!-- Pie Chart -->
+					<!-- Pie Chart -->
+				</div>
 
 
 			</div>
@@ -32,7 +35,7 @@
 				<h3> Emoji Locations </h3>
 			</div>
 			<div class="panel-body">
-				<div cg-busy="{promise: heatmapUpdate, message: 'Asking Nectar cluster now. Please wait patiently.'}">
+				<div cg-busy="{promise: promise.location, message: 'Asking Nectar cluster now. Please wait patiently.'}">
 					<dl>
 						<dt> Emoji Usage Heatmap </dt>
 						<dd> Heatmap illustrates where emojis are used within San Antonio. </dd>
