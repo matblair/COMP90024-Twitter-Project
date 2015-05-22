@@ -1,11 +1,19 @@
-app.controller("TopicsOverviewController", ["$scope", function($scope) {
-
-}]);
-
-app.controller("TopicController", ["$scope", "topic", "uiGmapGoogleMapApi", function($scope, topic, uiGmapGoogleMapApi) {
+app.controller("TopicController", ["$scope", "topic", "uiGmapGoogleMapApi", "$http", function($scope, topic, uiGmapGoogleMapApi, $http) {
 
 	uiGmapGoogleMapApi.then(function(maps) {
 		$scope.topic = topic;	
+		
+		switch($scope.topic.name) {	
+			case "Gun Control":
+				$scope.topic.path = "gun_control";
+				break;
+			case "Unemployment":
+				$scope.topic.path = "unemployment";
+				break;
+			case "Immigration":
+				$scope.topic.path = "immigration";
+				break;
+		}
 		/* Test DATA */
 		var test_data = {
 			summary: {
@@ -82,8 +90,110 @@ app.controller("TopicController", ["$scope", "topic", "uiGmapGoogleMapApi", func
 					end_date: Date()
 				},
 			},
-			response: test_data.summary //TEST DATA USED.
+			response: test_data.summary, //TEST DATA USED.
+			tweets: {}
 		};
+
+		// All Topic Tweets
+		$http.get(("http://144.6.227.63:4500/topics/" + $scope.topic.path), {params: $scope.summary.request}).
+			success(function(data) {
+				$scope.summary.response = data
+				console.log("all", $scope.summary.response)
+			}).
+			error(function(err) {
+				console.log("all", err)
+			})
+
+		// Demographic Contraints
+		// "en" language
+		$scope.summary.request = {
+			demographics: {
+				political_leaning: "",
+				language: "en"
+			},
+			date_range: {
+				start_date: Date(2010, 4, 1, 0, 0 , 0),
+				end_date: Date()
+			}
+		}
+
+		$http.get(("http://144.6.227.63:4500/topics/" + $scope.topic.path), {params: $scope.summary.request}).
+			success(function(data) {
+				$scope.summary.tweets.en = data
+				console.log("english", $scope.summary.tweets.en);
+			}).
+			error(function(err) {
+				console.log("english", err);
+			})
+
+		// "es" language
+		$http.get(("http://144.6.227.63:4500/topics/" + $scope.topic.path), {params: {
+			demographics: {
+				political_leaning: "",
+				language: "es"
+			},
+			date_range: {
+				start_date: Date(2010, 4, 1, 0, 0 , 0),
+				end_date: Date()
+			}
+		}}).success(function(data) {
+			$scope.summary.tweets.es = data;
+			console.log("Spanish", $scope.summary.tweets.es);
+		}).error(function(err) {
+			console.log("spanish", err);
+		})
+
+		// "cn" language
+		$http.get(("http://144.6.227.63:4500/topics/" + $scope.topic.path), {params: {
+			demographics: {
+				political_leaning: "",
+				language: "cn"
+			},
+			date_range: {
+				start_date: Date(2010, 4, 1, 0, 0 , 0),
+				end_date: Date()
+			}
+		}}).success(function(data) {
+			$scope.summary.tweets.cn = data;
+			console.log("Chinese", $scope.summary.tweets.cn);
+		}).error(function(err) {
+			console.log("Chinese", err);
+		})
+
+
+		// "democrats" political_leaning
+		$http.get(("http://144.6.227.63:4500/topics/" + $scope.topic.path), {params: {
+			demographics: {
+				political_leaning: "democratic",
+				language: ""
+			},
+			date_range: {
+				start_date: Date(2010, 4, 1, 0, 0 , 0),
+				end_date: Date()
+			}
+		}}).success(function(data) {
+			$scope.summary.tweets.democratic = data;
+			console.log("democratic", $scope.summary.tweets.democratic);
+		}).error(function(err) {
+			console.log("democratic", err);
+		});
+
+		// "republican" political_leaning
+		$http.get(("http://144.6.227.63:4500/topics/" + $scope.topic.path), {params: {
+			demographics: {
+				political_leaning: "republican",
+				language: ""
+			},
+			date_range: {
+				start_date: Date(2010, 4, 1, 0, 0 , 0),
+				end_date: Date()
+			}
+		}}).success(function(data) {
+			$scope.summary.tweets.republican = data;
+			console.log("republican", $scope.summary.tweets.republican);
+		}).error(function(err) {
+			console.log("republican", err);
+		});
 
 		// Second, Topic Trends
 		$scope.trends = {
@@ -100,6 +210,8 @@ app.controller("TopicController", ["$scope", "topic", "uiGmapGoogleMapApi", func
 			},
 			response: test_data.trends //TEST DATA USED.
 		}
+
+		
 
 		// Third, Locations
 		$scope.locations = {

@@ -1,8 +1,8 @@
 'use strict'
 
-var app = angular.module('twitter-app', ['ui.router', 'ui.bootstrap', 'ngD3', 'uiGmapgoogle-maps']);
+var app = angular.module('twitter-app', ['ui.router', 'ui.bootstrap', 'ngD3', 'uiGmapgoogle-maps', 'cgBusy']);
 
-app.config(['$stateProvider', '$urlRouterProvider', 'uiGmapGoogleMapApiProvider',
+app.config(['$stateProvider', '$urlRouterProvider', 'uiGmapGoogleMapApiProvider', 
 	function($stateProvider, $urlRouterProvider, uiGmapGoogleMapApiProvider) {
 
 	$urlRouterProvider.otherwise('/')
@@ -21,11 +21,11 @@ app.config(['$stateProvider', '$urlRouterProvider', 'uiGmapGoogleMapApiProvider'
 			controller: "TopicController",
 			templateUrl: "partials/topics.topic.html",
 			resolve: {
-				topic: function($stateParams) {
+				topic: function($stateParams, $http) {
 					return {
 						name: $stateParams.name
 					}
-				}
+				},
 			}
 		})
 		.state('location', {

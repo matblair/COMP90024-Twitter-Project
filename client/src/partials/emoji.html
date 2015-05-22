@@ -32,13 +32,32 @@
 				<h3> Emoji Locations </h3>
 			</div>
 			<div class="panel-body">
-				<dl>
-					<dt> Emoji Usage Heatmap </dt>
-					<dd> Heatmap illustrates where emojis are used within San Antonio. </dd>
-
+				<div cg-busy="{promise: heatmapUpdate, message: 'Asking Nectar cluster now. Please wait patiently.'}">
+					<dl>
+						<dt> Emoji Usage Heatmap </dt>
+						<dd> Heatmap illustrates where emojis are used within San Antonio. </dd>
+					</dl>
+					<p>
+						<b> Number of Location Points: </b> {{emoji_locations_count || "No Emoji Selected Yet..."}}
+					</p>
 					<!-- Heatmap -->
+					<div class="form-group">
+						<label for="emoji-selector"> Select Emoji to Display </label>
+						<input id="emoji-selector" type="text" ng-model="selected_emoji" typeahead="emoji for emoji in emojis | filter:$viewValue | limitTo:8" class="form-control" typeahead-on-select="emojiUsageLocation($model)">
+					</div>
+					<ui-gmap-google-map 
+		         center="map.center"
+		         zoom="map.zoom"
+		         dragging="map.dragging"
+		         options="map.options"
+		         pan="false"
+		         control="map.control"
+		       	>
 
-				</dl>
+		       	<ui-gmap-layer namespace="visualization" type="HeatmapLayer" options="map.heatmap.options" show="true" onCreated="map.heatLayerCallback"></ui-gmap-layer>
+
+		       	</ui-gmap-google-map>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -56,8 +75,8 @@
 					<dt> Outward Engagement </dt>
 					<dd> We explore emoji affluence by inspecting the amount of engagement a tweet which contains emojis get. </dd>
 				</dl>
-
-				<!-- Pie Chart: Insider vs. Outsider -->
+	
+			<!-- Pie Chart: Insider vs. Outsider -->
 
 				<!-- Mock Graph: Illustrate Outward Nodes -->
 				
