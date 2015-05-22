@@ -41,14 +41,10 @@ GET /topics/:topic
 ###### Input Params
 ```json
 {
-    "demographic_markers":{
-        "politcal_leaning":"",
-        "language":"",
-    },
-    "date_range":{
-      "start_date":"21/01/2015",
-      "end_date":"02/03/2015"
-    }
+    "politcal_leaning":"",
+    "language":"",
+    "start_date":"21/01/2015",
+    "end_date":"02/03/2015"
 }
 ```
 
@@ -65,8 +61,8 @@ Language is a two character language code, i.e. "en","ch","gb"
     "topic": "ALSKDJASL",
     "polarity":"0.9",
     "subjectivity":"0.4",
-    "most_popular_language":"gb",
-    "least_popular_language":"en",
+    "most_popular_languages":["gb","de"],
+    "least_popular_languages":["en"],
     "count": 1921
 }
 ```
@@ -80,14 +76,10 @@ GET /topics/:topic/trend
 ###### Input Params
 ```json
 {
-    "demographic_markers":{
-        "politcal_leaning":"",
-        "language":"",
-    },
-   "date_range":{
-      "start_date":"21/01/2015",
-      "end_date":"02/03/2015"
-    },
+    "politcal_leaning":"",
+    "language":"",
+    "start_date":"21/01/2015",
+    "end_date":"02/03/2015",
     "granularity":"level"
 }
 ```
@@ -137,10 +129,8 @@ GET /topics/:topic/extremes
 ###### Input Params
 ```json
 {
-    "date_range":{
-      "start_date":"21/01/2015",
-      "end_date":"02/03/2015"
-    }
+    "start_date":"21/01/2015",
+    "end_date":"02/03/2015"
 }
 ```
 
@@ -185,11 +175,27 @@ GET /topics/:topic/locations
 #### Output
 List of Points with Sentiment Informations
 ```json
-[{"geo": {"lat": 12.12321, 
-          "lng": 13.12312},
-  "polarity": 0.5,
-  "subjectivity": 0.2
-}]
+{
+  "locations": [
+    {
+      "geo": {
+        "lat": 29.46197139,
+        "lon": -98.3589597
+      },
+      "polarity": 0,
+      "subjectivity": 0
+    },
+    {
+      "geo": {
+        "lat": 29.52802452,
+        "lon": -98.67108143 
+      },
+      "polarity": 0,
+      "subjectivity": 0
+    }
+  ],
+  "topic": "unemployment"
+}
 ```
 
 ### <a name="location"></a>Location Queries
@@ -201,11 +207,9 @@ GET /locations
 #### Input
 ```json
 {
-    "date":"21/01/2015",
-    "demographic_markers":{
-        "politcal_leaning":"",
-        "language":""
-    },
+    "date":"21/01/2015", // DEFAULT IS YESTERDAY
+    "politcal_leaning":"",
+    "language":"",
     "period":"1:00pm - 2:00pm" //(optional)
 }
 ```
@@ -318,8 +322,8 @@ Language is a two character language code, i.e. "en","ch","gb"
     "polarity":"0.9",
     "subjectivity":"0.1",
     "popularity":"10%",
-    "most_popular_language":"gb",
-    "least_popular_language":"en"
+    "most_popular_languages":["gb"],
+    "least_popular_languages":["en"]
 }
 ```
 
@@ -348,11 +352,6 @@ Political Leaning is one of:
 - "republican"
 
 Language is a two character language code, i.e. "en","ch","gb"
-
-#### Mood (Optional)
-One of:
-- "happy"
-- "sad"
 
 ###### Granularity (Optional)
 One of:
@@ -428,14 +427,14 @@ GET /hashtag/topics
 
 #####<a name="hashtag-topic"></a> Return Similar Hashtags mentioned for topics 
 ```http
-GET /hashtag/:hashtag/similar
+GET /hashtag/stats/:hashtag/similar
 ```
 
 #### Input
 ```json
 {
     "degree": "0",
-    "frequency": "hourly"
+    "frequency": "true"
 }
 ```
 
@@ -529,29 +528,6 @@ GET /users/:user_id
 }
 ```
 
-#####<a name="social-demographics"></a> Get Number of Twitter Users for various demographic attributes.
-```http
-GET /users/demographics
-```
-##### Input Params
-```json
-{
-    "politcal_leaning":"democratic", //OPTIONAL
-    "language":"zh", //OPTIONAL
-    "visitor": true, //OPTIONAL
-    "mood": "sad" //OPTIONAL
-}
-```
-Note: If all attributes are empty, simply return the total number of twitter users. 
-
-##### Output Params
-```json
-{
-    "number_of_matching_users": 1278,
-    "time": "UTCTime"
-}
-```
-
 ##### <a name="social-friends"></a> Ask about the users particular friends
 Provide general information about the social graph
 ```http
@@ -607,6 +583,7 @@ GET /emoji/general
 {
   "0": { //Top 10 is sufficient.
     "emoji": "☺️",
+    "emoji_name" : "smiley",
     "count": 1000,
     "avg_subjectivity": 0.5,
     "avg_polarity": 0.2,
@@ -614,6 +591,7 @@ GET /emoji/general
   }, 
   "1": {
     "emoji": "😡",
+    "emoji_name" : "sadface"
     "count": 500,
     "avg_subjectivity": 0.5,
     "avg_polarity": -0.9,
@@ -625,20 +603,23 @@ GET /emoji/general
 
 #####<a name="emoji-heatmap"></a> Get Emoji used locations
 ```http
-GET /emoji/:emoji_code/locations
+GET /emoji/:emoji_name/locations
 ```
 
 #### Output
 ```json
-{[
-  {"lat": 12.123123,
-   "lng": 23.231232
-  },
-  {"lat": 12.32112,
-   "lng": 29.12312
-  },
-  ...
-]} 
+{ "count" : 2,
+  "emoji_name": "smile",
+  "emoji":"😄"
+  "locations": [
+    {"lat": 12.123123,
+     "lng": 23.231232
+    },
+    {"lat": 12.32112,
+     "lng": 29.12312
+    }
+  ]
+} 
 ```
 
 ### <a name="tweet"></a> Tweet Data Structure
