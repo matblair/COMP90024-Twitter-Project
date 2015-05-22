@@ -188,7 +188,7 @@ List of Points with Sentiment Informations
     {
       "geo": {
         "lat": 29.52802452,
-        "lon": -98.67108143
+        "lon": -98.67108143 
       },
       "polarity": 0,
       "subjectivity": 0
@@ -207,7 +207,7 @@ GET /locations
 #### Input
 ```json
 {
-    "date":"21/01/2015",
+    "date":"21/01/2015", // DEFAULT IS YESTERDAY
     "politcal_leaning":"",
     "language":"",
     "period":"1:00pm - 2:00pm" //(optional)
