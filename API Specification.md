@@ -248,18 +248,16 @@ GET /location/sentiment
 #### Input
 ```json
 {
-    "range":{ //(optional)
-      "start_date":"21/01/2015",
-      "end_date":"03/02/2015"
-    },
-
+    "start_date":"21/01/2015", // (optional)
+    "end_date":"03/02/2015", // (optional)
     "period":"1:00pm - 2:00pm", //(optional)
-
-    "deomographic_markers":{
-        "politcal_leaning":"",
-        "language":"",
-    }
-    "location"[{"lat":"123","long":"123"},{"lat":"23","long":"123"}]
+    "limit":500, // (optional)
+    "politcal_leaning":"", //(optional)
+    "language":"", //(optional)
+    "start_lat":"123",
+    "start_long":"123",
+    "end_lat":"23",
+    "end_long":"123"
 }
 ```
 
@@ -275,10 +273,14 @@ Language is a two character language code, i.e. "en","ch","gb"
 {
     "start_date":"21/01/2015",
     "end_date":"03/02/2015",
-    "location":[{"lat":"123","lng":"123"},
-                {"lat":"123","lng":"123"}],
+    "start_lat":"123",
+    "start_long":"123",
+    "end_lat":"23",
+    "end_long":"123"
     "period":"1:00pm - 2:00pm", //(optional)
     "sentiment":{
+        "points":"1290",
+        "total":"97850",
         "polarities":{
             "0.1":"10",
             "0.2":"20"
