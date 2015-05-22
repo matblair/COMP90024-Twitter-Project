@@ -607,6 +607,7 @@ GET /emoji/general
 {
   "0": { //Top 10 is sufficient.
     "emoji": "☺️",
+    "emoji_name" : "smiley",
     "count": 1000,
     "avg_subjectivity": 0.5,
     "avg_polarity": 0.2,
@@ -614,6 +615,7 @@ GET /emoji/general
   }, 
   "1": {
     "emoji": "😡",
+    "emoji_name" : "sadface"
     "count": 500,
     "avg_subjectivity": 0.5,
     "avg_polarity": -0.9,
