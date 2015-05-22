@@ -19,6 +19,7 @@
 					<d3-bars data="emoji_general" categorical-label="emoji_name" numerical-label="count" ng-if="emoji_general_loaded"> </d3-bars>
 
 					<!-- Pie Chart -->
+					<d3-pie data="emoji_general" categorical-label="emoji_name" numerical-label="count" height="500" ng-if="emoji_general_loaded"> </d3-pie>
 				</div>
 
 
@@ -41,7 +42,7 @@
 						<dd> Heatmap illustrates where emojis are used within San Antonio. </dd>
 					</dl>
 					<p>
-						<b> Number of Location Points: </b> {{emoji_locations_count || "No Emoji Selected Yet..."}}
+						<b> Number of Unique Location Points: </b> {{emoji_locations_count || "No Emoji Selected Yet..."}}
 					</p>
 					<!-- Heatmap -->
 					<div class="form-group">
@@ -63,28 +64,6 @@
 		       	</ui-gmap-google-map>
 				</div>
 			</div>
-		</div>
-	</div>
-</div>
-
-<!-- Emoji Affluence -->
-<div class="row">
-	<div class="col-sm-12">
-		<div class="panel panel-default">
-			<div class="panel-heading">
-				<h3> Emoji Affluence </h3>
-			</div>
-			<div class="panel-body">
-				<dl> 
-					<dt> Outward Engagement </dt>
-					<dd> We explore emoji affluence by inspecting the amount of engagement a tweet which contains emojis get. </dd>
-				</dl>
-	
-			<!-- Pie Chart: Insider vs. Outsider -->
-
-				<!-- Mock Graph: Illustrate Outward Nodes -->
-				
-			</div>	
 		</div>
 	</div>
 </div>
