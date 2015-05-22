@@ -27,12 +27,14 @@ app.controller("EmojiController", ["$scope", "$http", "uiGmapGoogleMapApi", func
 	];
 	$scope.selected_emoji = undefined;
 	$scope.emoji_locations = [];
+	$scope.loc_update_toggle = true;
 
 	$scope.emojiUsageLocation = function(emoji) {
 		//console.log("query sent", emoji)
 		$scope.heatmapUpdate = $http.get("http://144.6.227.63:4500/emoji/" + emoji + "/locations").
 			success(function(res) {
 				//console.log(res)
+				$scope.loc_update_toggle = false
 				$scope.emoji_locations = res.locations;
 				$scope.emoji_locations_count = res.count;
 
@@ -71,10 +73,7 @@ app.controller("EmojiController", ["$scope", "$http", "uiGmapGoogleMapApi", func
 							locData.push(new maps.LatLng(d.lat, d.lon))
 						})
 						//console.log(locData);
-						pointarray = heatLayer.getData();
-						if(pointarray) pointarray.clear();
-						var pointArray = new maps.MVCArray(locData);
-						heatLayer.setData(pointArray)
+						heatLayer.setData(new maps.MVCArray(locData))
 					};
 				});
 			}).

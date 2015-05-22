@@ -43,7 +43,7 @@
 					<!-- Heatmap -->
 					<div class="form-group">
 						<label for="emoji-selector"> Select Emoji to Display </label>
-						<input id="emoji-selector" type="text" ng-model="selected_emoji" typeahead="emoji for emoji in emojis | filter:$viewValue | limitTo:8" class="form-control" typeahead-on-select="emojiUsageLocation($model)">
+						<input id="emoji-selector" type="text" ng-model="selected_emoji" typeahead="emoji for emoji in emojis | filter:$viewValue | limitTo:8" class="form-control" typeahead-on-select="emojiUsageLocation($model)" ng-change="loc_update_toggle = true">
 					</div>
 					<ui-gmap-google-map 
 		         center="map.center"
@@ -52,8 +52,9 @@
 		         options="map.options"
 		         pan="false"
 		         control="map.control"
+		         ng-if="!loc_update_toggle"
 		       	>
-
+		       	<!-- Fix: Controller update heatmap data --> 
 		       	<ui-gmap-layer namespace="visualization" type="HeatmapLayer" options="map.heatmap.options" show="true" onCreated="map.heatLayerCallback"></ui-gmap-layer>
 
 		       	</ui-gmap-google-map>
