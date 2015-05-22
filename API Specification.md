@@ -625,20 +625,23 @@ GET /emoji/general
 
 #####<a name="emoji-heatmap"></a> Get Emoji used locations
 ```http
-GET /emoji/:emoji_code/locations
+GET /emoji/:emoji_name/locations
 ```
 
 #### Output
 ```json
-{[
-  {"lat": 12.123123,
-   "lng": 23.231232
-  },
-  {"lat": 12.32112,
-   "lng": 29.12312
-  },
-  ...
-]} 
+{ "count" : 2,
+  "emoji_name": "smile",
+  "emoji":"😄"
+  "locations": [
+    {"lat": 12.123123,
+     "lng": 23.231232
+    },
+    {"lat": 12.32112,
+     "lng": 29.12312
+    }
+  ]
+} 
 ```
 
 ### <a name="tweet"></a> Tweet Data Structure
