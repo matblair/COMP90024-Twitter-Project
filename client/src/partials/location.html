@@ -10,7 +10,25 @@
 				<h4> General Sentiment </h4>
 			</div>
 			<div class="panel-body">
-				
+				<div class="row">
+					<div class="col-sm-10">
+						<b> Tweet Locations </b>
+						<ui-gmap-google-map 
+		         center="map.center"
+		         zoom="map.zoom"
+		         dragging="map.dragging"
+		         options="map.options"
+		         pan="false"
+		         control="map.control"
+		       	>
+			       	<ui-gmap-layer namespace="visualization" type="HeatmapLayer" options="map.heatmap.options" show="true" onCreated="map.heatLayerCallback"></ui-gmap-layer>
+
+			      </ui-gmap-google-map>
+					</div>
+					<div class="col-sm-2">
+						<b> Data Filter </b>
+					</div>
+				</div>
 			</div>
 		</div>	
 	</div>	
@@ -24,21 +42,20 @@
 				<h4>Location Specific Sentiment</h4>
 			</div>
 			<div class="panel-body">
+				<!-- GMap Control --> 
+				<ui-gmap-google-map 
+         	center="map.center"
+         	zoom="map.zoom"
+         	dragging="map.dragging"
+         	options="map.options"
+         	pan="false"
+         	control="map.control"
+       	>
+				<!-- Gmap Heatmap Layer --> 
+					<ui-gmap-layer namespace="visualization" type="HeatmapLayer" options="map.heatmap.options" show="true" onCreated="map.heatLayerCallback" ng-if="specific_sentiment_toggle">
+					</ui-gmap-layer>
 
-			</div>
-		</div>
-	</div>
-</div>
-
-<!-- Heatmap: Twitter Users Locations -->
-<div class="row">
-	<div class="col-sm-12">
-		<div class="panel panel-default">
-			<div class="panel-heading">
-				<h4> User Locations </h4>
-			</div>
-			<div class="panel-body">
-
+				</ui-gmap-google-map>
 			</div>
 		</div>
 	</div>

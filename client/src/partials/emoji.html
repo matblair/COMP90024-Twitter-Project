@@ -12,12 +12,15 @@
 			<div class="panel-body">
 				<div cg-busy="{promise: promise.general, message: 'Asking Nectar cluster now. Please wait patiently.'}">
 					<dl>
-						<dt> Summary Statistics </dt>
-						<dd> Summary lists Top 10 Emojis used within San Antonio and the general sentiment for tweets that contain them. </dd>
+						<dt> Emoji Usage Counts </dt>
+						<dd> The following bar chart shows how much each emoji is used and compares them side by side. It only illustrates the top 10 most used emoji in San Antonio. </dd>
 					</dl>
 					<!-- Bar Chart -->
 					<d3-bars data="emoji_general" categorical-label="emoji_name" numerical-label="count" ng-if="emoji_general_loaded"> </d3-bars>
-
+					<dl>
+						<dd> Emoji Sentiments </dd>
+						<dd> The following bar chart compares the sentiments by looking at their average polarities and subjectivities. </dd>
+					</dl>
 					<!-- Pie Chart -->
 					<d3-pie data="emoji_general" categorical-label="emoji_name" numerical-label="count" height="500" ng-if="emoji_general_loaded"> </d3-pie>
 				</div>
@@ -56,12 +59,10 @@
 		         options="map.options"
 		         pan="false"
 		         control="map.control"
-		         ng-if="!loc_update_toggle"
 		       	>
-		       	<!-- Fix: Controller update heatmap data --> 
-		       	<ui-gmap-layer namespace="visualization" type="HeatmapLayer" options="map.heatmap.options" show="true" onCreated="map.heatLayerCallback"></ui-gmap-layer>
+		       	<ui-gmap-layer namespace="visualization" type="HeatmapLayer" options="map.heatmap.options" show="true" onCreated="map.heatLayerCallback" ng-if="!loc_update_toggle"></ui-gmap-layer>
 
-		       	</ui-gmap-google-map>
+		       </ui-gmap-google-map>
 				</div>
 			</div>
 		</div>
