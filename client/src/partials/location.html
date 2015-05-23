@@ -12,7 +12,10 @@
 			<div class="panel-body">
 				<div class="row">
 					<div class="col-sm-10">
-						<b> Tweet Locations </b>
+						<dl>
+							<dt> Day Tweet Sentiment Heatmap </dt>
+							<dd> The map below illustrates all the locations of all tweets for a given date selected. It is then possible to filter the heatmap based on <i>Polarity</i> and <i>Subjectivity</i> to study the sentiment of the tweets on any given past date. Additional demographic filters are available at the data filter section. </dd>
+						</dl>
 						<ui-gmap-google-map 
 		         center="map1.center"
 		         zoom="map1.zoom"
@@ -21,23 +24,15 @@
 		         pan="false"
 		         control="map1.control"
 		       	>
-			       	<ui-gmap-layer namespace="visualization" type="HeatmapLayer" options="map.heatmap.options" show="true" onCreated="map.heatLayerCallback"></ui-gmap-layer>
-
+			       	<ui-gmap-layer namespace="visualization" type="HeatmapLayer" options="map.heatmap.options" show="true" onCreated="map.heatLayerCallback" ng-if="general_sentiment.heatmapToggle"></ui-gmap-layer>
 			      </ui-gmap-google-map>
 					</div>
 					<div class="col-sm-2">
-						<b> Data Filter </b> <br> <br>
+						<b> Data Filter </b> <br> 
 						<!-- Date Ranges --> 
-						Start Date 
-						<p class="input-group">
-              <input type="text" class="form-control" datepicker-popup="{{format}}" ng-model="dt" is-open="opened" min-date="minDate" max-date="'2015-06-22'" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" ng-required="true" close-text="Close" />
-              <span class="input-group-btn">
-                <button type="button" class="btn btn-default form-control" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
-              </span>
-            </p>
-            End Date 
+						Date
             <p class="input-group">
-              <input type="text" class="form-control" datepicker-popup="{{format}}" ng-model="dt" is-open="opened" min-date="minDate" max-date="'2015-06-22'" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" ng-required="true" close-text="Close" />
+              <input type="text" class="form-control" datepicker-popup="{{format}}" ng-model="general_sentiment.date" is-open="general_sentiment.date_opened" min-date="minDate" max-date="'2015-06-22'" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" ng-required="true" close-text="Close" />
               <span class="input-group-btn">
                 <button type="button" class="btn btn-default form-control" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
               </span>
@@ -55,8 +50,19 @@
 							<input type="text" ng-model="_dummy" typeahead="lang.data.name for lang in general_sentiment.languages | filter:$viewValue | limitTo:8" typeahead-on-select="general_sentiment_language_callback($item)" class="form-control">
 						</p> 
 						<p class="input-group">
-							<button class="btn btn-primary" ng-click="general_sentiment.call"> Update Filters </button>
+							<button class="btn btn-primary" ng-click="general_sentiment.call"> Fetch Data </button>
+						</p> <hr>
+						<b> Heatmap Filter </b> <br> 
+						<p class="input-group">
+							Polarity Opt.
+
+
 						</p>
+						<p class="input-group">
+							Subjectivity Opt. 
+
+						</p>
+
 					</div>
 				</div>
 			</div>
@@ -72,9 +78,14 @@
 				<h4>Location Specific Sentiment</h4>
 			</div>
 			<div class="panel-body">
+			<div cg-busy="{promise: specific_sentiment.promise, message: 'Asking Nectar cluster now. Please wait patiently.'}">
+				<alert type="warning" ng-show="specific_sentiment.edit_mode"> CURRENTLY IN EDIT MODE. Configure bound and hit update to regain heatmap visualisation. </alert>
 				<div class="row">
 					<div class="col-sm-10">
-						<b> Visualisation Map - {{map.mode}}</b>
+						<dl>
+							<dt> Sentiments by Location </dt>
+							<dd> The map below illustrates specific selected locations of all tweets for a given range of dates selected. It is then possible to filter the heatmap based on <i>Polarity</i> and <i>Subjectivity</i> to study the sentiment of the tweets on any range of given past dates. Additional demographic filters are available at the data filter section. </dd>
+						</dl>
 						<ui-gmap-google-map 
 		         	center="map.center"
 		         	zoom="map.zoom"
@@ -90,20 +101,53 @@
 						    clickable='map.selection.clickable'
 						    draggable='map.selection.draggable'
 						    editable='map.selection.editable'
-						    visible='map.selection.visible'
+						    visible='specific_sentiment.edit_mode'
 						    events='map.selection.events'
 							>
 							</ui-gmap-rectangle>
 							<!-- Gmap Heatmap Layer --> 
-							<ui-gmap-layer namespace="visualization" type="HeatmapLayer" options="map.heatmap.options" show="true" onCreated="map.heatLayerCallback" ng-if="specific_sentiment_toggle">
+							<ui-gmap-layer namespace="visualization" type="HeatmapLayer" options="map.heatmap.options" show="!specific_sentiment.edit_mode" onCreated="map.heatLayerCallback" ng-if="specific_sentiment_toggle">
 							</ui-gmap-layer>
 
 						</ui-gmap-google-map>
 					</div>
 					<div class="col-sm-2">
-						<b> Visualisation Controls </b>
+						<b> Visualisation Controls </b> <br> <br>
+						Start Date 
+            <p class="input-group">
+              <input type="text" class="form-control" datepicker-popup="{{format}}" ng-model="specific_sentiment.start_date" is-open="general_sentiment.date_opened" min-date="minDate" max-date="'2015-06-22'" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" ng-required="true" close-text="Close" />
+              <span class="input-group-btn">
+                <button type="button" class="btn btn-default form-control" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+              </span>
+            </p>
+            End Date
+            <p class="input-group">
+              <input type="text" class="form-control" datepicker-popup="{{format}}" ng-model="specific_sentiment.end_date" is-open="general_sentiment.date_opened" min-date="minDate" max-date="'2015-06-22'" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" ng-required="true" close-text="Close" />
+              <span class="input-group-btn">
+                <button type="button" class="btn btn-default form-control" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+              </span>
+            </p>
+            <!-- Political Leaning -->
+						<p class="input-group">
+							Political Leaning
+							<select ng-model="general_sentiment.selection.political" class="form-control">
+								<option ng-repeat="i in general_sentiment.political_choices">{{ i.charAt(0).toUpperCase() + i.slice(1) }} </option>
+							</select>
+						</p>
+						<!-- Language --> 
+						<p class="input-group">
+							Language
+							<input type="text" ng-model="__dummy" typeahead="lang.data.name for lang in specific_sentiment.languages | filter:$viewValue | limitTo:8" typeahead-on-select="general_sentiment_language_callback($item)" class="form-control">
+						</p> <br>
+						<p class="input-group" ng-hide="specific_sentiment.edit_mode">
+							<button class="btn btn-primary" ng-click="specific_sentiment.toggleEditMode()"> Edit Bounds </button>
+						</p>
+						<p class="input-group" ng-show="specific_sentiment.edit_mode">
+							<button class="btn btn-primary" ng-click="specific_sentiment.call()"> Update Visual </button>
+						</p>
 					</div>
 				</div>
+			</div>
 			</div>
 		</div>
 	</div>

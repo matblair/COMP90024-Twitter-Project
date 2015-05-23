@@ -17,6 +17,7 @@ app.controller("LocationController", ["$scope", "$http", "uiGmapGoogleMapApi", f
 			subjectivity: null, 
 			start_date: null,
 			end_date: null, 
+			date: null,
 			political_leaning: null,
 			language: null
 		},	
@@ -82,6 +83,7 @@ app.controller("LocationController", ["$scope", "$http", "uiGmapGoogleMapApi", f
 		/* 1. =================== General Sentiment ==================== */
 		$scope.general_sentiment = sentiment;
 
+
 		$scope.map1 = {
 			center: {
 	  		latitude: 29.4167,
@@ -117,6 +119,28 @@ app.controller("LocationController", ["$scope", "$http", "uiGmapGoogleMapApi", f
 		/* 2. ======== Location Specific Sentiment ========== */
 		$scope.specific_sentiment = sentiment;
 
+		$scope.specific_sentiment.edit_mode = false;
+
+		$scope.specific_sentiment.call = function() {
+			$scope.specific_sentiment.toggleEditMode();
+			$scope.specific_sentiment.promise = $http.get("").
+				success(function(res) {
+
+				}).
+				error(function(err) {
+					console.log(err);
+				})
+		};
+
+
+		$scope.specific_sentiment.toggleEditMode = function() {
+			console.log("clicked")
+			if ($scope.specific_sentiment.edit_mode)
+				$scope.specific_sentiment.edit_mode = false;
+			else
+				$scope.specific_sentiment.edit_mode = true;
+		};
+
 		$scope.map = {
 			center: {
 	  		latitude: 29.4167,
@@ -128,14 +152,10 @@ app.controller("LocationController", ["$scope", "$http", "uiGmapGoogleMapApi", f
 	  		scrollwheel: false,
 	  		panControl: true,
 	  		draggable: true
-	  	},
-	  	selection: {},
-	  	mode: "CONTROL MODE",
-	  	toggleControl: function() {
-	  		$scope.map.mode = "CONTROL MODE";
 	  	}
 		}
 		
+		// REMEMBER TO TOGGLE MAP MODES!
 		$scope.map.mode = "CONTROL MODE";
 
 		$scope.map.selection = {
@@ -174,12 +194,6 @@ app.controller("LocationController", ["$scope", "$http", "uiGmapGoogleMapApi", f
 			new maps.LatLng(29.3906913302109, -98.51866149902327),
       new maps.LatLng(29.443644224231225, -98.46186828613281)
 		)
-
-		$scope.submitBounds = function() {
-			$scope.map.mode = "VISUAL MODE";
-			$http.get("")
-		}
-
 
 
 	});
