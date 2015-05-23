@@ -122,7 +122,7 @@ class tweetTagger:
         topics['mention_gun_control'] = tweet_analyzer.analyzeTopicGunControl()
         topics['unemployment'] = tweet_analyzer.analyzeTopicUnemployment()
         topics['democratic_indicator'] = tweet_analyzer.analyzeTopicDemocrat()
-        topics['repulican_indicator'] = tweet_analyzer.analyzeTopicRepublican()
+        topics['republican_indicator'] = tweet_analyzer.analyzeTopicRepublican()
 
         tweet_analysis = {}
         tweet_analysis['language_features'] = language_features
