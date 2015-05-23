@@ -1,0 +1,70 @@
+<div class="page-header">
+	<h1> Emoji Analytics </h1>
+</div>
+
+<!-- General Summary -->
+<div class="row">
+	<div class="col-sm-12">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h3> Emoji Summary Statistics </h3>
+			</div>
+			<div class="panel-body">
+				<div cg-busy="{promise: promise.general, message: 'Asking Nectar cluster now. Please wait patiently.'}">
+					<dl>
+						<dt> Emoji Usage Counts </dt>
+						<dd> The following bar chart shows how much each emoji is used and compares them side by side. It only illustrates the top 10 most used emoji in San Antonio. </dd>
+					</dl>
+					<!-- Bar Chart -->
+					<d3-bars data="emoji_general" categorical-label="emoji_name" numerical-label="count" ng-if="emoji_general_loaded"> </d3-bars>
+					<dl>
+						<dd> Emoji Sentiments </dd>
+						<dd> The following bar chart compares the sentiments by looking at their average polarities and subjectivities. </dd>
+					</dl>
+					<!-- Pie Chart -->
+					<d3-pie data="emoji_general" categorical-label="emoji_name" numerical-label="count" height="500" ng-if="emoji_general_loaded"> </d3-pie>
+				</div>
+
+
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- Locations: Heatmap --> 
+<div class="row">
+	<div class="col-sm-12">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h3> Emoji Locations </h3>
+			</div>
+			<div class="panel-body">
+				<div cg-busy="{promise: promise.location, message: 'Asking Nectar cluster now. Please wait patiently.'}">
+					<dl>
+						<dt> Emoji Usage Heatmap </dt>
+						<dd> Heatmap illustrates where emojis are used within San Antonio. </dd>
+					</dl>
+					<p>
+						<b> Number of Unique Location Points: </b> {{emoji_locations_count || "No Emoji Selected Yet..."}}
+					</p>
+					<!-- Heatmap -->
+					<div class="form-group">
+						<label for="emoji-selector"> Select Emoji to Display </label>
+						<input id="emoji-selector" type="text" ng-model="selected_emoji" typeahead="emoji for emoji in emojis | filter:$viewValue | limitTo:8" class="form-control" typeahead-on-select="emojiUsageLocation($model)" ng-change="loc_update_toggle = true">
+					</div>
+					<ui-gmap-google-map 
+		         center="map.center"
+		         zoom="map.zoom"
+		         dragging="map.dragging"
+		         options="map.options"
+		         pan="false"
+		         control="map.control"
+		       	>
+		       	<ui-gmap-layer namespace="visualization" type="HeatmapLayer" options="map.heatmap.options" show="true" onCreated="map.heatLayerCallback" ng-if="!loc_update_toggle"></ui-gmap-layer>
+
+		       </ui-gmap-google-map>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

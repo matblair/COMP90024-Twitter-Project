@@ -1,0 +1,38 @@
+- name: install bundler
+  gem: name=bundler
+
+- name: Gem install thin
+  gem: name=thin
+
+- name: Setup init.d for thin
+  sudo: no
+  shell: thin install
+
+- name: update code
+  git: repo=git://{{repo}}
+       dest=/webapps/{{name}}
+       force=yes
+       accept_hostkey=yes
+
+- name: change repo folder owner to ubuntu
+  command: chown ubuntu /webapps/{{name}}
+
+- name: fix permissions
+  shell: chmod 777 /etc/thin
+
+- name: delete me adds thin gem to gemfile
+  shell: echo "gem 'thin'" >> Gemfile
+  args:
+    chdir: /webapps/{{name}}
+
+- name: Install app gems
+  command: bundle install
+  args:
+    chdir: /webapps/{{name}}
+
+- name: setup thin config
+  sudo: no
+  shell: thin config -C /etc/thin/{{name}}.yml -c /webapps/{{name}} -p 4500 -d
+
+- name: Ensure thin is started
+  service: name=thin state=started

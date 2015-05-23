@@ -1,0 +1,68 @@
+<html ng-app="twitter-app">
+	<head>
+		<!-- bower:css -->
+		<link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css" />
+		<link rel="stylesheet" href="bower_components/angular-busy/dist/angular-busy.css" />
+		<!-- endbower -->
+
+		<!-- Assets -->
+		<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+
+		<!-- Custom Stylesheets -->
+		<link rel="stylesheet" href="build/app.css"/>
+
+	</head>
+
+	<div class="container-fluid">
+		<nav class="navbar navbar-default navbar-fixed-top">
+			<div class="container">
+				<div class="navbar-header">
+					<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#mainnav">
+		        <span class="sr-only">Toggle navigation</span>
+		        <span class="icon-bar"></span>
+		        <span class="icon-bar"></span>
+		        <span class="icon-bar"></span>
+		      </button>
+		      <a class="navbar-brand" href ui-sref="main">Twitter Analytics @ San Antonio, TX</a>
+				</div>
+				<div class="collapse navbar-collapse" id="mainnav">
+		      <ul class="nav navbar-nav">
+		      	<li><a href ui-sref="topics"> Topics </a></li>
+		      	<li><a href ui-sref="location"> Locations </a></li>
+		      	<li><a href ui-sref="hashtags"> Hashtags </a></li>
+		      	<li><a href ui-sref="social"> Social Network </a></li>
+		      	<li><a href ui-sref="emoji"> Emoji </a></li>
+		      	<li><a href ui-sref="test"> Test </a></li>
+		      </ul>
+		    </div><!-- /.navbar-collapse -->
+
+			</div>
+		</nav>
+	</div>
+
+	<body>
+		<!-- Main Body -->
+		<div id="main-body" class="container">
+			<ui-view></ui-view>
+		</div>
+
+		<!-- bower:js -->
+		<script src="bower_components/jquery/dist/jquery.js"></script>
+		<script src="bower_components/angular/angular.js"></script>
+		<script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
+		<script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
+		<script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
+		<script src="bower_components/lodash/dist/lodash.compat.js"></script>
+		<script src="bower_components/angular-google-maps/dist/angular-google-maps.js"></script>
+		<script src="bower_components/angular-animate/angular-animate.js"></script>
+		<script src="bower_components/angular-busy/dist/angular-busy.js"></script>
+		<!-- endbower -->
+
+		<!-- CUSTOM JS SCRIPT-->
+		<script src="build/app.js"></script>
+
+		<!-- Angular D3 -->
+		<script src="js/custom-d3/build/ngD3-dev.js"></script>
+
+	</body>
+</html>

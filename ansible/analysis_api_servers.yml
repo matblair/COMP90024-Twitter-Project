@@ -1,0 +1,7 @@
+- hosts: analysis_api_servers
+  remote_user: ubuntu
+  sudo: yes
+  roles:
+    - common
+    - ruby
+    - { role: rails, repo: github.com/matblair/COMP90024-Analysis-Api.git, name: analysis_api}

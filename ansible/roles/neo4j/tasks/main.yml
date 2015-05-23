@@ -1,0 +1,20 @@
+- name: Get gpg key
+  shell: wget -O - http://debian.neo4j.org/neotechnology.gpg.key >> key.pgp
+
+- name: Add gpg key to apt-key
+  shell: apt-key add key.pgp
+
+- name: Update package list
+  shell: echo 'deb http://debian.neo4j.org/repo stable/' | sudo tee -a /etc/apt/sources.list.d/neo4j.list > /dev/null
+
+- name: update packages
+  apt: update_cache=yes
+
+- name: install neo4j
+  apt: name=neo4j
+
+- name: Update config
+  template: src=../templates/neo4j-server.properties-template.j2 dest=/var/lib/neo4j/neo4j-server.properties mode=0751
+
+- name: Ensure neo4j is started
+  service: name=neo4j-service state=started
