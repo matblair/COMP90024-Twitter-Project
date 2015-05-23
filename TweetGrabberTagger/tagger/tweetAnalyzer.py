@@ -151,8 +151,7 @@ class tweetAnalyzer:
         for word in words:
             if word in self.raw_tweet['text']:
                 return True
-            else:
-                return False
+        return False
         #return bool(self.words & set(words))
 
     def containsTerms(self, terms):
