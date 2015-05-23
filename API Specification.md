@@ -332,7 +332,7 @@ One of:
   "time_periods" : {
     "0": {
       "start_date": "15/4/2015",
-      "end_date": "204/2015",
+      "end_date": "20/4/2015",
       "trending":{
         "0":{
             "text":"ILoveHaskell",
@@ -348,7 +348,7 @@ One of:
     },
     "1": 
       "start_date": "15/4/2015",
-      "end_date": "204/2015",
+      "end_date": "20/4/2015",
       "trending":{
         "0":{
             "text":"TechiesBOOM",
