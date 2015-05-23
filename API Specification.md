@@ -15,7 +15,6 @@ This API provides an interface through which users can query certain attributes 
   1. [Return information about a particular hashtag](#hashtag-single)
   2. [Return the ten most popular hashtags](#hashtag-popular)
   3. [Return hashtags associated to a topic](#hashtag-topic)
-  4. [Return sentiment of a hashtag](#hashtag-sentiment) 
 4. [Social Network](#social)
   1. [Provide general information about the social graph](#social-users)
   2. [Ask about a user](#social-user)
@@ -466,21 +465,6 @@ One of:
   "topic": "healthcare",
   "tweet_references": 7,
   "user_references": 5
-}
-```
-
-#####<a name="hashtag-sentiment"></a> Return sentiment of a hashtag
-```http
-GET /hashtag/:hashtag/sentiment
-```
-
-#### Output
-```json
-{
-  "hashtag":"pikachurox",
-  "avg_polarity":"0.9",
-  "avg_subjectivity":"0.1",
-  "count": 12312, //tag instances
 }
 ```
 
