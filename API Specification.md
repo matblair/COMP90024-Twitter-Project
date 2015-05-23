@@ -328,7 +328,6 @@ One of:
 #### Output
 ```json
 {
-  "text" : "yolo"
   "time_periods" : {
     "0": {
       "start_date": "15/4/2015",
