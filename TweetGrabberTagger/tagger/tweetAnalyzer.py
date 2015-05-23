@@ -149,7 +149,7 @@ class tweetAnalyzer:
     def hasWords(self, words):
         '''Checks if tweet has any words in the given list'''
         for word in words:
-            if word in self.raw_tweet['text']):
+            if word in self.raw_tweet['text']:
                 return True
             else:
                 return False
