@@ -6,8 +6,7 @@ This API provides an interface through which users can query certain attributes 
 1. [Topic](#topic)
   1. [Get General Information About A Topic](#topic-general)
   2. [Get Information About Topic Trends](#topic-trends)
-  3. [Get Information About Extreme Topic Backers](#topic-extremes)
-  4. [Get Information About Topic Locations](#topic-locations)
+  3. [Get Information About Topic Locations](#topic-locations)
 2. [Location](#location)
   1. [Get General Information about Locations' Sentiment](#location-general)
   2. [Get information about a particular area](#location-sentiment)
@@ -15,7 +14,6 @@ This API provides an interface through which users can query certain attributes 
   1. [Return information about a particular hashtag](#hashtag-single)
   2. [Return the ten most popular hashtags](#hashtag-popular)
   3. [Return hashtags associated to a topic](#hashtag-topic)
-  4. [Return sentiment of a hashtag](#hashtag-sentiment) 
 4. [Social Network](#social)
   1. [Provide general information about the social graph](#social-users)
   2. [Ask about a user](#social-user)
@@ -25,6 +23,10 @@ This API provides an interface through which users can query certain attributes 
   1. [Get general information about emoji usage](#emoji-summary)
   2. [Get emoji heatmap](#emoji-heatmap)
 6. [Tweet Data Structure](#tweet)
+
+##### General Notes
+--------
+As a note, all input times are in San Antonio (Central US Time) Time. Database values are stored in UTC but the API converts to and back in order to make it's calculations.
 
 ### <a name="topic"></a>Topic Queries
 This api endpoint provides information about one of the three chosen topics we are investigating in San Antonio
@@ -61,7 +63,7 @@ Language is a two character language code, i.e. "en","ch","gb"
     "topic": "ALSKDJASL",
     "polarity":"0.9",
     "subjectivity":"0.4",
-    "most_popular_languages":["gb","de"],
+    "most_popular_languages":["gb","de"], // If no language specified
     "least_popular_languages":["en"],
     "count": 1921
 }
@@ -122,56 +124,17 @@ One of:
 - "decreasing"
 - "stable"
 
-### <a name="topic-extremes"></a>Get Information About Extreme Topic Backers 
-```http
-GET /topics/:topic/extremes
-```
-###### Input Params
-```json
-{
-    "start_date":"21/01/2015",
-    "end_date":"02/03/2015"
-}
-```
-
-#### Output
-```json
-{
-    "topic": "ALSKDJASL",
-    "greatest_supporter":{
-        "name":"mat",
-        "username":"matthefantastic",
-        "id":"aslkdjaslkdj",
-        "basic_stats":{
-          "number_of_tweets":"3",
-          "num_followers":"2",
-          "talker":true,
-          "degree_of_connectivity":"12"
-        },
-        "sentiment":{
-          "average_sentiment":"2",
-          "average_subjectivity":"3",
-        },
-        "demographic":{
-            "politcal_leaning":"",
-            "languages":["",""],
-            "prefered_languge":"en",
-        }
-      },
-    "greatest_detract":{
-          //As above
-      }
-    },
-    "maximum_distance":"9",
-    "shortest_distance":"3",
-}
-```
 
 ### <a name="topic-location"></a>Get Information About Topic Locations
 ```http
 GET /topics/:topic/locations
 ```
-
+###### Input Params
+```json
+{
+    "limit":200, // Optional
+}
+```
 #### Output
 List of Points with Sentiment Informations
 ```json
@@ -341,7 +304,6 @@ GET /hashtags/trending
 {
     "politcal_leaning":"",
     "language":"",
-    "mood": "happy",
     "start_date": "15/4/2015",
     "start_date": "20/4/2015",
     "granularity": "hourly"
@@ -366,35 +328,40 @@ One of:
 #### Output
 ```json
 {
-  "0": {"datetime": "UTCTime",
-          "trending":{
-              "0":{
-                  "text":"ILoveHaskell",
-                  "polarity":"0.9",
-                  "subjectivity":"0.1"
-              },
-              "1":{
-                  "text":"HaskellSucksMonkeyBalls",
-                  "polarity":"0.9",
-                  "subjectivity":"0.1"
-              } //10 of these for each period.
-          }
-      },
-  "1": {"datetime": "UTCTime",
-          "trending":{
-              "0":{
-                  "text":"TechiesBOOM",
-                  "polarity":"0.9",
-                  "subjectivity":"0.1"
-              },
-              "1":{
-                  "text":"PudgeHook",
-                  "polarity":"-1",
-                  "subjectivity":"1"
-              } //10 of these for each period.
-          }
-
+  "time_periods" : {
+    "0": {
+      "start_date": "15/4/2015",
+      "end_date": "20/4/2015",
+      "trending":{
+        "0":{
+            "text":"ILoveHaskell",
+            "polarity":"0.9",
+            "subjectivity":"0.1"
+        },
+        "1":{
+            "text":"HaskellSucksMonkeyBalls",
+            "polarity":"0.9",
+            "subjectivity":"0.1"
+        } //10 of these for each period.
       }
+    },
+    "1": 
+      "start_date": "15/4/2015",
+      "end_date": "20/4/2015",
+      "trending":{
+        "0":{
+            "text":"TechiesBOOM",
+            "polarity":"0.9",
+            "subjectivity":"0.1"
+        },
+        "1":{
+            "text":"PudgeHook",
+            "polarity":"-1",
+            "subjectivity":"1"
+        } //10 of these for each period.
+      }
+    }
+  }
 }
 ```
 
@@ -402,8 +369,26 @@ One of:
 ```http
 GET /hashtag/topics
 ```
-
-#### Output
+###### Input Params
+```json
+{
+    "frequency":true, // Optional - Defaults to false
+}
+```
+#### Output - With Frequency
+```json
+{
+  "gun_control": {
+    "hashtags": {
+      "#donkeys":3
+      "#obamasux":12
+      "#iloveguns":1230 
+      //Maximum Limit of 10
+    }
+  } // Etc for all supported topics
+}
+```
+#### Output - Without Frequency
 ```json
 {
   "gun_control": {
@@ -412,18 +397,7 @@ GET /hashtag/topics
       "#obamasux",
       "#iloveguns" //Maximum Limit of 10
     ]
-  },
-  "immigration": {
-    "hashtags": [
-      "#MoreAsiansPlox"
-    ]
-  },
-  "unemployment": {
-    "hashtags": [
-      "#foodstamps",
-      "#LifeSux"
-    ]
-  }
+  } // Etc for all supported topics
 }
 ```
 
@@ -469,21 +443,6 @@ One of:
 }
 ```
 
-#####<a name="hashtag-sentiment"></a> Return sentiment of a hashtag
-```http
-GET /hashtag/:hashtag/sentiment
-```
-
-#### Output
-```json
-{
-  "hashtag":"pikachurox",
-  "avg_polarity":"0.9",
-  "avg_subjectivity":"0.1",
-  "count": 12312, //tag instances
-}
-```
-
 ----------------------------------
 ### <a name="social"></a>Social Network Queries
 #####<a name="social-users"></a>Provide general information about the social graph
@@ -523,7 +482,10 @@ GET /users/:user_id
       "average_subjectivity":"3",
     },
     "demographic":{
-        "politcal_leaning":"",
+        "politcal_leaning":{
+          "democrat":12,
+          "republican":13
+          },
         "languages":["",""],
         "prefered_languge":"en",
     }
