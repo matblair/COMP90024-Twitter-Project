@@ -126,8 +126,17 @@ angular.module("d3.bar", ["d3"])
 						// if there isnt any data, just don't render.
 						if (!data) return;
 
+						var width = d3.select(element[0]).node().offsetWidth - margin,
+							height = scope.data.length * (barHeight + barPadding),
+							color = d3.scale.category20(),
+							yScale = d3.scale.linear()
+								.domain([0, d3.max(data, function(d) {
+									return d[scope.numericalLabel];
+								})])
+								.range([0, width]);
 
 					};
+				});
 			}
 		}
 	}])
