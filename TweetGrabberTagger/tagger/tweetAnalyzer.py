@@ -55,8 +55,8 @@ class tweetAnalyzer:
         self.emoji_rating = 0
 
         # Tally pos/neg emojis
-        for character in self.raw_tweet['text']:
-            if character in self.emoji_categories:
+        for character in self.emoji_categories:
+            if character in self.raw_tweet['text']:
                 self.emoji_text += character # Append to emoji text
                 if self.emoji_categories[character]['mood'] == 'happy':
                     self.emoji_rating += 1

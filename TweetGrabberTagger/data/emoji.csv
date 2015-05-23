@@ -1,4 +1,13 @@
 term,description,mood
+:),short_hap,happy
+:(,short_sad,sad
+:D,short_d,happy
+=),long_hap,happy
+=(,long_sad,sad
+=D,long_d,happy
+:-),old_hap,happy
+:-(,old_sad,sad
+:-D,old_d,happy
 😄,A_smiley1,happy
 😃,A_smiley2,happy
 😀,A_smiley3,happy
