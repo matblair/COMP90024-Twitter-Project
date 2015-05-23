@@ -148,7 +148,12 @@ class tweetAnalyzer:
 
     def hasWords(self, words):
         '''Checks if tweet has any words in the given list'''
-        return bool(self.words & set(words))
+        for word in words:
+            if word in self.raw_tweet['text']):
+                return True
+            else:
+                return False
+        #return bool(self.words & set(words))
 
     def containsTerms(self, terms):
         '''Checks if terms are in either topics or words'''
