@@ -61,14 +61,20 @@ app.controller("HashtagController", ["$scope", "$http", function($scope, $http) 
 	/* 1. END ========= Trending Hashtag ================= */
 
 	/* 2. ============= Top 10 Hashtags ================== */
-	$scope.popular = {};
+	$scope.popular = {
+		ready: false
+	};
 
 	function popularProcess(data) {
-
-	}
+		$scope.popular.democrat_data = Object.keys(data.democrat).map(function(k) { return { hashtag: k, count: data.democrat[k]} });
+		$scope.popular.republican_data = Object.keys(data.republican).map(function(k) { return { hashtag: k, count: data.republican[k]} });
+		$scope.popular.ready = true;
+	};
 
 	$scope.popular.promise = $http.get("http://144.6.227.63:4500/hashtags/topics?frequency=true").
 		success(function(res) {
+			$scope.popular.data = res;
+			popularProcess($scope.popular.data);
 			console.log(res);
 		}).
 		error(function(err) {

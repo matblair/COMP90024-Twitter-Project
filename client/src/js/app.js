@@ -44,6 +44,11 @@ app.config(['$stateProvider', '$urlRouterProvider', 'uiGmapGoogleMapApiProvider'
 				}
 			}
 		})
+		.state('topics', {
+			url: "/topics",
+			controller: "TopicController",
+			templateUrl: "partials/topic.html"
+		})
 		.state('location', {
 			url: "/location",
 			controller: "LocationController",	

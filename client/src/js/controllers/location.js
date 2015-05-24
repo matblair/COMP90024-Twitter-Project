@@ -63,7 +63,7 @@ app.controller("LocationController", ["$scope", "$http", "uiGmapGoogleMapApi", f
 					break;
 			};
 		});
-		console.log(wanted_pol, filtered);
+		//console.log(wanted_pol, filtered);
 		return filtered;
 	};
 
@@ -84,7 +84,7 @@ app.controller("LocationController", ["$scope", "$http", "uiGmapGoogleMapApi", f
 					break;
 			};
 		});
-		console.log(wanted_sub, filtered);
+		//console.log(wanted_sub, filtered);
 		return filtered;
 	}
 

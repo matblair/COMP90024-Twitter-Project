@@ -151,8 +151,9 @@ angular.module("d3.line", ["d3"])
 							height1 = height - margin1.top - margin1.bottom,
 							height2 = height - margin2.top - margin2.bottom;
 
-						var parseDate = d3.time.format("%b %Y").parse;
-
+						
+						var parseDate = d3.time.format().parse;
+						
 						var x = d3.time.scale().range([0, width]),
 					    x2 = d3.time.scale().range([0, width]),
 					    y = d3.scale.linear().range([height1, 0]),
@@ -286,7 +287,7 @@ angular.module("d3.line", ["d3"])
 				d3Service.d3().then(function(d3) {
 
 					var height = parseInt(attrs.height) || 500,
-						dateFormat = dateFormat || "%Y%m%d";
+						dateFormat = attrs.dateFormat || "%Y%m%d";
 
 					window.onresize = function() {
 							scope.$apply();
@@ -316,7 +317,7 @@ angular.module("d3.line", ["d3"])
 							height1 = height - margin1.top - margin1.bottom,
 							height2 = height - margin2.top - margin2.bottom;
 
-						var parseDate = d3.time.format(dateFormat).parse;
+						//var parseDate = d3.time.format(dateFormat).parse;
 
 					  /* DOMAIN */
 					  var x = d3.time.scale().range([0, width]),
@@ -333,7 +334,7 @@ angular.module("d3.line", ["d3"])
 					  color.domain(d3.keys(data[0]).filter(function(key) { return key !== "date" }));
 
 					 	data.forEach(function(d) {
-					 		d.date = parseDate(d.date);
+					 		d.date = d.date;
 					 	});
 
 					 	var categories = color.domain().map(function(name) {

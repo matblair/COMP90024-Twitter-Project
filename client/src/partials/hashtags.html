@@ -1,7 +1,7 @@
 <div class="page-header">
 	<h1> Hashtags Analytics </h1>
 </div>
-
+<!--
 <div class="row">
 	<div class="col-sm-12">
 		<div class="panel panel-default">
@@ -17,7 +17,7 @@
 				</div>
 				<div class="col-sm-2">
 					<b> Data Filter </b> <br> 
-						<!-- Date Ranges --> 
+
 						Start Date
             <p class="input-group">
               <input type="text" class="form-control" datepicker-popup="{{format}}" ng-model="trending.params.start_date" is-open="trending.date_opened1" max-date="trending.maxDate" datepicker-options="dateOptions" ng-required="true" close-text="Close" />
@@ -32,23 +32,18 @@
                 <button type="button" class="btn btn-default form-control" ng-click="trending.open2($event)"><i class="glyphicon glyphicon-calendar"></i></button>
               </span>
             </p>
-            <!-- Granularity -->
-            <!--
             Granularity 
             <p class="input-group">
             	<select ng-model="trending.params.granularity" class="form-control">
             		<option ng-repeat="i in trending.granularities"> {{ i }} </option>
              	</select>
             </p>
-            -->
-						<!-- Political Leaning -->
 						<p class="input-group">
 							Political Leaning
 							<select ng-model="trending.params.political_leaning" class="form-control">
 								<option ng-repeat="i in trending.political_choices">{{ i }} </option>
 							</select>
 						</p>
-						<!-- Language --> 
 						<p class="input-group">
 							Language
 							<input type="text" ng-model="_dummy" typeahead="lang.data.name for lang in trending.languages | filter:$viewValue | limitTo:8" typeahead-on-select="general_sentiment_language_callback($item)" class="form-control">
@@ -61,6 +56,7 @@
 		</div>
 	</div>
 </div>
+-->
 
 <div class="row">
 	<div class="col-sm-12">
@@ -74,10 +70,10 @@
 						<dt> Popular Hashtags </dt>
 						<dd> The following hashtags are the top 10 most mentioned hashtags for the our chosen demographic profiles. By identifying these hashtags we can discover similar hashtags which may highlight minor topics of interest for Twitter users who are actually involved in our chosen demographic profiles of choice. </dd>
 					</dl>
-					<b> Democrats </b> <br>
-					<d3-bars data="popular.democrat_data" categorical-label="hashtag" numerical-label="count"> </d3-bars>
-					<b> Republicans </b> <br>
-					<d3-bars data="popular.republican_data" categorical-label="hashtag" numerical-label="count"> </d3-bars>
+					<b> Democrats Popular Hashtags </b> <br>
+					<d3-bars data="popular.democrat_data" categorical-label="hashtag" numerical-label="count" ng-if="popular.ready"> </d3-bars>
+					<b> Republicans Popular Hashtags </b> <br>
+					<d3-bars data="popular.republican_data" categorical-label="hashtag" numerical-label="count" ng-if="popular.ready"> </d3-bars>
 				</div>
 			</div>
 		</div>
