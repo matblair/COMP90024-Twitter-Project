@@ -11,8 +11,5 @@
     - chown -R couchdb:couchdb /var/run/couchdb
     - chmod 777 /var/run/couchdb
 
-- name: Stop couchdb
-  command: couchdb -d
-
 - name: Start couchdb
   command: couchdb -b
