@@ -14,15 +14,10 @@ This API provides an interface through which users can query certain attributes 
   1. [Return information about a particular hashtag](#hashtag-single)
   2. [Return the ten most popular hashtags](#hashtag-popular)
   3. [Return hashtags associated to a topic](#hashtag-topic)
-4. [Social Network](#social)
-  1. [Provide general information about the social graph](#social-users)
-  2. [Ask about a user](#social-user)
-  3. [Get Twitter Users for various demographic attributes](#social-demographics)
-  4. [Ask about the users particular friends](#social-friends)
-5. [Emoji](#emoji)
+4. [Emoji](#emoji)
   1. [Get general information about emoji usage](#emoji-summary)
   2. [Get emoji heatmap](#emoji-heatmap)
-6. [Tweet Data Structure](#tweet)
+5. [Tweet Data Structure](#tweet)
 
 ##### General Notes
 --------
@@ -445,97 +440,6 @@ One of:
   "topic": "healthcare",
   "tweet_references": 7,
   "user_references": 5
-}
-```
-
-----------------------------------
-### <a name="social"></a>Social Network Queries
-#####<a name="social-users"></a>Provide general information about the social graph
-```http
-GET /users
-```
-
-#### Output
-```json
-{
-    "date":"21/01/2015",
-    "time":"12:39PM",
-    "activity":"12",
-    "connectivity":"12"
-}
-```
-
-#####<a name="social-user"></a> Ask about a user
-Provide general information about the social graph
-```http
-GET /users/:user_id
-```
-
-#### Output
-```json
-{
-    "name":"mat",
-    "username":"matthefantastic",
-    "basic_stats":{
-      "number_of_tweets":"3",
-      "num_followers":"2",
-      "talker":true,
-      "degree_of_connectivity":"12"
-    },
-    "sentiment":{
-      "average_polarity":"2",
-      "average_subjectivity":"3",
-    },
-    "demographic":{
-        "politcal_leaning":{
-          "democrat":12,
-          "republican":13
-          },
-        "languages":["",""],
-        "prefered_languge":"en",
-    }
-}
-```
-
-##### <a name="social-friends"></a> Ask about the users particular friends
-Provide general information about the social graph
-```http
-GET /users/:user_id/connections?degree=1
-```
-#### Output
-```json
-{
-    "date":"21/01/2015",
-    "time":"12:39PM",
-    "user":"user_id",
-    "connections":{
-      "1":[{
-          "user":{
-            "name":"asdkljalskdja",
-            "user_id":"1",
-            "num_connections":"1"
-          },
-          "demographic":{
-
-            },
-          "subjectivty":"0.9",
-          "sentiment":"0.1"
-      }],
-      "2":[{
-          "user":{
-            "name":"asdkljalskdja",
-            "user_id":"1",
-            "num_connections":"1"
-          },
-          "demographic":{
-
-          },
-          "subjectivty":"0.9",
-          "sentiment":"0.1"
-      }]
-    },
-    "num_connections":"1",
-    "degree_of_connectivity":"12"
 }
 ```
 
