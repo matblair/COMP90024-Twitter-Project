@@ -10,22 +10,38 @@ app.config(['$stateProvider', '$urlRouterProvider', 'uiGmapGoogleMapApiProvider'
 	$stateProvider
 		.state('gun-control', {
 			url: "/topic/gun-control",
-			templateUrl: "partials/gun-control.html"
-		})
-		.state('topics', {
-			url: "/topics",
-			templateUrl: "partials/topics.html"
-		})
-		.state('topics.topic', {
-			url: "/topic/:name",
 			controller: "TopicController",
-			templateUrl: "partials/topics.topic.html",
+			templateUrl: "partials/topic.html",
 			resolve: {
-				topic: function($stateParams, $http) {
+				topic: function() {
 					return {
-						name: $stateParams.name
+						name: "Gun Control"
 					}
-				},
+				}
+			}
+		})
+		.state('immigration', {
+			url: "/topic/immigration",
+			controller: "TopicController",
+			templateUrl: "partials/topic.html",
+			resolve: {
+				topic: function() {
+					return {
+						name: "Immigration"
+					}
+				}
+			}
+		})
+		.state('unemployment', {
+			url: "/topic/unemployment",
+			controller: "TopicController",
+			templateUrl: "partials/topic.html",
+			resolve: {
+				topic: function() {
+					return {
+						name: "Unemployment"
+					}
+				}
 			}
 		})
 		.state('location', {
