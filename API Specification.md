@@ -329,34 +329,38 @@ One of:
 ```json
 {
   "time_periods" : {
-    "0": {
+    "00": {
       "start_date": "15/4/2015",
       "end_date": "20/4/2015",
       "trending":{
         "0":{
             "text":"ILoveHaskell",
             "polarity":"0.9",
+            "count":"10",
             "subjectivity":"0.1"
         },
         "1":{
             "text":"HaskellSucksMonkeyBalls",
             "polarity":"0.9",
+            "count":"10",
             "subjectivity":"0.1"
         } //10 of these for each period.
       }
     },
-    "1": 
+    "01": 
       "start_date": "15/4/2015",
       "end_date": "20/4/2015",
       "trending":{
         "0":{
             "text":"TechiesBOOM",
             "polarity":"0.9",
+            "count":"10",
             "subjectivity":"0.1"
         },
         "1":{
             "text":"PudgeHook",
             "polarity":"-1",
+            "count":"10",
             "subjectivity":"1"
         } //10 of these for each period.
       }
@@ -364,6 +368,7 @@ One of:
   }
 }
 ```
+
 
 #####<a name="hashtag-topic"></a> Return Top 10 Hashtags mentioned for topics 
 ```http
