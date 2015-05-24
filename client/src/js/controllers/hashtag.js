@@ -61,15 +61,100 @@ app.controller("HashtagController", ["$scope", "$http", function($scope, $http) 
 	/* 1. END ========= Trending Hashtag ================= */
 
 	/* 2. ============= Top 10 Hashtags ================== */
+	$scope.popular = {};
+
+	function popularProcess(data) {
+
+	}
+
+	$scope.popular.promise = $http.get("http://144.6.227.63:4500/hashtags/topics?frequency=true").
+		success(function(res) {
+			console.log(res);
+		}).
+		error(function(err) {
+			console.log(err);
+			alert(err);
+		})
 
 	/* 2. END ========= Top 10 Hashtags ================== */
 
 	/* 3. ============= Similar Hashtags ================= */
 
+	$scope.similar = {
+		degrees: [0, 1],
+		frequencies: [true, false]
+	};
+	$scope.similar.params = {
+		degree: 0,
+		frequency: true
+	}
+
+	// Give array of many objects, returns 
+	function subdivide(arr, root_name) {
+		var slot = Math.floor(arr.length / 10);
+		var round = Math.floor(arr.length / slot);
+		var cs = [];
+		for (var i = 0; i < round; i++) {
+			var ds = [];
+			for (var k = 0; k < slot; k++) {
+				ds[k] = {name: arr[i * k].name, count: arr[i * k].count}
+			}
+			cs[i] = {name: "Partition " + (i+1), children: ds};
+		}
+		return cs;
+	}
+
+	function data2Circle(data) {
+		if (data == null) return;
+		function bigCircle(obj) {
+			if (obj.count > 10)
+				return obj;
+		}
+		function averageCircle(obj) {
+			if (obj.count > 5 && obj.count <= 10)
+				return obj;
+		}
+		function smallCircle(obj) {
+			if (obj.count > 2 && obj.count <= 5)
+				return obj;
+		}
+		function verySmallCircle(obj) {
+			if (obj.count > 1 && obj.count <= 2)
+				return obj;
+		}
+		function insignificantCircle(obj) {
+			if (obj.count == 1)
+				return obj;
+		}
+		var all = Object.keys(data.similar).map(function(k) { return { name: k, count: data.similar[k] }});
+		var big = { name: ">10 Mentions", children: all.filter(bigCircle)};
+		var average = { name: ">5 Mentions", children: all.filter(averageCircle)};
+		var small = { name: ">2 Mentions", children: subdivide(all.filter(smallCircle), "smallCircle")};
+		var verySmall = { name: "2 Mentions", children: subdivide(all.filter(verySmallCircle), "verySmall")};
+		var insignificant = { name: "1 Mention", children: subdivide(all.filter(insignificantCircle), "insignificant")};
+		var root = {
+			name: data.topic,
+			children: [big, average, small, verySmall, insignificant]
+		};
+		return root;
+	}
+
+	$scope.similar.call = function() {
+		$scope.similar.updating = true;
+		$scope.similar.promise = $http.get("http://144.6.227.63:4500/hashtags/stats/" + $scope.similar.params.hashtag + "/similar", {params: $scope.similar.params}).
+			success(function(res) {
+				$scope.similar.data = res;
+				$scope.similar.circleData = data2Circle($scope.similar.data);
+				//console.log(res);
+				$scope.similar.updating = false;
+			}).
+			error(function(err) {
+				console.log(err);
+				alert(err);
+			})
+	}
+
 	/* 3. END ========= Similar Hashtags ================= */
 
-	/* 4. ============= Query Hashtag ==================== */
-
-	/* 4. END ========= Query Hashtag ==================== */
 
 }]);

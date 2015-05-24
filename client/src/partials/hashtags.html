@@ -66,20 +66,18 @@
 	<div class="col-sm-12">
 		<div class="panel panel-default">
 			<div class="panel-heading">
-				<h3> Popular Hashtags for Topics </h3>
+				<h3> Popular Hashtags for Demographics </h3>
 			</div>
 			<div class="panel-body">
 				<div cg-busy="{promise: popular.promise, message: 'Asking Nectar cluster now. Please wait patiently.'}">
 					<dl> 
 						<dt> Popular Hashtags </dt>
-						<dd> The following hashtags are the top 10 most mentioned hashtags for the our chosen topics of study. By identifying these hashtags we can discover similar hashtags which may highlight minor topics of interest for Twitter users who are actually involved in our chosen topics of study. </dd>
+						<dd> The following hashtags are the top 10 most mentioned hashtags for the our chosen demographic profiles. By identifying these hashtags we can discover similar hashtags which may highlight minor topics of interest for Twitter users who are actually involved in our chosen demographic profiles of choice. </dd>
 					</dl>
-					<b> Gun Control </b> <br>
-					<d3-bars data="popular.guncontrol_data" categorical-label="hashtag" numerical-label="count"> </d3-bars>
-					<b> Immigration </b> <br>
-					<d3-bars data="popular.immigration_data" categorical-label="hashtag" numerical-label="count"> </d3-bars>
-					<b> Unemployment </b> <br>
-					<d3-bars data="popular.unemployment_data" categorical-label="hashtag" numerical-label="count"> </d3-bars>
+					<b> Democrats </b> <br>
+					<d3-bars data="popular.democrat_data" categorical-label="hashtag" numerical-label="count"> </d3-bars>
+					<b> Republicans </b> <br>
+					<d3-bars data="popular.republican_data" categorical-label="hashtag" numerical-label="count"> </d3-bars>
 				</div>
 			</div>
 		</div>
@@ -94,10 +92,27 @@
 			</div>
 			<div class="panel-body">
 				<div cg-busy="{promise: similar.promise, message: 'Asking Nectar cluster now. Please wait patiently.'}">
-					<dl> 
-						<dt> Hashtag Networks </dt>
-						<dd>  </dd>
-					</dl>
+					<div class="col-sm-10">
+						<dl> 
+							<dt> Hashtag Networks </dt>
+							<dd> Query a given hashtag and find related hashtags of interest </dd>
+						</dl>
+						<d3-circle-packing data="similar.circleData" ng-if="similar.data != null || similar.updating == false"></d3-circle-packing>
+					</div>
+					<div class="col-sm-2">
+						<b> Query Fields </b> <br> <br>
+						<p class="input-group">
+							Query Hashtag <br>
+							<input type="text" ng-model="similar.params.hashtag" class="form-control"> 
+						</p>
+						<p class="input-group">
+							Degrees of Connectivtity
+							<select ng-model="similar.params.degree" class="form-control">
+								<option ng-repeat="i in similar.degrees"> {{ i }} </option>
+							</select>
+						</p>
+						<button class="btn btn-primary" ng-click="similar.call()"> Submit Query </button>
+					</div>
 				</div>
 			</div>
 		</div>
