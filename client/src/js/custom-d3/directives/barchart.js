@@ -90,6 +90,7 @@ angular.module("d3.bar", ["d3"])
 			}
 		}
 	}])
+	// Data Input = List of Objects.
 	.directive('d3BarsLegend', ['d3Service', '$window', function(d3Service, $window) {
 		return {
 			scope: {
@@ -134,6 +135,11 @@ angular.module("d3.bar", ["d3"])
 									return d[scope.numericalLabel];
 								})])
 								.range([0, width]);
+
+						var categories = [];
+						data.forEach(function(d) {
+							categories.push(d["categoricalLabel"]);
+						})
 
 					};
 				});

@@ -10,6 +10,7 @@
 				<h4> General Sentiment </h4>
 			</div>
 			<div class="panel-body">
+				<div cg-busy="{promise: general_sentiment.promise, message: 'Asking Nectar cluster now. Please wait patiently.'}">
 				<div class="row">
 					<div class="col-sm-10">
 						<dl>
@@ -24,24 +25,26 @@
 		         pan="false"
 		         control="map1.control"
 		       	>
-			       	<ui-gmap-layer namespace="visualization" type="HeatmapLayer" options="map.heatmap.options" show="true" onCreated="map.heatLayerCallback" ng-if="general_sentiment.heatmapToggle"></ui-gmap-layer>
+			       	<ui-gmap-layer namespace="visualization" type="HeatmapLayer" options="map1.heatmap.options" show="true" onCreated="map1.heatLayerCallback" ng-if="general_sentiment.heatmapToggle"></ui-gmap-layer>
 			      </ui-gmap-google-map>
+			      <br> <br>
+			      <b> Total Number of Tweets: </b>{{ general_sentiment.data.locations.length || "No Tweets..." }}
 					</div>
 					<div class="col-sm-2">
 						<b> Data Filter </b> <br> 
 						<!-- Date Ranges --> 
 						Date
             <p class="input-group">
-              <input type="text" class="form-control" datepicker-popup="{{format}}" ng-model="general_sentiment.date" is-open="general_sentiment.date_opened" min-date="minDate" max-date="'2015-06-22'" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" ng-required="true" close-text="Close" />
+              <input type="text" class="form-control" datepicker-popup="{{format}}" ng-model="general_sentiment.selection.date" is-open="general_sentiment.date_opened" max-date="general_sentiment.maxDate" datepicker-options="dateOptions" ng-required="true" close-text="Close" />
               <span class="input-group-btn">
-                <button type="button" class="btn btn-default form-control" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+                <button type="button" class="btn btn-default form-control" ng-click="general_sentiment.open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
               </span>
             </p>
 						<!-- Political Leaning -->
 						<p class="input-group">
 							Political Leaning
-							<select ng-model="general_sentiment.selection.political" class="form-control">
-								<option ng-repeat="i in general_sentiment.political_choices">{{ i.charAt(0).toUpperCase() + i.slice(1) }} </option>
+							<select ng-model="general_sentiment.selection.political_leaning" class="form-control">
+								<option ng-repeat="i in general_sentiment.political_choices">{{ i }} </option>
 							</select>
 						</p>
 						<!-- Language --> 
@@ -50,21 +53,36 @@
 							<input type="text" ng-model="_dummy" typeahead="lang.data.name for lang in general_sentiment.languages | filter:$viewValue | limitTo:8" typeahead-on-select="general_sentiment_language_callback($item)" class="form-control">
 						</p> 
 						<p class="input-group">
-							<button class="btn btn-primary" ng-click="general_sentiment.call"> Fetch Data </button>
+							<button class="btn btn-primary" ng-click="general_sentiment.call()"> Fetch Data </button>
 						</p> <hr>
 						<b> Heatmap Filter </b> <br> 
 						<p class="input-group">
 							Polarity Opt.
-
+							<form>
+								<div ng-repeat="p in general_sentiment.polarity_choices">
+									<label>
+										<input type="radio" ng-model="general_sentiment.filter.polarity" ng-value="p"> {{ p || "all" }}
+									</label>
+								<br>
+								</div>
+							<form>
 
 						</p>
 						<p class="input-group">
 							Subjectivity Opt. 
-
+							<form>
+								<div ng-repeat="p in general_sentiment.subjectivity_choices">
+									<label>
+										<input type="radio" ng-model="general_sentiment.filter.subjectivity" ng-value="p"> {{ p || "all" }}
+									</label>
+								<br>
+								</div>
+							<form>
 						</p>
-
+						<button class="btn btn-primary" ng-click="general_sentiment.applyHeatmapFilter()"> Apply Filter </button>
 					</div>
 				</div>
+			</div>
 			</div>
 		</div>	
 	</div>	
@@ -93,6 +111,7 @@
 		         	options="map.options"
 		         	pan="false"
 		         	control="map.control"
+		         	ng-if="specific_sentiment.edit_mode"
 		       	>
 		       		<!-- GMap Control --> 
 		       		<ui-gmap-rectangle bounds='map.selection.bounds'
@@ -105,24 +124,25 @@
 						    events='map.selection.events'
 							>
 							</ui-gmap-rectangle>
-							<!-- Gmap Heatmap Layer --> 
-							<ui-gmap-layer namespace="visualization" type="HeatmapLayer" options="map.heatmap.options" show="!specific_sentiment.edit_mode" onCreated="map.heatLayerCallback" ng-if="specific_sentiment_toggle">
 							</ui-gmap-layer>
 
 						</ui-gmap-google-map>
+						<div ng-if="specific_sentiment.data == null && specific_sentiment.edit_mode == false">
+							<p class="text-center"> <b>NO DATA YET</b><br><b>Set Bound and Update Visual on Visualtisation Control</b></p>
+						</div>
 					</div>
 					<div class="col-sm-2">
 						<b> Visualisation Controls </b> <br> <br>
 						Start Date 
             <p class="input-group">
-              <input type="text" class="form-control" datepicker-popup="{{format}}" ng-model="specific_sentiment.start_date" is-open="general_sentiment.date_opened" min-date="minDate" max-date="'2015-06-22'" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" ng-required="true" close-text="Close" />
+              <input type="text" class="form-control" datepicker-popup="{{format}}" ng-model="specific_sentiment.start_date" is-open="specific_sentiment.date_opened" min-date="minDate" max-date="'2015-06-22'" datepicker-options="dateOptions" ng-required="true" close-text="Close" />
               <span class="input-group-btn">
                 <button type="button" class="btn btn-default form-control" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
               </span>
             </p>
             End Date
             <p class="input-group">
-              <input type="text" class="form-control" datepicker-popup="{{format}}" ng-model="specific_sentiment.end_date" is-open="general_sentiment.date_opened" min-date="minDate" max-date="'2015-06-22'" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" ng-required="true" close-text="Close" />
+              <input type="text" class="form-control" datepicker-popup="{{format}}" ng-model="specific_sentiment.end_date" is-open="specific_sentiment.date_opened1" min-date="minDate" max-date="'2015-06-22'" datepicker-options="dateOptions" ng-required="true" close-text="Close" />
               <span class="input-group-btn">
                 <button type="button" class="btn btn-default form-control" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
               </span>
@@ -130,8 +150,8 @@
             <!-- Political Leaning -->
 						<p class="input-group">
 							Political Leaning
-							<select ng-model="general_sentiment.selection.political" class="form-control">
-								<option ng-repeat="i in general_sentiment.political_choices">{{ i.charAt(0).toUpperCase() + i.slice(1) }} </option>
+							<select ng-model="specific_sentiment.selection.political" class="form-control">
+								<option ng-repeat="i in specific_sentiment.political_choices">{{ i }} </option>
 							</select>
 						</p>
 						<!-- Language --> 
