@@ -219,26 +219,64 @@ app.controller("LocationController", ["$scope", "$http", "uiGmapGoogleMapApi", f
     	end_lon : null
 		};
 
+
+		function processPolarityBar(data) {
+			function compare(a, b) {
+				if (parseFloat(a.polarity) < parseFloat(b.polarity))
+					return -1;
+				if (parseFloat(a.polarity) > parseFloat(b.polarity))
+					return 1;
+				return 0;
+			};
+			var ds = Object.keys(data.polarities).map(function(k) { return { polarity: k, count: data.polarities[k] }});
+			for (var i = 0; i < ds.length; i++) {
+				if (ds[i].polarity == "-0.0") {
+					ds[i].polarity = "-0.9"
+					break;
+				}
+			}
+			ds.sort(compare);
+			return ds;
+		}
+
+		function processSubjectivityBar(data) {
+			function compare(a, b) {
+				if (a.subjectivity < b.subjectivity)
+					return -1;
+				if (a.subjectivity > b.subjectivity)
+					return 1;
+				return 0;
+			};
+
+			var ds = Object.keys(data.subjectivities).map(function(k) { return { subjectivity: k, count: data.subjectivities[k] }});
+			ds.sort(compare)
+			return ds;
+		}
+
 		$scope.specific_sentiment.call = function() {
 			$scope.specific_sentiment.toggleEditMode();
-			$scope.specific_sentiment.selection.start_date = date_parse($scope.specific_sentiment.selection.start_date);
-			$scope.specific_sentiment.selection.end_date = date_parse($scope.specific_sentiment.selection.end_date);
-			console.log($scope.specific_sentiment.selection);
-			$scope.specific_sentiment.promise = $http.get("http://144.6.227.63:4500/locations/sentiment", {params: $scope.specific_sentiment.selection}).
+			var parameters = $scope.specific_sentiment.selection;
+			parameters.start_date = date_parse($scope.specific_sentiment.selection.start_date);
+			parameters.end_date = date_parse($scope.specific_sentiment.selection.end_date);
+			//console.log($scope.specific_sentiment.selection);
+			$scope.specific_sentiment.promise = $http.get("http://144.6.227.63:4500/locations/sentiment", {params: parameters}).
 				success(function(res) {
+					$scope.specific_sentiment.data = res.sentiment;
 					console.log(res);
+					// process bar data
+					$scope.specific_sentiment.subjectivityData = processSubjectivityBar($scope.specific_sentiment.data);
+					$scope.specific_sentiment.polarityData = processPolarityBar($scope.specific_sentiment.data);
+					$scope.specific_sentiment.edit_mode = false
 				}).
 				error(function(err) {
 					console.log(err);
+					$scope.specific_sentiment.edit_mode = false;
 				})
 		};
 
 
 		$scope.specific_sentiment.toggleEditMode = function() {
-			console.log("clicked")
-			if ($scope.specific_sentiment.edit_mode)
-				$scope.specific_sentiment.edit_mode = false;
-			else
+			if (!$scope.specific_sentiment.edit_mode)
 				$scope.specific_sentiment.edit_mode = true;
 		};
 

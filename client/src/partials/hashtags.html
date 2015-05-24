@@ -9,10 +9,54 @@
 				<h3> Trending Hashtags </h3>
 			</div>
 			<div class="panel-body">
-				<dl> 
-					<dt> Trend Timeline </dt>
-					<dd> Use brusher for timeline and look at the trending hashtags for different times </dd>
-				</dl>
+				<div class="col-sm-10">
+					<dl> 
+						<dt> Trend Timeline </dt>
+						<dd> Use brusher for timeline and look at the trending hashtags for different times </dd>
+					</dl>
+				</div>
+				<div class="col-sm-2">
+					<b> Data Filter </b> <br> 
+						<!-- Date Ranges --> 
+						Start Date
+            <p class="input-group">
+              <input type="text" class="form-control" datepicker-popup="{{format}}" ng-model="trending.params.start_date" is-open="trending.date_opened1" max-date="trending.maxDate" datepicker-options="dateOptions" ng-required="true" close-text="Close" />
+              <span class="input-group-btn">
+                <button type="button" class="btn btn-default form-control" ng-click="trending.open1($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+              </span>
+            </p>
+            End Date
+            <p class="input-group">
+              <input type="text" class="form-control" datepicker-popup="{{format}}" ng-model="trending.params.end_date" is-open="trending.date_opened2" max-date="trending.maxDate" datepicker-options="dateOptions" ng-required="true" close-text="Close" />
+              <span class="input-group-btn">
+                <button type="button" class="btn btn-default form-control" ng-click="trending.open2($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+              </span>
+            </p>
+            <!-- Granularity -->
+            <!--
+            Granularity 
+            <p class="input-group">
+            	<select ng-model="trending.params.granularity" class="form-control">
+            		<option ng-repeat="i in trending.granularities"> {{ i }} </option>
+             	</select>
+            </p>
+            -->
+						<!-- Political Leaning -->
+						<p class="input-group">
+							Political Leaning
+							<select ng-model="trending.params.political_leaning" class="form-control">
+								<option ng-repeat="i in trending.political_choices">{{ i }} </option>
+							</select>
+						</p>
+						<!-- Language --> 
+						<p class="input-group">
+							Language
+							<input type="text" ng-model="_dummy" typeahead="lang.data.name for lang in trending.languages | filter:$viewValue | limitTo:8" typeahead-on-select="general_sentiment_language_callback($item)" class="form-control">
+						</p> 
+						<p class="input-group">
+							<button class="btn btn-primary" ng-click="trending.call()"> Fetch Data </button>
+						</p> 
+				</div>
 			</div>
 		</div>
 	</div>
@@ -25,10 +69,18 @@
 				<h3> Popular Hashtags for Topics </h3>
 			</div>
 			<div class="panel-body">
-				<dl> 
-					<dt> Popular Hashtags </dt>
-					<dd> Use brusher for timeline and look at the trending hashtags for different times </dd>
-				</dl>
+				<div cg-busy="{promise: popular.promise, message: 'Asking Nectar cluster now. Please wait patiently.'}">
+					<dl> 
+						<dt> Popular Hashtags </dt>
+						<dd> The following hashtags are the top 10 most mentioned hashtags for the our chosen topics of study. By identifying these hashtags we can discover similar hashtags which may highlight minor topics of interest for Twitter users who are actually involved in our chosen topics of study. </dd>
+					</dl>
+					<b> Gun Control </b> <br>
+					<d3-bars data="popular.guncontrol_data" categorical-label="hashtag" numerical-label="count"> </d3-bars>
+					<b> Immigration </b> <br>
+					<d3-bars data="popular.immigration_data" categorical-label="hashtag" numerical-label="count"> </d3-bars>
+					<b> Unemployment </b> <br>
+					<d3-bars data="popular.unemployment_data" categorical-label="hashtag" numerical-label="count"> </d3-bars>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -38,13 +90,15 @@
 	<div class="col-sm-12">
 		<div class="panel panel-default">
 			<div class="panel-heading">
-				<h3> Top Hashtags Sentiment </h3>
+				<h3> Similar Hashtags </h3>
 			</div>
 			<div class="panel-body">
-				<dl> 
-					<dt> Hashtag Sentiment Comparison </dt>
-					<dd> Here, we selected the top 3 hashtag from each topic we studied and we compare the sentiment of the tweets that mentioned the hashtags. </dd>
-				</dl>
+				<div cg-busy="{promise: similar.promise, message: 'Asking Nectar cluster now. Please wait patiently.'}">
+					<dl> 
+						<dt> Hashtag Networks </dt>
+						<dd>  </dd>
+					</dl>
+				</div>
 			</div>
 		</div>
 	</div>

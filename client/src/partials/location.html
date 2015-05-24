@@ -130,6 +130,16 @@
 						<div ng-if="specific_sentiment.data == null && specific_sentiment.edit_mode == false">
 							<p class="text-center"> <b>NO DATA YET</b><br><b>Set Bound and Update Visual on Visualtisation Control</b></p>
 						</div>
+						<div ng-if="specific_sentiment.data != null && specific_sentiment.edit_mode == false">
+							<b> Total Number of Points </b> <br>
+							{{ specific_sentiment.data.points }} <br> <br>
+							<b> Total Number of Tweets </b> <br> 
+							{{ specific_sentiment.data.total }} <br> <br>
+							<b> Subjectivity Distribution </b>
+							<d3-bars-axis data="specific_sentiment.subjectivityData" xkey="subjectivity" ykey="count" height="500"></d3-bars-axis>
+							<b> Polarity Distribution </b>
+							<d3-bars-axis data="specific_sentiment.polarityData" xkey="polarity" ykey="count" height="500"> </d3-bars-axis>
+						</div>
 					</div>
 					<div class="col-sm-2">
 						<b> Visualisation Controls </b> <br> <br>
