@@ -7,23 +7,23 @@ app.controller("EmojiController", ["$scope", "$http", "uiGmapGoogleMapApi", func
 	$scope.emoji_general_loaded = false;
 	$scope.promise.general = $http.get("http://144.6.227.63:4500/emoji/general").
 		success(function(res) {
+			$scope.emoji_data = res;
 			$scope.emoji_general = Object.keys(res).map(function(k) {
 				return res[k]
 			});
-
 			$scope.emoji_general_polarity = [];
 			$scope.emoji_general_subjectivity = []
 			$scope.emoji_general.forEach(function(d) {
-				$scope.emoji_general_polarity.push({"emoji_name": d["emoji_name"], "polarity": d["avg_polarity"]})
-				$scope.emoji_general_subjectivity.push({"emoji_name": d["emoji_name"], "subjectivity": d["avg_subjectivity"]})
+				$scope.emoji_general_polarity.push({"emoji": d["emoji"], "polarity": d["avg_polarity"]})
+				$scope.emoji_general_subjectivity.push({"emoji": d["emoji"], "subjectivity": d["avg_subjectivity"]})
 			})
 			$scope.emoji_general_loaded = true;
 			//console.log($scope.emoji_general);
-		}). 
+		}).
 		error(function(err) {
 			console.log(err);
-		});
-
+		})
+	
 
 	/* ========================== 1. END EMOJI GENERAL =========================== */
 

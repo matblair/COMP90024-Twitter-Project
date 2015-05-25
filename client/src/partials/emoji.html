@@ -18,15 +18,19 @@
 					<!-- Bar Chart -->
 					<d3-bars data="emoji_general" categorical-label="emoji_name" numerical-label="count" ng-if="emoji_general_loaded"> </d3-bars>
 					<dl>
-						<dd> Sentiment Comparisons </dd>
+						<dt> Sentiment Comparisons </dt>
 						<dd> The following bar chart compares the sentiments by looking at their average polarities and subjectivities. </dd>
 					</dl>
 					<!-- Bar Chart -->
-					<d3-bars-axis data="emoji_subjectivity" xkey="emoji" ykey="subjectivity" ng-if="emoji_general_loaded"></d3-bars-axis>
-					<d3-bars-axis data="emoji_objectivity" xkey="emoji" ykey="polarity" ng-if="emoji_general_loaded"></d3-bars-axis>
+					<div class="row">
+						<div class="col-sm-6">
+							<d3-bars-axis data="emoji_general_subjectivity" xkey="emoji" ykey="subjectivity" ng-if="emoji_general_loaded" height="500"></d3-bars-axis>
+						</div>
+						<div class="col-sm-6">
+							<d3-bars-axis data="emoji_general_polarity" xkey="emoji" ykey="polarity" ng-if="emoji_general_loaded" height="500"></d3-bars-axis>
+						</div>
+					</div>
 				</div>
-
-
 			</div>
 		</div>
 	</div>

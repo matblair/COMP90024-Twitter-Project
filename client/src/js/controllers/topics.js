@@ -68,51 +68,61 @@ app.controller("TopicController", ["$scope", "uiGmapGoogleMapApi", "$http", func
 			params: {
 				start_date: null,
 				end_date: null
-			}
+			},
+			updating: true
 		}
 		// QUERY ACTION
-		$scope.summary.query = function() {
+		$scope.summary.query = function(topic) {
+
+			function data2Count(data) {
+				var arr = [];
+				arr.push({topic: "Gun Control", count: data.gun_control.count});
+				arr.push({topic: "Immigration", count: data.immigration.count});
+				arr.push({topic: "Unemployment", count: data.unemployment.count});
+				console.log(arr)
+				return arr;
+			}
+
+			function data2Polarity(data) {
+				var arr = [];
+				arr.push({topic: "Gun Control", polarity: data.gun_control.polarity});
+				arr.push({topic: "Immigration", polarity: data.immigration.polarity});
+				arr.push({topic: "Unemployment", polarity: data.unemployment.polarity});
+				console.log(arr)
+				return arr;
+			}
+
+			function data2Subjectivity(data) {
+				var arr = [];
+				arr.push({topic: "Gun Control", subjectivity: data.gun_control.subjectivity});
+				arr.push({topic: "Immigration", subjectivity: data.immigration.subjectivity});
+				arr.push({topic: "Unemployment", subjectivity: data.unemployment.subjectivity});
+				console.log(arr)
+				return arr;
+			}
+
+			$scope.summary.updating = true;
+
 			$scope.summary.params.start_date = date_parse($scope.summary.params.start_date);
 			$scope.summary.params.end_date = date_parse($scope.summary.params.end_date);
-			$scope.summary.promise = $http.get(("http://144.6.227.63:4500/topics/" + $scope.topic.path), {params: $scope.summary.params}).
+
+			$scope.summary.promise = $http.get("http://144.6.227.63:4500/topics/unemployment", {params: $scope.summary.params}).
 				then(function(res) {
-					// All Topic Tweets
-					var data = res.data;
-					console.log(res);
-					// for each most popular language, query.
-					var popular_langs = data.most_popular_languages;
-					popular_langs.forEach(function(lang) {
-						$scope.summary.params.language = lang;
-						console.log($scope.summary.params);
-						$http.get("http://144.6.227.63:4500/topics/" + $scope.topic.path, { params: $scope.summary.params }).
-							success(function(res) {
-								console.log(res);
-							}).
-							error(function(err) {
-								console.log(err);
-							});
-					});
-					// for each least popular language, query.
-					var minor_langs = data.least_popular_languages;
-					minor_langs.forEach(function(lang) {
-						$scope.summary.params.language = lang;
-						console.log($scope.summary.params);
-						$http.get("http://144.6.227.63:4500/topics/" + $scope.topic.path, { params: $scope.summary.params }).
-							success(function(res) {
-								console.log(res);
-							}).
-							error(function(err) {
-								console.log(err);
-							});
-					});
-
-					// republican query
-
-					// democratic query
+					$scope.summary.unemployment = res.data;
+					return $http.get("http://144.6.227.63:4500/topics/mention_immigration", {params: $scope.summary.params})
 				}).
-				then(function() {
-					// render all visualisation graphs.
-				})
+				then(function(res) {
+					$scope.summary.immigration = res.data;
+					return $http.get("http://144.6.227.63:4500/topics/gun_control", {params: $scope.summary.params})
+				}).
+				then(function(res) {
+					$scope.summary.gun_control = res.data;
+					console.log($scope.summary);
+					$scope.summary.count = data2Count($scope.summary);
+					$scope.summary.polarity = data2Polarity($scope.summary);
+					$scope.summary.subjectivity = data2Subjectivity($scope.summary);
+					$scope.summary.updating = false;
+				});
 		};
 
 		// Calendar Stuff
@@ -314,7 +324,7 @@ app.controller("TopicController", ["$scope", "uiGmapGoogleMapApi", "$http", func
 		$scope.location.query = function(topic) {
 			$scope.location.updating = true;
 			function getPath(topicName) {
-				console.log("topicname", topicName)
+				//console.log("topicname", topicName)
 				if (topicName == " Gun Control ")
 					return "gun_control"
 				if (topicName == " Unemployment ")
