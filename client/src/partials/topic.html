@@ -1,0 +1,184 @@
+		<h2> Topics </h2>
+<hr>
+<!-- Topic Summary -->
+<div class="row">
+	<div class="col-sm-12">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h4> Statistical Summary </h4>
+			</div>
+			<div class="panel-body">
+				<div cg-busy="{promise: summary.promise, message: 'Asking Nectar cluster now. Please wait patiently.'}">
+					<div class="col-sm-10">
+						<!-- Pie Charts -->
+						<dl>
+							<dt> Assoication Comparison </dt>
+							<dd> Bar chart highlights the comparative difference between the number of tweets associated to each topic. </dd>
+						</dl>
+						<d3-bars data="summary.count" categorical-label="topic" numerical-label="count" ng-if="!summary.updating"></d3-bars><br>
+						<dl>
+							<dt> Sentiment Comparison </dt>
+							<dd> Bar chart illustrates the average polarity and average subjectivity for each topic. </dd>
+						</dl>
+						<div class="row">
+							<div class="col-sm-6">
+								<d3-bars-axis data="summary.polarity" xkey="topic" ykey="polarity" height="500" ng-if="!summary.updating"></d3-bars-axis>
+							</div>
+							<div class="col-sm-6">
+								<d3-bars-axis data="summary.subjectivity" xkey="topic" ykey="subjectivity" height="500" ng-if="!summary.updating"></d3-bars-axis>
+							</div>
+						</div>
+					</div>
+
+					<div class="col-sm-2">
+						<b> Data Filter </b> <br> <br>
+						<!-- Date Ranges ONLY -->
+						Start Date
+						<p class="input-group">
+	            <input type="text" class="form-control" datepicker-popup="{{format}}" ng-model="summary.params.start_date" is-open="summary.date_opened1" max-date="summary.maxDate" datepicker-options="dateOptions" ng-required="true" close-text="Close" />
+	            <span class="input-group-btn">
+	              <button type="button" class="btn btn-default form-control" ng-click="summary.open1($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+	            </span>
+	          </p>
+	          End Date
+	          <p class="input-group">
+	            <input type="text" class="form-control" datepicker-popup="{{format}}" ng-model="summary.params.end_date" is-open="summary.date_opened2" max-date="summary.maxDate" datepicker-options="dateOptions" ng-required="true" close-text="Close" />
+	            <span class="input-group-btn">
+	              <button type="button" class="btn btn-default form-control" ng-click="summary.open2($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+	            </span>
+	          </p>
+	          <button class="btn btn-primary" ng-click="summary.query()"> Submit Query </button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- Topic Trends w. Timeline Brushing -->
+<div class="row">
+	<div class="col-sm-12">
+		<div class="panel panel-default">
+			<div class="panel-heading">	
+				<h4> Timeline Trends </h4>
+			</div>
+
+			<div class="panel-body">
+				<div cg-busy="{promise: trend.promise, message: 'Asking Nectar cluster now. Please wait patiently.'}">
+					<div class="col-sm-10">
+						<dl>
+							<dt> Timeline Viewer </dt>
+							<dd> Use timeline brusher to view the trend of the topic at particular time periods. </dd>
+						</dl>
+						<d3-multi-line-brusher data="trend.line" dateFormat="%c" ylabel="count" height="500" ng-if="!trend.updating"></d3-multi-line-brusher>
+					</div>
+					<div class="col-sm-2">
+						<b> Data Filter </b> <br><br>
+						<!-- Date Ranges ONLY -->
+						Start Date
+						<p class="input-group">
+	            <input type="text" class="form-control" datepicker-popup="{{format}}" ng-model="trend.selection.start_date" is-open="trend.date_opened1" max-date="trend.maxDate" datepicker-options="dateOptions" ng-required="true" close-text="Close" />
+	            <span class="input-group-btn">
+	              <button type="button" class="btn btn-default form-control" ng-click="trend.open1($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+	            </span>
+	          </p>
+	          End Date
+	          <p class="input-group">
+	            <input type="text" class="form-control" datepicker-popup="{{format}}" ng-model="trend.selection.end_date" is-open="trend.date_opened2" max-date="trend.maxDate" datepicker-options="dateOptions" ng-required="true" close-text="Close" />
+	            <span class="input-group-btn">
+	              <button type="button" class="btn btn-default form-control" ng-click="trend.open2($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+	            </span>
+	          </p>
+	          <!-- Granularity -->
+	          <p class="input-group">
+	          	Granularity
+	          	<select ng-model="trend.selection.granularity" class="form-control">
+	          		<option ng-repeat="i in trend.granularities"> {{i}} </option>
+	          	</select>
+	          </p>
+	          <!-- Political Leaning -->
+						<p class="input-group">
+							Political Leaning
+							<select ng-model="trend.selection.political" class="form-control">
+								<option ng-repeat="i in trend.political_choices">{{i}} </option>
+							</select>
+						</p>
+						<!-- Language --> 
+						<p class="input-group">
+							Language
+							<input type="text" ng-model="_dummy" typeahead="lang.data.name for lang in topic.languages | filter:$viewValue | limitTo:8" typeahead-on-select="trend.language_callback($item)" class="form-control">
+						</p> 
+						<button class="btn btn-primary" ng-click="trend.query()"> Submit Query </button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- Topic mentioned Locations ~ Heatmap -->
+<div class="row">
+	<div class="col-sm-12">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h4> Mentioned Locations </h4>
+			</div>
+			<div class="panel-body">
+				<div cg-busy="{promise: location.promise, message: 'Asking Nectar cluster now. Please wait patiently.'}">
+					<div class="col-sm-10">
+						<dl>	
+							<dt> Location Heatmap </dt>
+							<dd> This heatmap illustrates where tweets associated to this topic is being tweeted from. </dd>
+						</dl>
+						<ui-gmap-google-map 
+		         center="map.center"
+		         zoom="map.zoom"
+		         dragging="map.dragging"
+		         options="map.options"
+		         pan="false"
+		         control="map.control"
+		       	>
+
+		       	<ui-gmap-layer namespace="visualization" type="HeatmapLayer" show="true" onCreated="map.heatLayerCallback" ng-if="location.updating == false"></ui-gmap-layer>
+
+		       	</ui-gmap-google-map>
+	       	</div>
+	       	<div class="col-sm-2">
+	       		<b> Topic Selector </b>
+	       		<p class="input-group">
+	       			<select ng-change="location.query(location.topic)" ng-model="location.topic" class="form-control"> 
+	       				<option ng-repeat="i in location.topics"> {{ i }} </option>
+	       			</select>
+	       		</p>
+	       		<hr>
+	       		<b> Heatmap Filter </b> <br> <br>
+						<p class="input-group">
+							Polarity Opt.
+							<form>
+								<div ng-repeat="p in location.polarity_choices">
+									<label>
+										<input type="radio" ng-model="location.filter.polarity" ng-value="p" ng-change="location.updating = true"> {{ p || "all" }}
+									</label>
+								<br>
+								</div>
+							</form>
+
+						</p>
+						<p class="input-group">
+							Subjectivity Opt. 
+							<form>
+								<div ng-repeat="p in location.subjectivity_choices">
+									<label>
+										<input type="radio" ng-model="location.filter.subjectivity" ng-value="p" ng-change="location.updating = true"> {{ p || "all" }}
+									</label>
+								<br>
+								</div>
+							</form>
+						</p>
+						<button class="btn btn-primary" ng-click="location.heatmapUpdate()"> Apply Filter </button>
+	       	</div>
+	      </div>
+			</div>
+		</div>
+	</div>
+</div>
