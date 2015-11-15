@@ -2,12 +2,12 @@
 ##Global Twittering - Analysis API
 
 ###Members:
-- Ed Crupi - 538156 - crupie@unimelb.edu.au
-- Mat Blair - 541625 - blairm@unimelb.edu.au
-- Siddarth Bose - 707042 - sbose@student.unimelb.edu.au
-- Jordan Steele - 540059 - jsteele@student.unimelb.edu.au
-- Jun Min - 542339 - jmcheong@student.unimelb.edu.au
-- Renlord - 541368 - rnyang@student.unimelb.edu.au
+- Ed Crupi - 538156 - crupie[at]unimelb.edu.au
+- Mat Blair - 541625 - blairm[at]unimelb.edu.au
+- Siddarth Bose - 707042 - sbose[at]student.unimelb.edu.au
+- Jordan Steele - 540059 - jsteele[at]student.unimelb.edu.au
+- Jun Min - 542339 - jmcheong[at]student.unimelb.edu.au
+- Renlord - 541368 - rnyang[at]student.unimelb.edu.au
 
 ###IP Address List (username is `ubuntu`)
 
